@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:happy_habit/core/services/utils.dart';
+import 'package:happy_habit/core/theme/components_theme.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 
-import 'components_theme.dart';
 import 'theme_colors.dart';
 
 class ThemePreferences {
   static ThemeData getAppTheme(BuildContext context) => ThemeData(
         useMaterial3: true,
         canvasColor: Colors.white,
-        // cardColor: ThemeColor.white,
         primaryColor: ThemeColor.primary,
-        // textTheme: TypographyUtils.getTextTheme(),
         textTheme: Theme.of(context)
             .textTheme
-            .apply(
-              fontFamily: "TBD",
-            )
             .copyWith(
               labelLarge: context.labelLarge,
               labelMedium: context.labelMedium,
@@ -32,11 +28,19 @@ class ThemePreferences {
               displayLarge: context.displayLarge,
               displayMedium: context.displayMedium,
               displaySmall: context.displaySmall,
+            )
+            .apply(
+              fontFamily: Utils.kFontFamily,
+              bodyColor: ThemeColor.fontBlack, // Apply fontBlack to text
+              displayColor: ThemeColor.fontBlack, // Apply fontBlack to display tex
             ),
 
         // themes
 
         // themes using context
+        appBarTheme: ComponentsTheme.appBarTheme(context),
+        elevatedButtonTheme: ComponentsTheme.elevatedButtonTheme(context),
+        inputDecorationTheme: ComponentsTheme.inputDecorationTheme(context),
 
         // colorScheme
         colorScheme: ColorScheme.fromSwatch(
@@ -46,9 +50,8 @@ class ThemePreferences {
           backgroundColor: ThemeColor.background,
         ).copyWith(
           brightness: Brightness.light,
+          surface: ThemeColor.secondary,
           secondary: ThemeColor.secondary,
-          background: ThemeColor.secondary,
         ),
-        
       );
 }

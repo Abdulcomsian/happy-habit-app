@@ -17,6 +17,7 @@ Future<void> main() async {
   await dotenv.load(fileName: fileName);
 
   setupLocator();
+  // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top]);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
     (value) => runApp(const MyApp()),
   );

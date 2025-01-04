@@ -1,15 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:happy_habit/core/routes/route_helper.dart';
+import 'package:happy_habit/modules/auth/screens/login_screen.dart';
 import 'package:happy_habit/modules/home/home_screen.dart';
+import 'package:happy_habit/modules/onboarding/onboarding_screen.dart';
+
+import '../../modules/auth/screens/sign_in_screen.dart';
 
 class Routes {
   static final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 
   static final GoRouter routers = GoRouter(
-    initialLocation: HomeScreen.id,
     navigatorKey: rootNavigatorKey,
+    initialLocation: LoginScreen.id,
     routes: [
+      GoRoute(
+        path: OnboardingScreen.id,
+        name: OnboardingScreen.id,
+        redirect: RouteHelper.onAppStartup,
+        builder: (context, state) => const OnboardingScreen(),
+      ),
+      GoRoute(
+        path: LoginScreen.id,
+        name: LoginScreen.id,
+        redirect: RouteHelper.onAppStartup,
+        builder: (context, state) => const LoginScreen(),
+        routes: [
+          GoRoute(
+            path: SignInScreen.id,
+            name: SignInScreen.id,
+            builder: (context, state) => const SignInScreen(),
+          ),
+        ],
+      ),
       GoRoute(
         path: HomeScreen.id,
         name: HomeScreen.id,
