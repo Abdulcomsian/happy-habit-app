@@ -10,6 +10,7 @@ class RootScreen extends StatelessWidget {
   final String? title;
   final ValueNotifier isLoading;
   final Widget? bottomNavigationBar;
+  final bool? resizeToAvoidBottomInset;
 
   // final EdgeInsetsGeometry? padding;
   final CrossAxisAlignment crossAxisAlignment;
@@ -20,6 +21,7 @@ class RootScreen extends StatelessWidget {
     // this.padding,
     required this.child,
     this.bottomNavigationBar,
+    this.resizeToAvoidBottomInset,
     ValueNotifier<bool>? isLoading,
     this.crossAxisAlignment = CrossAxisAlignment.center,
   }) : isLoading = isLoading ?? ValueNotifier(false);
@@ -27,6 +29,7 @@ class RootScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       body: Stack(
         fit: StackFit.loose,
         children: [

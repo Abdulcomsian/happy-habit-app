@@ -5,6 +5,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'core/environment/config.dart';
 import 'core/services/providers.dart';
+import 'main_serviecs.dart';
 import 'my_app.dart';
 
 Future<void> main() async {
@@ -14,7 +15,11 @@ Future<void> main() async {
   final Environment environment = Environment();
   String fileName = await environment.getFileNameFromEnvironment();
 
-  await dotenv.load(fileName: fileName);
+  await Future.wait<dynamic>([
+    dotenv.load(fileName: fileName),
+    MainServices.setUpHive(),
+  ]);
+
 
   setupLocator();
   // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top]);

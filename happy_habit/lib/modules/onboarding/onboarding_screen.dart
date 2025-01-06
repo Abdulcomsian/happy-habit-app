@@ -6,7 +6,7 @@ import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/shared/widgets/custom_switcher.dart';
 import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
 import 'package:happy_habit/core/theme/typography.dart';
-import 'package:happy_habit/modules/auth/screens/login_screen.dart';
+import 'package:happy_habit/modules/auth/screens/welcome_screen.dart';
 import 'package:happy_habit/modules/onboarding/onboarding_meta_model.dart';
 
 import '../../core/constants/assets_path.dart';
@@ -84,7 +84,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           ),
                         ),
                         TapWidget(
-                          onTap: () => context.pushReplacementNamed(LoginScreen.id),
+                          onTap: () => context.pushReplacementNamed(WelcomeScreen.id),
                           child: SvgPicture.asset(
                             AppIcons.login,
                           ),

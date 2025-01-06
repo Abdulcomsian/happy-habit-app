@@ -1,95 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
-import 'package:happy_habit/core/constants/assets_path.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
-import 'package:happy_habit/core/shared/widgets/custom_button.dart';
-import 'package:happy_habit/core/theme/typography.dart';
-import 'package:happy_habit/modules/auth/screens/sign_in_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+import '../../../core/shared/widgets/custom_text_field.dart';
+import '../../../core/shared/widgets/root_screen.dart';
+
+class LoginScreen extends StatefulWidget {
   static const id = '/LoginScreen';
-
   const LoginScreen({super.key});
 
   @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _isLoading = ValueNotifier(false);
+
+  @override
+  void dispose() {
+    _isLoading.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        fit: StackFit.loose,
+    return RootScreen(
+      isLoading: _isLoading,
+      title: 'Login',
+      child: ListView(
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
         children: [
-          Image.asset(
-            AppAssets.loginBg,
-            width: 1.sw,
-            height: 1.sh,
-            fit: BoxFit.cover,
+          20.height,
+          CustomTextField(
+            hint: 'Email or Username',
+            descriptor: InputDescriptor(),
           ),
-          Positioned(
-            bottom: 0,
-            width: 1.sw,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'Let’s Get Started!',
-                    style: context.headlineMedium?.copyWith(
-                      color: Colors.white,
-                    ),
-                  ),
-                  10.height,
-                  Text(
-                    'Begin your journey towards building better habits today!',
-                    textAlign: TextAlign.center,
-                    style: context.bodyLarge?.copyWith(
-                      color: Colors.white,
-                    ),
-                  ),
-                  20.height,
-                  Flex(
-                    direction: Axis.horizontal,
-                    children: [
-                      Flexible(
-                        child: CustomButton(
-                          label: 'Login',
-                          onPressed: () {},
-                          color: Colors.white,
-                        ),
-                      ),
-                      10.width,
-                      Flexible(
-                        child: CustomButton(
-                          label: 'Sign up',
-                          onPressed: () => context.pushNamed(SignInScreen.id),
-                        ),
-                      ),
-                    ],
-                  ),
-                  10.height,
-                  CustomButton(
-                    onPressed: () {},
-                    color: Colors.white,
-                    label: 'Continue with Google',
-                    icon: SvgPicture.asset(
-                      AppIcons.google
-                    ),
-                  ),
-                  10.height,
-                  CustomButton(
-                    onPressed: () {},
-                    color: Colors.white,
-                    label: 'Continue with Apple',
-                    icon: SvgPicture.asset(
-                        AppIcons.apple
-                    ),
-                  ),
-                  60.height,
-                ],
-              ),
-            ),
-          )
+          10.height,
+          CustomTextField(
+            hint: 'Password',
+            descriptor: InputDescriptor(),
+          ),
         ],
       ),
     );

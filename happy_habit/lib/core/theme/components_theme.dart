@@ -39,6 +39,18 @@ class ComponentsTheme {
         ),
       );
 
+  static DialogTheme dialogTheme(BuildContext context) => DialogTheme(
+    backgroundColor: Colors.white,
+    alignment: Alignment.center,
+    contentTextStyle: context.bodySmall,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(12),
+    ),
+    titleTextStyle: context.bodyLarge?.copyWith(
+      fontWeight: FontWeight.bold,
+    ),
+  );
+
   static InputDecorationTheme inputDecorationTheme(BuildContext context) => InputDecorationTheme(
         filled: true,
         fillColor: Colors.white,

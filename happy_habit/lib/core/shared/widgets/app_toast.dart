@@ -80,9 +80,9 @@ class AppToastUI extends StatelessWidget {
   Color? get _actionIconColor {
     switch (type) {
       case AppToastType.success:
-        return CupertinoColors.activeGreen;
+        return ThemeColor.success;
       case AppToastType.error:
-        return CupertinoColors.systemRed;
+        return ThemeColor.error;
       default:
         return null;
     }
@@ -91,9 +91,9 @@ class AppToastUI extends StatelessWidget {
   Color get _foregroundColor {
     switch (type) {
       case AppToastType.success:
-        return CupertinoColors.activeGreen;
+        return ThemeColor.success;
       case AppToastType.error:
-        return CupertinoColors.systemRed;
+        return ThemeColor.error;
       default:
         return ThemeColor.primary;
     }

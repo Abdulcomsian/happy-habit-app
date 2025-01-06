@@ -38,6 +38,7 @@ class ThemePreferences {
         // themes
 
         // themes using context
+        dialogTheme: ComponentsTheme.dialogTheme(context),
         appBarTheme: ComponentsTheme.appBarTheme(context),
         elevatedButtonTheme: ComponentsTheme.elevatedButtonTheme(context),
         inputDecorationTheme: ComponentsTheme.inputDecorationTheme(context),

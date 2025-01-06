@@ -14,7 +14,7 @@ class CustomBackButton extends StatelessWidget {
         radius: 7,
         padding: EdgeInsets.all(7.r),
         onTap: onPressed ?? Navigator.of(context).maybePop,
-        color: CupertinoColors.black.withValues(alpha: 200),
+        color: CupertinoColors.black.withValues(alpha: 0.17),
         child: Icon(CupertinoIcons.back),
       ),
     );

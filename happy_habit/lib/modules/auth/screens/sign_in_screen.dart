@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/shared/widgets/custom_button.dart';
 import 'package:happy_habit/core/shared/widgets/custom_switcher.dart';
@@ -8,9 +9,11 @@ import 'package:happy_habit/core/shared/widgets/root_screen.dart';
 import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
+import 'package:happy_habit/modules/auth/screens/login_screen.dart';
+import 'package:happy_habit/modules/auth/shared/verify_otp_bottom_sheet.dart';
 
 class SignInScreen extends StatefulWidget {
-  static const id = 'SignInScreen';
+  static const id = '/SignInScreen';
 
   const SignInScreen({super.key});
 
@@ -46,8 +49,9 @@ class _SignInScreenState extends State<SignInScreen> {
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         children: [
           15.height,
-          Text(
-            'Create and enjoy!',
+          context.richText(
+            'Create and *enjoy!*',
+            withTag: true,
             style: context.headlineSmall?.copyWith(),
           ),
           15.height,
@@ -105,8 +109,17 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Future<void> _signUp() async {
-    _isLoading.value = true;
-    await Future.delayed(const Duration(seconds: 2));
-    _isLoading.value = false;
+    final response = await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (_) => VerifyOtpBottomSheet(),
+    ) as bool?;
+
+    if (response ?? false) {
+      _isLoading.value = true;
+      await Future.delayed(const Duration(seconds: 2));
+      if (mounted) context.pushReplacementNamed(LoginScreen.id);
+      _isLoading.value = false;
+    }
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
-  static const id = '/HomeScreen';
+  static const id = 'HomeScreen';
 
   const HomeScreen({super.key});
 

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ThemeColor {
@@ -8,6 +9,9 @@ class ThemeColor {
   static const hint = Color(0xFF656464);
   static const border = Color(0xFFE9E9E9);
   static const fontBlack = Color(0xFF4D4D4D);
+
+  static const error = CupertinoColors.systemRed;
+  static const success = CupertinoColors.activeGreen;
 
   // Primary color (#FF944C)
   static const int _primaryColorValue = 0xFFFF944C;
