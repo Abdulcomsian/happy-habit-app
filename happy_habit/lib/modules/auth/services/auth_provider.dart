@@ -40,9 +40,15 @@ class AuthProvider extends ChangeNotifier {
     if (updateInHive) {
       // store _authToken in Hive
       _hiveDBService.storeData(
-        boxKey: HiveConstants.kAuthToken,
         object: _authToken!,
+        boxKey: HiveConstants.kAuthToken,
+        valueKey: HiveConstants.kAuthToken,
       );
     }
+  }
+
+  Future<bool> generateOTP(String email) async {
+    await Future.delayed(Duration(milliseconds: 1000));
+    return true;
   }
 }

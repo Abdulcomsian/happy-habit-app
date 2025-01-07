@@ -21,10 +21,10 @@ class HiveDBService {
   }
 
   /// Stores data in the given [boxKey].
-  Future<dynamic> storeData({required dynamic object, required String boxKey}) async {
+  Future<dynamic> storeData({required dynamic object, required String boxKey, required String valueKey}) async {
     final box = await _openBox(boxKey);
-    await box.put(boxKey, object);
-    return box.get(boxKey);
+    await box.put(valueKey, object);
+    return box.get(valueKey);
   }
 
   /// Resets the content of a box with the [boxKey].

@@ -6,7 +6,9 @@ import 'package:happy_habit/core/constants/assets_path.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/shared/widgets/custom_button.dart';
 import 'package:happy_habit/core/theme/typography.dart';
+import 'package:happy_habit/modules/auth/screens/login_screen.dart';
 import 'package:happy_habit/modules/auth/screens/sign_in_screen.dart';
+import 'package:happy_habit/modules/auth/shared/social_auth_buttons.dart';
 
 class WelcomeScreen extends StatelessWidget {
   static const id = '/WelcomeScreen';
@@ -54,7 +56,7 @@ class WelcomeScreen extends StatelessWidget {
                       Flexible(
                         child: CustomButton(
                           label: 'Login',
-                          onPressed: () {},
+                          onPressed: () => context.pushNamed(LoginScreen.id),
                           color: Colors.white,
                         ),
                       ),
@@ -68,23 +70,7 @@ class WelcomeScreen extends StatelessWidget {
                     ],
                   ),
                   10.height,
-                  CustomButton(
-                    onPressed: () {},
-                    color: Colors.white,
-                    label: 'Continue with Google',
-                    icon: SvgPicture.asset(
-                      AppIcons.google
-                    ),
-                  ),
-                  10.height,
-                  CustomButton(
-                    onPressed: () {},
-                    color: Colors.white,
-                    label: 'Continue with Apple',
-                    icon: SvgPicture.asset(
-                        AppIcons.apple
-                    ),
-                  ),
+                  SocialAuthButtons(),
                   60.height,
                 ],
               ),

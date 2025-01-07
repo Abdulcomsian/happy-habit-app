@@ -6,6 +6,7 @@ import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 
 import '../../routes/routes.dart';
+import '../../services/logger.dart';
 import '../../theme/theme_colors.dart';
 import 'tap_widget.dart';
 
@@ -114,56 +115,53 @@ class AppToastUI extends StatelessWidget {
 class AppToast {
   static late FToast _fToast;
 
-  // AppToast() {
-  //   fToast = FToast();
-  // }
-
-  static void init() {
+  // Initialize the FToast instance with the given context
+  static void init(BuildContext context) {
     _fToast = FToast();
+    _fToast.init(context);
   }
 
   static void show(
-    // BuildContext context,
-    String msg, {
-    int maxLines = 2,
-    AppToastType type = AppToastType.info,
-  }) {
-    final context = Routes.rootNavigatorKey.currentContext!;
-    _fToast.init(context);
+      String msg, {
+        AppToastType type = AppToastType.info,
+      }) {
+    try {
+      // _show(msg);
+      Fluttertoast.showToast(
+        msg: msg,
+        gravity: ToastGravity.TOP,
+        backgroundColor: _color(type),
+        toastLength: Toast.LENGTH_LONG,
+      );
+    } on Exception catch (e) {
+      Logger.logError('FToast is not initialized. Please call AppToast.init(context) first.');
+      Logger.logError(e);
+    }
+  }
 
+  static void _show(
+      String msg, {
+        AppToastType type = AppToastType.info,
+      }) {
     _fToast.showToast(
       child: AppToastUI(
         msg: msg,
         type: type,
-        maxLines: maxLines,
         onAction: _fToast.removeQueuedCustomToasts,
       ),
       gravity: ToastGravity.TOP,
-      toastDuration: const Duration(milliseconds: 3000),
+      toastDuration: const Duration(milliseconds: 5000),
     );
   }
+
+  static Color _color(AppToastType type) {
+    switch (type) {
+      case AppToastType.info:
+        return ThemeColor.primary;
+      case AppToastType.success:
+        return ThemeColor.success;
+      case AppToastType.error:
+        return ThemeColor.error;
+    }
+  }
 }
-
-extension ShowAppToast on BuildContext {}
-
-// class AppToast {
-//   FToast fToast = FToast();
-//
-//   AppToast() {
-//     fToast.init(Routers.rootNavigatorKey.currentContext!);
-//   }
-//
-//   void showToast(
-//     String msg, {
-//     AppToastType type = AppToastType.success,
-//   }) {
-//     fToast.showToast(
-//       child: AppToastUI(
-//         msg: msg,
-//         type: type,
-//         onAction: fToast.removeQueuedCustomToasts,
-//       ),
-//       gravity: ToastGravity.TOP,
-//     );
-//   }
-// }

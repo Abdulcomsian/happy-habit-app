@@ -48,6 +48,7 @@ class NavigationProvider extends ChangeNotifier {
 
   void storeIsFirstLaunch() => _hiveDBService.storeData(
         object: false,
-        boxKey: HiveConstants.kIsFirstLaunch,
+        boxKey: HiveConstants.kAppSettings,
+        valueKey: HiveConstants.kIsFirstLaunch,
       );
 }

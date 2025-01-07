@@ -6,7 +6,9 @@ import 'package:happy_habit/modules/auth/screens/welcome_screen.dart';
 import 'package:happy_habit/modules/home/home_screen.dart';
 import 'package:happy_habit/modules/onboarding/onboarding_screen.dart';
 
+import '../../modules/auth/screens/forgot_password_screen.dart';
 import '../../modules/auth/screens/sign_in_screen.dart';
+import '../../modules/auth/screens/update_password_screen.dart';
 
 class Routes {
   static final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -30,6 +32,18 @@ class Routes {
         path: LoginScreen.id,
         name: LoginScreen.id,
         builder: (context, state) => const LoginScreen(),
+        routes: [
+          GoRoute(
+            path: ForgotPasswordScreen.id,
+            name: ForgotPasswordScreen.id,
+            builder: (context, state) => const ForgotPasswordScreen(),
+          ),
+          GoRoute(
+            path: UpdatePasswordScreen.id,
+            name: UpdatePasswordScreen.id,
+            builder: (context, state) => const UpdatePasswordScreen(),
+          ),
+        ],
       ),
       GoRoute(
         path: SignInScreen.id,

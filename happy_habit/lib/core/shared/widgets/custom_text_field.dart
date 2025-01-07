@@ -10,13 +10,13 @@ class CustomTextField extends StatefulWidget {
   final bool obscure;
   final String? hint;
   final bool? readOnly;
-  final bool autofocus;
   final VoidCallback? onTap;
   final Widget? prefix, suffix;
   final Color? foregroundColor;
   final int? maxLines, maxLength;
   final InputDescriptor descriptor;
   final TextInputType? keyboardType;
+  final bool autofocus, showHintAsTitle;
   final ValueChanged<String>? onChanged;
   final TextInputAction? textInputAction;
   final EdgeInsetsGeometry? contentPadding;
@@ -41,6 +41,7 @@ class CustomTextField extends StatefulWidget {
     this.onFieldSubmitted,
     this.autofocus = false,
     required this.descriptor,
+    this.showHintAsTitle = false,
     this.textInputAction = TextInputAction.done,
     this.inputFormatters,
   }) : obscure = false;
@@ -59,10 +60,11 @@ class CustomTextField extends StatefulWidget {
     this.contentPadding,
     this.foregroundColor,
     this.onFieldSubmitted,
+    this.inputFormatters,
     this.autofocus = false,
     required this.descriptor,
+    this.showHintAsTitle = false,
     this.textInputAction = TextInputAction.done,
-    this.inputFormatters,
   })  : suffix = null,
         obscure = true;
 
@@ -87,38 +89,54 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: _obscureText,
-      builder: (context, secure, _) => TextFormField(
-        onTap: widget.onTap,
-        obscureText: secure,
-        maxLines: widget.maxLines,
-        maxLength: widget.maxLength,
-        validator: widget.validator,
-        autofocus: widget.autofocus,
-        onChanged: widget.onChanged,
-        cursorColor: ThemeColor.primary,
-        canRequestFocus: _canRequestFocus,
-        focusNode: widget.descriptor.focusNode,
-        textInputAction: widget.textInputAction,
-        controller: widget.descriptor.controller,
-        textAlignVertical: TextAlignVertical.top,
-        onFieldSubmitted: widget.onFieldSubmitted,
-        readOnly: widget.readOnly ?? widget.onTap != null,
-        onTapOutside: (event) => widget.descriptor.focusNode.unfocus(),
-        style: context.bodyLarge?.copyWith(
-          color: widget.descriptor.focusNode.hasFocus ? ThemeColor.primary : null,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (widget.showHintAsTitle && widget.hint != null)
+          Padding(
+            padding: EdgeInsets.only(bottom: 5.h),
+            child: Text(
+              widget.hint!,
+              style: context.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ValueListenableBuilder(
+          valueListenable: _obscureText,
+          builder: (context, secure, _) => TextFormField(
+            onTap: widget.onTap,
+            obscureText: secure,
+            maxLines: widget.maxLines,
+            maxLength: widget.maxLength,
+            validator: widget.validator,
+            autofocus: widget.autofocus,
+            onChanged: widget.onChanged,
+            cursorColor: ThemeColor.primary,
+            canRequestFocus: _canRequestFocus,
+            focusNode: widget.descriptor.focusNode,
+            textInputAction: widget.textInputAction,
+            controller: widget.descriptor.controller,
+            textAlignVertical: TextAlignVertical.top,
+            onFieldSubmitted: widget.onFieldSubmitted,
+            readOnly: widget.readOnly ?? widget.onTap != null,
+            onTapOutside: (event) => widget.descriptor.focusNode.unfocus(),
+            style: context.bodyLarge?.copyWith(
+              color: widget.descriptor.focusNode.hasFocus ? ThemeColor.primary : null,
+            ),
+            keyboardType: widget.obscure ? TextInputType.visiblePassword : widget.keyboardType,
+            inputFormatters: widget.inputFormatters,
+            decoration: InputDecoration(
+              hintText: widget.hint,
+              prefixIcon: widget.prefix,
+              contentPadding: widget.contentPadding,
+              // suffixIcon: widget.suffix,
+              suffixIcon: widget.obscure ? _suffixIcon(secure) : widget.suffix,
+            ),
+          ),
         ),
-        keyboardType: widget.obscure ? TextInputType.visiblePassword : widget.keyboardType,
-        inputFormatters: widget.inputFormatters,
-        decoration: InputDecoration(
-          hintText: widget.hint,
-          prefixIcon: widget.prefix,
-          contentPadding: widget.contentPadding,
-          // suffixIcon: widget.suffix,
-          suffixIcon: widget.obscure ? _suffixIcon(secure) : widget.suffix,
-        ),
-      ),
+      ],
     );
   }
 
