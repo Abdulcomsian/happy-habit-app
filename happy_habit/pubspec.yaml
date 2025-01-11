@@ -43,8 +43,8 @@ flutter:
   assets:
     - assets/
     - assets/icons/
+    - assets/dummy/
     - assets/brand/
-    - assets/onboarding/
     - assets/backgrounds/
 
     # for app environment

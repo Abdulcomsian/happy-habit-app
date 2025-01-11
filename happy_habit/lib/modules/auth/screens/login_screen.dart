@@ -9,6 +9,7 @@ import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/auth/shared/social_auth_buttons.dart';
 import 'package:happy_habit/modules/navigation/navigation_provider.dart';
+import 'package:happy_habit/modules/navigation/navigation_screen.dart';
 
 import '../../../core/services/validators.dart';
 import '../../../core/shared/widgets/custom_text_field.dart';
@@ -112,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     _isLoading.value = true;
     await Future.delayed(const Duration(milliseconds: 1000));
-    serviceLocator<NavigationProvider>().storeIsFirstLaunch();
+    if (mounted) context.goNamed(NavigationScreen.id);
     _isLoading.value = false;
   }
 }

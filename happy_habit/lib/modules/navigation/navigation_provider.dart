@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/hive/hive_constants.dart';
 import '../../core/hive/hive_db_service.dart';
+import '../../core/services/logger.dart';
 
 class NavigationProvider extends ChangeNotifier {
   static final NavigationProvider _instance = NavigationProvider._internal();
@@ -14,7 +15,7 @@ class NavigationProvider extends ChangeNotifier {
   final HiveDBService _hiveDBService = HiveDBService();
 
   int get currentIndex => _currentIndex;
-  int _currentIndex = 0;
+  int _currentIndex = 4;
 
   bool get isFirstLaunch => _isFirstLaunch;
   bool _isFirstLaunch = true;
@@ -25,7 +26,7 @@ class NavigationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> onWillPop() async {
+  Future<bool> onWillPop(didPop, result) async {
     if (_currentIndex > 0) {
       changeIndex(0);
 
@@ -46,9 +47,12 @@ class NavigationProvider extends ChangeNotifier {
     return result;
   }
 
-  void storeIsFirstLaunch() => _hiveDBService.storeData(
-        object: false,
-        boxKey: HiveConstants.kAppSettings,
-        valueKey: HiveConstants.kIsFirstLaunch,
-      );
+  Future<void> storeIsFirstLaunch() async {
+    await _hiveDBService.storeData(
+      object: false,
+      boxKey: HiveConstants.kAppSettings,
+      valueKey: HiveConstants.kIsFirstLaunch,
+    );
+    Logger.logInfo('kIsFirstLaunch stored as: ');
+  }
 }

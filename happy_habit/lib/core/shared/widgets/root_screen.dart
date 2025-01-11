@@ -8,6 +8,8 @@ import '../../constants/assets_path.dart';
 class RootScreen extends StatelessWidget {
   final Widget child;
   final String? title;
+  final bool hideHeader;
+  final Color? backgroundColor;
   final ValueNotifier isLoading;
   final Widget? bottomNavigationBar;
   final bool? resizeToAvoidBottomInset;
@@ -20,6 +22,8 @@ class RootScreen extends StatelessWidget {
     this.title,
     // this.padding,
     required this.child,
+    this.backgroundColor,
+    this.hideHeader = false,
     this.bottomNavigationBar,
     this.resizeToAvoidBottomInset,
     ValueNotifier<bool>? isLoading,
@@ -29,26 +33,29 @@ class RootScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       body: Stack(
         fit: StackFit.loose,
         children: [
-          Image.asset(
-            AppAssets.bg,
-            width: 1.sw,
-            height: 1.sh,
-            fit: BoxFit.cover,
-          ),
+          if (backgroundColor == null)
+            Image.asset(
+              AppAssets.bg,
+              width: 1.sw,
+              height: 1.sh,
+              fit: BoxFit.cover,
+            ),
           Column(
             crossAxisAlignment: crossAxisAlignment,
             children: [
-              AppBar(
-                title: Text(title ?? ''),
-                leading: Padding(
-                  padding: EdgeInsets.only(left: 18.w),
-                  child: CustomBackButton(),
+              if (!hideHeader)
+                AppBar(
+                  title: Text(title ?? ''),
+                  leading: Padding(
+                    padding: EdgeInsets.only(left: 18.w),
+                    child: CustomBackButton(),
+                  ),
                 ),
-              ),
               Expanded(
                 child: child,
               ),

@@ -10,6 +10,7 @@ class CustomTextField extends StatefulWidget {
   final bool obscure;
   final String? hint;
   final bool? readOnly;
+  final bool showIcons;
   final VoidCallback? onTap;
   final Widget? prefix, suffix;
   final Color? foregroundColor;
@@ -44,7 +45,8 @@ class CustomTextField extends StatefulWidget {
     this.showHintAsTitle = false,
     this.textInputAction = TextInputAction.done,
     this.inputFormatters,
-  }) : obscure = false;
+  })  : obscure = false,
+        showIcons = false;
 
   const CustomTextField.obscure({
     super.key,
@@ -62,6 +64,7 @@ class CustomTextField extends StatefulWidget {
     this.onFieldSubmitted,
     this.inputFormatters,
     this.autofocus = false,
+    this.showIcons = false,
     required this.descriptor,
     this.showHintAsTitle = false,
     this.textInputAction = TextInputAction.done,
@@ -150,7 +153,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
       radius: 10,
       padding: EdgeInsets.all(10.r),
       onTap: widget.onTap != null ? null : () => _obscureText.value = !_obscureText.value,
-      child: Text(secure ? 'show' : 'hide'),
+      child: !widget.showIcons
+          // ? Icon(secure ? Icons.visibility_off_outlined : CupertinoIcons.eye)
+          ? Text(secure ? 'show' : 'hide')
+          : Icon(
+              secure ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+              color: ThemeColor.hint,
+            ),
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
@@ -25,13 +27,15 @@ class SocialAuthButtons extends StatelessWidget {
           label: 'Continue with Facebook',
           icon: SvgPicture.asset(AppIcons.facebook),
         ),
-        10.height,
-        CustomButton(
-          onPressed: () {},
-          color: Colors.white,
-          label: 'Continue with Apple',
-          icon: SvgPicture.asset(AppIcons.apple),
-        ),
+        if (Platform.isIOS) ...[
+          10.height,
+          CustomButton(
+            onPressed: () {},
+            color: Colors.white,
+            label: 'Continue with Apple',
+            icon: SvgPicture.asset(AppIcons.apple),
+          ),
+        ]
       ],
     );
   }

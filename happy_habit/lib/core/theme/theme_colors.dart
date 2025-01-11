@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 class ThemeColor {
   static const secondary = Colors.white;
-  static const background = Color(0xffF2F2F2);
+  // static const background = Color(0xffF2F2F2);
+  static const background = Color(0xffaee8fe);
   static const primaryShade = Color(0xFFFFF3E8);
 
   static const hint = Color(0xFF656464);

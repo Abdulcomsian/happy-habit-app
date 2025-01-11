@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/services/validators.dart';
@@ -15,7 +14,8 @@ import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/auth/screens/login_screen.dart';
 import 'package:happy_habit/modules/auth/shared/verify_otp_bottom_sheet.dart';
 
-import '../services/verify_otp_navigation.dart';
+import '../../../core/constants/assets_path.dart';
+import '../../../core/shared/modals/custom_dialog.dart';
 
 class SignInScreen extends StatefulWidget {
   static const id = '/SignInScreen';
@@ -163,7 +163,22 @@ class _SignInScreenState extends State<SignInScreen> {
     // final response = await VerifyOtpNavigation.openVerifyBottomSheet(context, _email.text);
 
     if (response ?? false) {
-      if (mounted) context.pushReplacementNamed(LoginScreen.id);
+      if (mounted) {
+        showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder: (_) => CustomDialog(
+            onAction: _onSuccess,
+            svg: AppIcons.success,
+            title: 'Verification Complete!',
+            message: 'Thanks for your patience. Enjoy the all features of app',
+          ),
+        );
+      }
     }
+  }
+
+  void _onSuccess() {
+    context.pushReplacementNamed(LoginScreen.id);
   }
 }

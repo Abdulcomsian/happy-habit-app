@@ -5,13 +5,11 @@ import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/shared/widgets/custom_button.dart';
 import 'package:happy_habit/core/shared/widgets/root_screen.dart';
 import 'package:happy_habit/core/theme/typography.dart';
+import 'package:happy_habit/modules/auth/screens/update_password_screen.dart';
 
-import '../../../core/constants/assets_path.dart';
 import '../../../core/services/validators.dart';
-import '../../../core/shared/modals/custom_dialog.dart';
 import '../../../core/shared/widgets/custom_text_field.dart';
 import '../shared/verify_otp_bottom_sheet.dart';
-import 'login_screen.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   static const id = 'ForgotPasswordScreen';
@@ -56,7 +54,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             style: context.headlineSmall?.copyWith(),
           ),
           15.height,
-          Text('Please , Enter your email address to receive password. '),
+          Text('Please enter your email address to receive password. '),
           28.height,
           Form(
             key: _formKey,
@@ -79,38 +77,45 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       return;
     }
 
-    _isLoading.value = true;
-    await Future.delayed(const Duration(milliseconds: 1000));
-    _isLoading.value = false;
+    final response = await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (_) => VerifyOtpBottomSheet(
+        email: _email.text,
+      ),
+    ) as bool?;
 
-    if (mounted) {
-      showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (_) => CustomDialog(
-          onAction: _onDone,
-          actionLabel: 'Done',
-          svg: AppIcons.mailSent,
-          title: 'Check Your Email',
-          message: 'Password reset link send to your email.',
-        ),
-      );
-      // final response = await showModalBottomSheet(
-      //   context: context,
-      //   isScrollControlled: true,
-      //   builder: (_) => VerifyOtpBottomSheet(
-      //     email: _email.text,
-      //   ),
-      // ) as bool?;
-      //
-      // if (response ?? false) {
-      //   if (mounted) Navigator.pop(context);
-      // }
+    if (response ?? false) {
+      if (mounted) context.pushNamed(UpdatePasswordScreen.id);
     }
-  }
 
-  void _onDone() {
-    Navigator.pop(context);
-    Navigator.pop(context, true);
+    // _isLoading.value = true;
+    // await Future.delayed(const Duration(milliseconds: 1000));
+    // _isLoading.value = false;
+
+    // if (mounted) {
+    //   showDialog(
+    //     context: context,
+    //     barrierDismissible: true,
+    //     builder: (_) => CustomDialog(
+    //       onAction: _onDone,
+    //       actionLabel: 'Done',
+    //       svg: AppIcons.mailSent,
+    //       title: 'Check Your Email',
+    //       message: 'Password reset link send to your email.',
+    //     ),
+    //   );
+    // final response = await showModalBottomSheet(
+    //   context: context,
+    //   isScrollControlled: true,
+    //   builder: (_) => VerifyOtpBottomSheet(
+    //     email: _email.text,
+    //   ),
+    // ) as bool?;
+    //
+    // if (response ?? false) {
+    //   if (mounted) Navigator.pop(context);
+    // }
+    // }
   }
 }

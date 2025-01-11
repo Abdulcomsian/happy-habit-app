@@ -3,10 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/shared/widgets/custom_button.dart';
+import 'package:happy_habit/core/theme/theme_colors.dart';
 
 class CustomDialog extends StatelessWidget {
-  final VoidCallback? onAction;
-  final String svg, title, message, actionLabel;
+  final VoidCallback? onAction, onSecondaryAction;
+  final String svg, title, message, actionLabel, secondaryActionLabel;
 
   const CustomDialog({
     super.key,
@@ -14,7 +15,9 @@ class CustomDialog extends StatelessWidget {
     required this.svg,
     required this.title,
     required this.message,
+    this.onSecondaryAction,
     this.actionLabel = 'Done',
+    this.secondaryActionLabel = 'Cancel',
   });
 
   @override
@@ -45,11 +48,26 @@ class CustomDialog extends StatelessWidget {
               style: DialogTheme.of(context).contentTextStyle,
             ),
             32.height,
-            if (onAction != null)
-              CustomButton(
-                label: actionLabel,
-                onPressed: onAction,
-              ),
+            Row(
+              children: [
+                if (onSecondaryAction != null)
+                  Flexible(
+                    child: CustomButton(
+                      color: ThemeColor.border,
+                      label: secondaryActionLabel,
+                      onPressed: onSecondaryAction,
+                    ),
+                  ),
+                if (onAction != null && onSecondaryAction != null) 10.width,
+                if (onAction != null)
+                  Flexible(
+                    child: CustomButton(
+                      label: actionLabel,
+                      onPressed: onAction,
+                    ),
+                  ),
+              ],
+            ),
           ],
         ),
       ),

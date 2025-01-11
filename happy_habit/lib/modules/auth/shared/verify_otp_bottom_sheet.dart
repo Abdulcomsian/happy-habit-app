@@ -117,7 +117,7 @@ class _VerifyOtpBottomSheetState extends State<VerifyOtpBottomSheet> with Widget
               ),
               15.height,
               Text(
-                'We have sent a OTP verification code on your phone number',
+                'We have sent a OTP verification code on your email',
                 textAlign: TextAlign.center,
                 style: context.bodyMedium?.copyWith(
                   shadows: [
@@ -214,23 +214,6 @@ class _VerifyOtpBottomSheetState extends State<VerifyOtpBottomSheet> with Widget
     // todo: verify OTP by API
     await Future.delayed(const Duration(seconds: 2));
     AppLoader.hideLoader();
-
-    if (mounted) {
-      showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (_) => CustomDialog(
-          onAction: _onSuccess,
-          svg: AppIcons.success,
-          title: 'Verification Complete!',
-          message: 'Thanks for your patience. Enjoy the all features of app',
-        ),
-      );
-    }
-  }
-
-  void _onSuccess() {
-    Navigator.pop(context);
-    Navigator.pop(context, true);
+    if (mounted) Navigator.pop(context, true);
   }
 }

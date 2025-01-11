@@ -34,13 +34,18 @@ class ThemePreferences {
               bodyColor: ThemeColor.fontBlack, // Apply fontBlack to text
               displayColor: ThemeColor.fontBlack, // Apply fontBlack to display tex
             ),
-
         // themes
+        cardTheme: ComponentsTheme.cardTheme,
+        dividerTheme: ComponentsTheme.dividerTheme,
 
         // themes using context
         dialogTheme: ComponentsTheme.dialogTheme(context),
         appBarTheme: ComponentsTheme.appBarTheme(context),
+        tabBarTheme: ComponentsTheme.tabBarTheme(context),
+        switchTheme: ComponentsTheme.switchThemeData(context),
+        searchBarTheme: ComponentsTheme.searchBarTheme(context),
         elevatedButtonTheme: ComponentsTheme.elevatedButtonTheme(context),
+        outlinedButtonTheme: ComponentsTheme.outlinedButtonTheme(context),
         inputDecorationTheme: ComponentsTheme.inputDecorationTheme(context),
 
         // colorScheme

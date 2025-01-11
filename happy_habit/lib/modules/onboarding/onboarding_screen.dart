@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/shared/widgets/custom_switcher.dart';
 import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
+import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/auth/screens/welcome_screen.dart';
 import 'package:happy_habit/modules/onboarding/onboarding_meta_model.dart';
@@ -97,8 +98,54 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
           ),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 20,
+            child: ValueListenableBuilder(
+              valueListenable: _currentIndex,
+              builder: (context, i, _) => Indicator(
+                length: _data.length,
+                currentIndex: i,
+              ),
+            ),
+          ),
         ],
       ),
+    );
+  }
+}
+
+class Indicator extends StatelessWidget {
+  final int length;
+  final int currentIndex;
+
+  const Indicator({
+    super.key,
+    required this.length,
+    required this.currentIndex,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(length, (index) {
+        return AnimatedContainer(
+          duration: Duration(milliseconds: 300),
+          margin: EdgeInsets.symmetric(horizontal: 4.0),
+          padding: EdgeInsets.symmetric(
+            // vertical: currentIndex == index ? 7.0 : 4,
+            vertical: 5,
+            horizontal: currentIndex == index ? 10.0 : 5,
+          ),
+          decoration: BoxDecoration(
+            // shape: BoxShape.circle,
+            borderRadius: BorderRadius.circular(10),
+            color: currentIndex == index ? ThemeColor.primary : Colors.grey,
+          ),
+        );
+      }),
     );
   }
 }

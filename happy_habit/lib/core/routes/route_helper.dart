@@ -12,6 +12,7 @@ class RouteHelper {
   static Future<String?> onAppStartup(BuildContext context, GoRouterState state) async {
     final authProv = serviceLocator<AuthProvider>();
     final navProv = serviceLocator<NavigationProvider>();
+    // precacheImage(AssetImage('assets/bg/bg.webp'), context);
 
     final localFutures = await Future.wait<dynamic>([
       authProv.isUserLoggedIn(),
