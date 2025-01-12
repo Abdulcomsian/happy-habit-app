@@ -15,7 +15,7 @@ class NavigationProvider extends ChangeNotifier {
   final HiveDBService _hiveDBService = HiveDBService();
 
   int get currentIndex => _currentIndex;
-  int _currentIndex = 4;
+  int _currentIndex = 2;
 
   bool get isFirstLaunch => _isFirstLaunch;
   bool _isFirstLaunch = true;

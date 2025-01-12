@@ -25,6 +25,7 @@ class CustomDialog extends StatelessWidget {
     return PopScope(
       canPop: false,
       child: AlertDialog(
+        insetPadding: EdgeInsets.symmetric(horizontal: 20.w),
         title: Padding(
           padding: EdgeInsets.only(top: 16.h),
           child: SvgPicture.asset(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/shared/widgets/custom_back_button.dart';
 import 'package:happy_habit/core/shared/widgets/fullscreen_.dart';
 
@@ -11,8 +12,8 @@ class RootScreen extends StatelessWidget {
   final bool hideHeader;
   final Color? backgroundColor;
   final ValueNotifier isLoading;
-  final Widget? bottomNavigationBar;
   final bool? resizeToAvoidBottomInset;
+  final Widget? action, bottomNavigationBar;
 
   // final EdgeInsetsGeometry? padding;
   final CrossAxisAlignment crossAxisAlignment;
@@ -20,6 +21,7 @@ class RootScreen extends StatelessWidget {
   RootScreen({
     super.key,
     this.title,
+    this.action,
     // this.padding,
     required this.child,
     this.backgroundColor,
@@ -55,6 +57,7 @@ class RootScreen extends StatelessWidget {
                     padding: EdgeInsets.only(left: 18.w),
                     child: CustomBackButton(),
                   ),
+                  actions: [action ?? SizedBox.shrink(), 20.width],
                 ),
               Expanded(
                 child: child,

@@ -5,6 +5,11 @@ import 'package:happy_habit/core/theme/typography.dart';
 import 'theme_colors.dart';
 
 class ComponentsTheme {
+  static IconThemeData get iconThemeData => IconThemeData(
+    color: ThemeColor.primary,
+    size: 24.r,
+  );
+
   static ElevatedButtonThemeData elevatedButtonTheme(BuildContext context) =>
       ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -90,21 +95,19 @@ class ComponentsTheme {
       OutlinedButtonThemeData(
         style: ButtonStyle(
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          textStyle: WidgetStateProperty.resolveWith(
-            (states) {
-              if (states.contains(WidgetState.disabled)) {
-                return context.bodyLarge?.copyWith(
-                  color: Colors.grey,
-                  fontWeight: FontWeight.bold,
-                );
-              } else {
-                return context.bodyLarge?.copyWith(
-                  color: ThemeColor.primary,
-                  fontWeight: FontWeight.bold,
-                );
-              }
-            },
-          ),
+          textStyle: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.disabled)) {
+              return context.bodyLarge?.copyWith(
+                color: Colors.grey,
+                fontWeight: FontWeight.bold,
+              );
+            } else {
+              return context.bodyLarge?.copyWith(
+                color: ThemeColor.primary,
+                fontWeight: FontWeight.bold,
+              );
+            }
+          }),
           minimumSize: WidgetStatePropertyAll(Size.fromHeight(48.h)),
           padding: WidgetStatePropertyAll(
             EdgeInsets.symmetric(horizontal: 20.w, vertical: 14.h),
@@ -114,21 +117,19 @@ class ComponentsTheme {
               borderRadius: BorderRadius.circular(12.r),
             ),
           ),
-          side: WidgetStateProperty.resolveWith(
-            (states) {
-              if (states.contains(WidgetState.disabled)) {
-                return BorderSide(
-                  width: 1.5,
-                  color: Colors.grey,
-                );
-              } else {
-                return BorderSide(
-                  width: 1.5,
-                  color: ThemeColor.primary,
-                );
-              }
-            },
-          ),
+          side: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.disabled)) {
+              return BorderSide(
+                width: 1.5,
+                color: Colors.grey,
+              );
+            } else {
+              return BorderSide(
+                width: 1.5,
+                color: ThemeColor.primary,
+              );
+            }
+          }),
         ),
       );
 

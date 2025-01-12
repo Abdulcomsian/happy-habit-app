@@ -9,6 +9,8 @@ import 'package:happy_habit/modules/navigation/navigation_screen.dart';
 import 'package:happy_habit/modules/onboarding/onboarding_screen.dart';
 import 'package:happy_habit/modules/social/screens/social_screen.dart';
 
+import '../../modules/activity/screens/activity_result_screen.dart';
+import '../../modules/activity/screens/activity_session_screen.dart';
 import '../../modules/auth/screens/forgot_password_screen.dart';
 import '../../modules/auth/screens/sign_in_screen.dart';
 import '../../modules/auth/screens/update_password_screen.dart';
@@ -69,6 +71,20 @@ class Routes {
           return null;
         },
         routes: [
+          GoRoute(
+            path: ActivitySessionScreen.id,
+            name: ActivitySessionScreen.id,
+            builder: (context, state) => ActivitySessionScreen(
+              duration: state.asMap['duration'],
+            ),
+            routes: [
+              GoRoute(
+                path: ActivityResultScreen.id,
+                name: ActivityResultScreen.id,
+                builder: (context, state) => const ActivityResultScreen(),
+              ),
+            ],
+          ),
           GoRoute(
             path: ProfileScreen.id,
             name: ProfileScreen.id,

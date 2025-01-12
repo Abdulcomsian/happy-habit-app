@@ -50,6 +50,10 @@ class AppIcons {
   static const star = 'assets/icons/star.svg';
   static const happyStar = 'assets/icons/happy-star.svg';
   static const notification = 'assets/icons/notification.svg';
+  static const headphones = 'assets/icons/headphones.svg';
+  static const closeCircle = 'assets/icons/close-circle.svg';
+  static const play = 'assets/icons/play.svg';
+  static const pause = 'assets/icons/pause.svg';
 }
 
 class AppAssets {
@@ -60,4 +64,5 @@ class AppAssets {
 class DummyIcons {
   static const man = 'assets/dummy/man.png';
   static const avatar = 'assets/dummy/avatar.png';
+  static const activity = 'assets/dummy/activity.webp';
 }

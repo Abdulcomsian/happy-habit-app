@@ -6,6 +6,7 @@ import 'package:happy_habit/modules/progress/progress_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/services/providers.dart';
+import '../activity/screens/activity_setup_screen.dart';
 import 'shared/custom_bottom_navigation_bar.dart';
 import 'shared/custom_drawer.dart';
 
@@ -28,7 +29,7 @@ class NavigationScreen extends StatelessWidget {
               HomeScreen(),
               ProgressScreen(),
               ProgressScreen(),
-              ProgressScreen(),
+              ActivitySetupScreen(),
               ProfileScreen(isAppUser: true),
             ],
           ),

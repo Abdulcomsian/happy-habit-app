@@ -11,6 +11,8 @@ class ThemeColor {
   static const border = Color(0xFFE9E9E9);
   static const fontBlack = Color(0xFF4D4D4D);
 
+  static const vividGreen = Color(0xff02CE76);
+  static const graphiteGrey = Color(0xff8F8F8F);
   static const error = CupertinoColors.systemRed;
   static const success = CupertinoColors.activeGreen;
 

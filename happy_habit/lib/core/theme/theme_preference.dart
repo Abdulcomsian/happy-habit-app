@@ -36,6 +36,7 @@ class ThemePreferences {
             ),
         // themes
         cardTheme: ComponentsTheme.cardTheme,
+        iconTheme: ComponentsTheme.iconThemeData,
         dividerTheme: ComponentsTheme.dividerTheme,
 
         // themes using context
