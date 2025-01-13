@@ -14,6 +14,7 @@ import '../../modules/activity/screens/activity_session_screen.dart';
 import '../../modules/auth/screens/forgot_password_screen.dart';
 import '../../modules/auth/screens/sign_in_screen.dart';
 import '../../modules/auth/screens/update_password_screen.dart';
+import '../../modules/chat/chat_screen.dart';
 import '../../modules/profile/screens/about_us_screen.dart';
 import '../../modules/profile/screens/edit_profile_screen.dart';
 import '../../modules/profile/screens/help_center_screen.dart';
@@ -26,8 +27,8 @@ class Routes {
 
   static final GoRouter routers = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: OnboardingScreen.id,
-    // initialLocation: NavigationScreen.id,
+    // initialLocation: OnboardingScreen.id,
+    initialLocation: NavigationScreen.id,
     routes: [
       GoRoute(
         path: OnboardingScreen.id,
@@ -122,7 +123,16 @@ class Routes {
           GoRoute(
             path: SocialScreen.id,
             name: SocialScreen.id,
-            builder: (context, state) => const SocialScreen(),
+            builder: (context, state) => SocialScreen(
+              desireIndex: state.asMap['desireIndex'],
+            ),
+            routes: [
+              GoRoute(
+                path: ChatScreen.id,
+                name: ChatScreen.id,
+                builder: (context, state) => const ChatScreen(),
+              ),
+            ],
           ),
         ],
       ),

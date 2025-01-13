@@ -51,9 +51,11 @@ class AppIcons {
   static const happyStar = 'assets/icons/happy-star.svg';
   static const notification = 'assets/icons/notification.svg';
   static const headphones = 'assets/icons/headphones.svg';
+  static const more = 'assets/icons/more.svg';
   static const closeCircle = 'assets/icons/close-circle.svg';
   static const play = 'assets/icons/play.svg';
   static const pause = 'assets/icons/pause.svg';
+  static const doubleCheck = 'assets/icons/double-check.svg';
 }
 
 class AppAssets {

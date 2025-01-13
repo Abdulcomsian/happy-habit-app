@@ -134,7 +134,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
               hintText: widget.hint,
               prefixIcon: widget.prefix,
               contentPadding: widget.contentPadding,
-              // suffixIcon: widget.suffix,
               suffixIcon: widget.obscure ? _suffixIcon(secure) : widget.suffix,
             ),
           ),

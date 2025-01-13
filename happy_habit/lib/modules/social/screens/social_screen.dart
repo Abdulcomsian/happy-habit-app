@@ -4,51 +4,96 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:happy_habit/core/constants/assets_path.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/shared/widgets/root_screen.dart';
+import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 
 import '../shared/friend_tile.dart';
 
-class SocialScreen extends StatelessWidget {
+class SocialScreen extends StatefulWidget {
   static const id = 'SocialScreen';
 
-  const SocialScreen({super.key});
+  final int? desireIndex;
+
+  const SocialScreen({super.key, required this.desireIndex});
+
+  @override
+  State<SocialScreen> createState() => _SocialScreenState();
+}
+
+class _SocialScreenState extends State<SocialScreen> with SingleTickerProviderStateMixin {
+  late final TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _tabController = TabController(length: 2, vsync: this, initialIndex: widget.desireIndex ?? 0);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return RootScreen(
-      title: 'Social',
-      crossAxisAlignment: CrossAxisAlignment.start,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
+    return DefaultTabController(
+      length: 2,
+      child: RootScreen(
+        title: 'Social',
+        crossAxisAlignment: CrossAxisAlignment.start,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             15.height,
-            Text(
-              'Friends',
-              style: context.bodyLarge?.copyWith(
+            TabBar(
+              controller: _tabController,
+              dividerColor: Colors.transparent,
+              indicatorPadding: EdgeInsets.zero,
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              labelStyle: context.bodyLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
+              unselectedLabelStyle: context.bodyLarge?.copyWith(
+                color: ThemeColor.hint,
+                fontWeight: FontWeight.bold,
+              ),
+              isScrollable: true,
+              tabAlignment: TabAlignment.start,
+              indicatorSize: TabBarIndicatorSize.tab,
+              tabs: [
+                Tab(text: 'Friends'),
+                Tab(text: 'pending requests'),
+              ],
             ),
             15.height,
-            SearchBar(
-              hintText: 'Search',
-              leading: Padding(
-                padding: EdgeInsets.only(left: 3.w),
-                child: SvgPicture.asset(
-                  AppIcons.search,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              child: SearchBar(
+                hintText: 'Search',
+                leading: Padding(
+                  padding: EdgeInsets.only(left: 3.w),
+                  child: SvgPicture.asset(
+                    AppIcons.search,
+                  ),
                 ),
               ),
             ),
-            15.height,
             Expanded(
-              child: ListView.separated(
-                itemCount: 3,
-                padding: EdgeInsets.only(bottom: 20.h),
-                separatorBuilder: (context, index) => 10.height,
-                itemBuilder: (context, index) => FriendTile(
-                  isFriend: false,
-                ),
+              child: TabBarView(
+                controller: _tabController,
+                physics: NeverScrollableScrollPhysics(),
+                children: [
+                  ListView.separated(
+                    itemCount: 3,
+                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+                    separatorBuilder: (context, index) => 10.height,
+                    itemBuilder: (context, index) => FriendTile(),
+                  ),
+                  ListView.separated(
+                    itemCount: 3,
+                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+                    separatorBuilder: (context, index) => 10.height,
+                    itemBuilder: (context, index) => FriendTile(
+                      isFriend: false,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

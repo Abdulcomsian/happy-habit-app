@@ -103,30 +103,53 @@ class IconPoints extends StatelessWidget {
 
 class ProfileAvatar extends StatelessWidget {
   final double size;
+  final bool isOnline, removeBorder;
 
-  const ProfileAvatar({super.key, this.size = 86});
+  const ProfileAvatar({
+    super.key,
+    this.size = 86,
+    this.isOnline = false,
+    this.removeBorder = false,
+  });
 
   @override
   Widget build(BuildContext context) {
+    if (removeBorder) {
+      return _avatar;
+    }
+
     return Container(
+      padding: EdgeInsets.all(3.r),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(color: ThemeColor.primary, width: 2),
       ),
-      child: Container(
-        width: size.r,
-        height: size.r,
-        margin: EdgeInsets.all(3.r),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: ThemeColor.primary,
-          image: DecorationImage(
-            fit: BoxFit.contain,
-            alignment: Alignment.bottomCenter,
-            image: AssetImage(DummyIcons.man),
-          ),
-        ),
-      ),
+      child: _avatar,
     );
   }
+
+  Widget get _avatar => Stack(
+        alignment: Alignment.bottomRight,
+        children: [
+          Container(
+            width: size.r,
+            height: size.r,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: ThemeColor.primary,
+              image: DecorationImage(
+                fit: BoxFit.contain,
+                alignment: Alignment.bottomCenter,
+                image: AssetImage(DummyIcons.man),
+              ),
+            ),
+          ),
+          if (isOnline)
+            Icon(
+              size: 10.r,
+              Icons.circle,
+              color: ThemeColor.success,
+            ),
+        ],
+      );
 }

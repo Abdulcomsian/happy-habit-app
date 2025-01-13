@@ -8,6 +8,8 @@ import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/profile/screens/profile_screen.dart';
 
+import '../../chat/chat_screen.dart';
+
 class FriendTile extends StatelessWidget {
   final bool isFriend;
   final int? xpPoints;
@@ -24,6 +26,7 @@ class FriendTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return TapWidget(
       onTap: () => context.pushNamed(ProfileScreen.id),
+      // onTap: () => context.goNamed(ProfileScreen.id),
       child: Card(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 9.w, vertical: 7.h),
@@ -67,8 +70,8 @@ class FriendTile extends StatelessWidget {
               if (isFriend)
                 TapWidget(
                   radius: 4,
-                  onTap: _chat,
                   color: ThemeColor.primary,
+                  onTap: () => _chat(context),
                   padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 8.h),
                   child: Text(
                     'Chat',
@@ -114,7 +117,9 @@ class FriendTile extends StatelessWidget {
     );
   }
 
-  Future<void> _chat() async {}
+  Future<void> _chat(BuildContext context) async {
+    context.pushNamed(ChatScreen.id);
+  }
 
   Future<void> _accept() async {}
 

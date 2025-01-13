@@ -108,9 +108,9 @@ class ComponentsTheme {
               );
             }
           }),
-          minimumSize: WidgetStatePropertyAll(Size.fromHeight(48.h)),
+          minimumSize: WidgetStatePropertyAll(Size.fromHeight(45.h)),
           padding: WidgetStatePropertyAll(
-            EdgeInsets.symmetric(horizontal: 20.w, vertical: 14.h),
+            EdgeInsets.symmetric(horizontal: 20.w),
           ),
           shape: WidgetStatePropertyAll(
             RoundedRectangleBorder(
