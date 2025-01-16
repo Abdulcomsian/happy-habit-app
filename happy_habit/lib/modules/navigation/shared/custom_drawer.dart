@@ -7,8 +7,11 @@ import 'package:happy_habit/core/shared/widgets/svg_Icon.dart';
 import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
+import 'package:happy_habit/modules/profile/screens/streak_screen.dart';
 
+import '../../achievements/screens/achievements_screen.dart';
 import '../../social/screens/social_screen.dart';
+import '../../store/screens/store_screen.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -61,17 +64,17 @@ class CustomDrawer extends StatelessWidget {
             DrawerItem(
               label: 'Stores',
               svg: AppIcons.addShop,
-              onTap: () => context.pushNamed(SocialScreen.id),
+              onTap: () => context.pushNamed(StoreScreen.id),
             ),
             DrawerItem(
               label: 'Streaks',
               svg: AppIcons.streak,
-              onTap: () => context.pushNamed(SocialScreen.id),
+              onTap: () => context.pushNamed(StreakScreen.id),
             ),
             DrawerItem(
               label: 'Achievements',
               svg: AppIcons.trophy,
-              onTap: () => context.pushNamed(SocialScreen.id),
+              onTap: () => context.pushNamed(AchievementsScreen.id),
             ),
           ],
         ),

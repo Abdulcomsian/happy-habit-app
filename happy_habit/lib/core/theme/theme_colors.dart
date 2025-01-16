@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class ThemeColor {
   static const secondary = Colors.white;
+  static const primaryV2 = Color(0xFFFFDA58);
   // static const background = Color(0xffF2F2F2);
   static const background = Color(0xffaee8fe);
   static const primaryShade = Color(0xFFFFF3E8);

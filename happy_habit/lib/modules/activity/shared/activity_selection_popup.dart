@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:happy_habit/core/extensions/string_extensions.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
@@ -8,11 +9,11 @@ import 'package:happy_habit/core/theme/typography.dart';
 
 import '../../../core/shared/widgets/custom_button.dart';
 
-class ActivitySelectionDialog extends StatelessWidget {
+class ActivitySelectionPopup extends StatelessWidget {
   final String selectedActivity;
   late final ValueNotifier _selectedActivity;
 
-  ActivitySelectionDialog({super.key, required this.selectedActivity}) {
+  ActivitySelectionPopup({super.key, required this.selectedActivity}) {
     _selectedActivity = ValueNotifier(selectedActivity);
   }
 
@@ -97,7 +98,7 @@ class ActivitySelectionDialog extends StatelessWidget {
                               ),
                               5.height,
                               Text(
-                                _activities[i],
+                                _activities[i].capitalize(),
                                 style: context.bodySmall?.copyWith(
                                   color: _activities[i] == act ? ThemeColor.primary : null,
                                   fontWeight: _activities[i] == act ? FontWeight.w600 : FontWeight.w500,

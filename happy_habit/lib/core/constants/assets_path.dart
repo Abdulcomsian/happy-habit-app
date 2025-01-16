@@ -10,6 +10,7 @@ class AppIcons {
   static const facebook = 'assets/icons/facebook.svg';
 
   //navigation screen icons
+  static const home = 'assets/icons/home.svg';
   static const flash = 'assets/icons/flash.svg';
   static const loading = 'assets/icons/loading.svg';
   static const moon = 'assets/icons/moon.svg';
@@ -42,6 +43,7 @@ class AppIcons {
   static const upward = 'assets/icons/upward.svg';
   static const xp = 'assets/icons/xp.svg';
   static const fire = 'assets/icons/fire.svg';
+  static const crown = 'assets/icons/crown.svg';
   static const bgDots = 'assets/icons/bg-dots.svg';
   static const logout = 'assets/icons/logout.svg';
   static const calling = 'assets/icons/calling.svg';
@@ -65,6 +67,14 @@ class AppAssets {
 
 class DummyIcons {
   static const man = 'assets/dummy/man.png';
-  static const avatar = 'assets/dummy/avatar.png';
+  static const avatar = 'assets/dummy/avatar.webp';
   static const activity = 'assets/dummy/activity.webp';
+}
+
+class AchievementIcons {
+  static const kickstart = 'assets/achievements/kickstart.svg';
+  static const musicStar = 'assets/achievements/music-star.svg';
+  static const sportsman = 'assets/achievements/sportsman.svg';
+  static const oneHourClub = 'assets/achievements/one-hour-club.svg';
+  static const creator = 'assets/achievements/creator.svg';
 }

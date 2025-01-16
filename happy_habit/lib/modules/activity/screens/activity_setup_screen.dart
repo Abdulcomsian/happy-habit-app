@@ -11,7 +11,7 @@ import 'package:happy_habit/core/shared/widgets/app_toast.dart';
 import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
-import 'package:happy_habit/modules/activity/shared/activity_selection_dialog.dart';
+import 'package:happy_habit/modules/activity/shared/activity_selection_popup.dart';
 
 import '../../../core/constants/assets_path.dart';
 import '../../../core/shared/widgets/custom_duration_picker.dart';
@@ -198,7 +198,7 @@ class ActivityTile extends StatelessWidget {
       context: context,
       barrierDismissible: true,
       builder: (BuildContext dialogContext) {
-        return ActivitySelectionDialog(
+        return ActivitySelectionPopup(
           selectedActivity: activity,
         );
       },

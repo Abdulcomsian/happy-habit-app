@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/shared/widgets/custom_button.dart';
 import 'package:happy_habit/core/shared/widgets/root_screen.dart';
@@ -12,6 +13,7 @@ import 'package:happy_habit/modules/profile/shared/leaderboard_content.dart';
 import '../../../core/shared/widgets/fixed_header_delegate.dart';
 import '../../../core/theme/theme_colors.dart';
 import '../shared/profile_header.dart';
+import 'streak_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const id = 'ProfileScreen';
@@ -39,6 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
       length: 4,
       child: RootScreen(
         title: 'Social',
+        applySafeAreaSpace: false,
         hideHeader: widget.isAppUser,
         backgroundColor: ThemeColor.background,
         child: CustomScrollView(

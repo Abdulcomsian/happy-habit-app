@@ -61,7 +61,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
       case 1:
         return AppIcons.statusUp;
       case 2:
-        return AppIcons.flash;
+        return AppIcons.home;
       case 3:
         return AppIcons.loading;
       default:

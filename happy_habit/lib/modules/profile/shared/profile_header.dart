@@ -13,7 +13,10 @@ import '../../../core/constants/assets_path.dart';
 class ProfileHeader extends StatelessWidget {
   final bool isAppUser;
 
-  const ProfileHeader({super.key, this.isAppUser = false});
+  const ProfileHeader({
+    super.key,
+    this.isAppUser = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +53,8 @@ class ProfileHeader extends StatelessWidget {
                       points: 55,
                     ),
                     IconPoints(
-                      svg: AppIcons.fire,
                       points: 50,
+                      svg: AppIcons.fire,
                     ),
                   ],
                 ),

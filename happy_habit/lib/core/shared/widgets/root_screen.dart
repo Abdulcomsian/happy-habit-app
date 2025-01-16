@@ -12,8 +12,9 @@ class RootScreen extends StatelessWidget {
   final bool hideHeader;
   final Color? backgroundColor;
   final ValueNotifier isLoading;
+  final bool applySafeAreaSpace;
   final bool? resizeToAvoidBottomInset;
-  final Widget? action, bottomNavigationBar;
+  final Widget? action, leading, bottomNavigationBar;
 
   // final EdgeInsetsGeometry? padding;
   final CrossAxisAlignment crossAxisAlignment;
@@ -22,6 +23,7 @@ class RootScreen extends StatelessWidget {
     super.key,
     this.title,
     this.action,
+    this.leading,
     // this.padding,
     required this.child,
     this.backgroundColor,
@@ -29,6 +31,7 @@ class RootScreen extends StatelessWidget {
     this.bottomNavigationBar,
     this.resizeToAvoidBottomInset,
     ValueNotifier<bool>? isLoading,
+    this.applySafeAreaSpace = true,
     this.crossAxisAlignment = CrossAxisAlignment.center,
   }) : isLoading = isLoading ?? ValueNotifier(false);
 
@@ -55,10 +58,10 @@ class RootScreen extends StatelessWidget {
                   title: Text(title ?? ''),
                   leading: Padding(
                     padding: EdgeInsets.only(left: 18.w),
-                    child: CustomBackButton(),
+                    child: leading ?? CustomBackButton(),
                   ),
                   actions: [action ?? SizedBox.shrink(), 20.width],
-                ),
+                ) else if (applySafeAreaSpace) kToolbarHeight.height,
               Expanded(
                 child: child,
               ),

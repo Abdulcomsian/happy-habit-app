@@ -26,7 +26,9 @@ dependencies:
   hive_flutter: ^1.1.0
   path_provider: ^2.1.5
   pinput: ^5.0.0
-  flutter_calendar_carousel: ^2.4.4
+  table_calendar: ^3.2.0
+  syncfusion_flutter_datepicker: ^28.1.39
+  syncfusion_flutter_charts: ^28.1.39
 
 dev_dependencies:
   flutter_test:
@@ -47,6 +49,7 @@ flutter:
     - assets/dummy/
     - assets/brand/
     - assets/backgrounds/
+    - assets/achievements/
 
     # for app environment
     - .env.production

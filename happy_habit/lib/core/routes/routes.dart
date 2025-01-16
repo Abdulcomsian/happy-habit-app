@@ -9,6 +9,7 @@ import 'package:happy_habit/modules/navigation/navigation_screen.dart';
 import 'package:happy_habit/modules/onboarding/onboarding_screen.dart';
 import 'package:happy_habit/modules/social/screens/social_screen.dart';
 
+import '../../modules/achievements/screens/achievements_screen.dart';
 import '../../modules/activity/screens/activity_result_screen.dart';
 import '../../modules/activity/screens/activity_session_screen.dart';
 import '../../modules/auth/screens/forgot_password_screen.dart';
@@ -21,6 +22,9 @@ import '../../modules/profile/screens/help_center_screen.dart';
 import '../../modules/profile/screens/notifications_screen.dart';
 import '../../modules/profile/screens/profile_screen.dart';
 import '../../modules/profile/screens/setting_screen.dart';
+import '../../modules/profile/screens/streak_screen.dart';
+import '../../modules/progress/screens/progress_tracking_screen.dart';
+import '../../modules/store/screens/store_screen.dart';
 
 class Routes {
   static final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -72,6 +76,21 @@ class Routes {
           return null;
         },
         routes: [
+          // GoRoute(
+          //   path: ProgressTrackingScreen.id,
+          //   name: ProgressTrackingScreen.id,
+          //   builder: (context, state) => const ProgressTrackingScreen(),
+          // ),
+          GoRoute(
+            path: AchievementsScreen.id,
+            name: AchievementsScreen.id,
+            builder: (context, state) => const AchievementsScreen(),
+          ),
+          GoRoute(
+            path: StoreScreen.id,
+            name: StoreScreen.id,
+            builder: (context, state) => const StoreScreen(),
+          ),
           GoRoute(
             path: ActivitySessionScreen.id,
             name: ActivitySessionScreen.id,
@@ -115,6 +134,11 @@ class Routes {
                     path: HelpCenterScreen.id,
                     name: HelpCenterScreen.id,
                     builder: (context, state) => const HelpCenterScreen(),
+                  ),
+                  GoRoute(
+                    path: StreakScreen.id,
+                    name: StreakScreen.id,
+                    builder: (context, state) => const StreakScreen(),
                   ),
                 ],
               ),

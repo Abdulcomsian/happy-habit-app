@@ -48,11 +48,14 @@ class NavigationProvider extends ChangeNotifier {
   }
 
   Future<void> storeIsFirstLaunch() async {
-    await _hiveDBService.storeData(
-      object: false,
-      boxKey: HiveConstants.kAppSettings,
-      valueKey: HiveConstants.kIsFirstLaunch,
-    );
-    Logger.logInfo('kIsFirstLaunch stored as: ');
+    if (_isFirstLaunch) {
+      await _hiveDBService.storeData(
+        object: false,
+        boxKey: HiveConstants.kAppSettings,
+        valueKey: HiveConstants.kIsFirstLaunch,
+      );
+      Logger.logInfo('kIsFirstLaunch stored as: ');
+    }
+    _isFirstLaunch = false;
   }
 }
