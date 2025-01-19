@@ -4,7 +4,7 @@ import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/shared/widgets/root_screen.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 
-import '../../../core/constants/assets_path.dart';
+import '../../../core/constants/asset_paths.dart';
 import '../../../core/shared/widgets/custom_upgrade_widget.dart';
 
 class StoreScreen extends StatelessWidget {

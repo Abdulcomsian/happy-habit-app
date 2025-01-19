@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:happy_habit/core/extensions/duration_extensions.dart';
+import 'package:happy_habit/core/extensions/string_extensions.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -54,7 +55,7 @@ class ProgressTrackingGraph extends StatelessWidget {
                 SizedBox(
                   width: 0.3.sw,
                   child: Text(
-                    data[i].title,
+                    data[i].title.capitalize(),
                     style: context.bodyMedium?.copyWith(
                       color: Colors.black,
                       fontWeight: FontWeight.w500,

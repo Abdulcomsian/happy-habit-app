@@ -66,6 +66,7 @@ class InviteFriendCard extends StatelessWidget {
                     style: context.bodyMedium?.copyWith(
                       color: ThemeColor.primary,
                       fontWeight: FontWeight.w500,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ),

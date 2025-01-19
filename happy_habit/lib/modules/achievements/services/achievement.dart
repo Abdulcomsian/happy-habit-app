@@ -1,4 +1,4 @@
-import '../../../core/constants/assets_path.dart';
+import '../../../core/constants/asset_paths.dart';
 
 class Achievement {
   final int score;

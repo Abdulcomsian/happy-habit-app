@@ -10,7 +10,7 @@ import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/auth/screens/welcome_screen.dart';
 import 'package:happy_habit/modules/onboarding/onboarding_meta_model.dart';
 
-import '../../core/constants/assets_path.dart';
+import '../../core/constants/asset_paths.dart';
 
 class OnboardingScreen extends StatefulWidget {
   static const id = '/OnboardingScreen';

@@ -29,6 +29,9 @@ dependencies:
   table_calendar: ^3.2.0
   syncfusion_flutter_datepicker: ^28.1.39
   syncfusion_flutter_charts: ^28.1.39
+  firebase_core: ^3.10.0
+  firebase_auth: ^5.4.0
+  firebase_remote_config: ^5.3.0
 
 dev_dependencies:
   flutter_test:
@@ -50,6 +53,18 @@ flutter:
     - assets/brand/
     - assets/backgrounds/
     - assets/achievements/
+
+    # for avatars
+    - assets/avatar/
+    - assets/avatar/male/
+    - assets/avatar/glasses/
+    - assets/avatar/male/tops/
+    - assets/avatar/male/hairs/
+    - assets/avatar/male/accessories/
+    - assets/avatar/female/
+    - assets/avatar/female/tops/
+    - assets/avatar/female/hairs/
+    - assets/avatar/female/accessories/
 
     # for app environment
     - .env.production

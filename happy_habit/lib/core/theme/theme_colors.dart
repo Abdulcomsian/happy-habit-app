@@ -44,3 +44,33 @@ class ThemeColor {
     ],
   );
 }
+
+class AvatarColors {
+  static const List<String> colors = [
+    '#2D2317',
+    '#2D2017',
+    '#2D1918',
+    '#E3C088',
+    '#E3B788',
+    '#F2E1C3',
+    '#573823',
+    '#552D25',
+    '#E1A895',
+    '#EDC399',
+    '#F4DEC5',
+    '#72593B',
+    '#79563A',
+    '#74453B',
+    '#EBBAA7',
+    '#F3DCBC',
+    '#F1D6BB',
+    '#886E49',
+    '#8A6646',
+    '#8C5F4C',
+    '#F2CFBB',
+    '#A98A5C',
+    '#A8805D',
+    '#A27162',
+    '#FAE3DD',
+  ];
+}

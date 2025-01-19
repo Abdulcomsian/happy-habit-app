@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:happy_habit/core/constants/assets_path.dart';
+import 'package:happy_habit/core/constants/asset_paths.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/modules/profile/shared/streak_calendar.dart';
 

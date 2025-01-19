@@ -9,7 +9,7 @@ import 'package:happy_habit/core/shared/widgets/root_screen.dart';
 import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 
-import '../../../core/constants/assets_path.dart';
+import '../../../core/constants/asset_paths.dart';
 import '../../../core/theme/theme_colors.dart';
 
 class HelpCenterScreen extends StatelessWidget {

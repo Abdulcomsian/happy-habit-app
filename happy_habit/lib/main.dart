@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
-import 'core/environment/config.dart';
+import 'core/environment/environment_config.dart';
 import 'core/services/providers.dart';
-import 'main_serviecs.dart';
+import 'main_services.dart';
 import 'my_app.dart';
 
 Future<void> main() async {
@@ -16,8 +16,9 @@ Future<void> main() async {
   String fileName = await environment.getFileNameFromEnvironment();
 
   await Future.wait<dynamic>([
-    dotenv.load(fileName: fileName),
     MainServices.setUpHive(),
+    dotenv.load(fileName: fileName),
+    MainServices.initializeFirebase(),
   ]);
 
 

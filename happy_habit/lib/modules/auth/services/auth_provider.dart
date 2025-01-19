@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/hive/hive_constants.dart';
 import '../../../core/hive/hive_db_service.dart';
+import 'app_user.dart';
 import 'auth_token.dart';
 
 class AuthProvider extends ChangeNotifier {
@@ -16,6 +17,9 @@ class AuthProvider extends ChangeNotifier {
 
   AuthToken? get authToken => _authToken;
   AuthToken? _authToken;
+
+  AppUser? get appUser => _appUser;
+  AppUser? _appUser;
 
   /// checks if [AuthToken] exists in Hive
   Future<bool> isUserLoggedIn() async {
@@ -45,6 +49,19 @@ class AuthProvider extends ChangeNotifier {
         valueKey: HiveConstants.kAuthToken,
       );
     }
+  }
+
+  Future<bool> setProfile(String avatar) async {
+    _appUser = AppUser(
+      id: 0,
+      name: 'name',
+      email: 'email',
+      avatar: avatar,
+      username: 'username',
+      imageUrl: 'imageUrl',
+    );
+    await Future.delayed(Duration(milliseconds: 300));
+    return true;
   }
 
   Future<bool> generateOTP(String email) async {

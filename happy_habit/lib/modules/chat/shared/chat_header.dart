@@ -18,8 +18,9 @@ class ChatHeader extends StatelessWidget implements PreferredSize {
       leading: Center(
         child: TapWidget(
           radius: 100,
-          color: ThemeColor.primary.withValues(alpha: 0.2),
           padding: EdgeInsets.all(5.r),
+          onTap: () => Navigator.pop(context),
+          color: ThemeColor.primary.withValues(alpha: 0.2),
           child: Icon(
             size: 18.r,
             Icons.arrow_back,

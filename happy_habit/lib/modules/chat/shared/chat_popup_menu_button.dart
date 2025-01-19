@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:happy_habit/core/constants/assets_path.dart';
+import 'package:happy_habit/core/constants/asset_paths.dart';
 import 'package:happy_habit/core/shared/widgets/svg_Icon.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 

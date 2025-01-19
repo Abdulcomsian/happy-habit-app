@@ -8,7 +8,7 @@ import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/profile/screens/setting_screen.dart';
 
-import '../../../core/constants/assets_path.dart';
+import '../../../core/constants/asset_paths.dart';
 
 class ProfileHeader extends StatelessWidget {
   final bool isAppUser;

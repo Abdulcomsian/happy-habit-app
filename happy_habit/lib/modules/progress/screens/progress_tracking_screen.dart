@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:happy_habit/core/constants/assets_path.dart';
+import 'package:happy_habit/core/constants/asset_paths.dart';
 import 'package:happy_habit/core/extensions/duration_extensions.dart';
 import 'package:happy_habit/core/extensions/int_extensions.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
@@ -143,6 +143,7 @@ class StatsTile extends StatelessWidget {
             style: context.bodyLarge?.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.w700,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
           Row(

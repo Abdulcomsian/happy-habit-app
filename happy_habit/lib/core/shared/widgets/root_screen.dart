@@ -4,12 +4,13 @@ import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/shared/widgets/custom_back_button.dart';
 import 'package:happy_habit/core/shared/widgets/fullscreen_.dart';
 
-import '../../constants/assets_path.dart';
+import '../../constants/asset_paths.dart';
 
 class RootScreen extends StatelessWidget {
   final Widget child;
   final String? title;
   final bool hideHeader;
+  final VoidCallback? onPop;
   final Color? backgroundColor;
   final ValueNotifier isLoading;
   final bool applySafeAreaSpace;
@@ -22,6 +23,7 @@ class RootScreen extends StatelessWidget {
   RootScreen({
     super.key,
     this.title,
+    this.onPop,
     this.action,
     this.leading,
     // this.padding,
@@ -58,7 +60,9 @@ class RootScreen extends StatelessWidget {
                   title: Text(title ?? ''),
                   leading: Padding(
                     padding: EdgeInsets.only(left: 18.w),
-                    child: leading ?? CustomBackButton(),
+                    child: leading ?? CustomBackButton(
+                      onPressed: onPop,
+                    ),
                   ),
                   actions: [action ?? SizedBox.shrink(), 20.width],
                 ) else if (applySafeAreaSpace) kToolbarHeight.height,

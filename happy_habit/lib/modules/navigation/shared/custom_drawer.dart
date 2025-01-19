@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:happy_habit/core/constants/assets_path.dart';
+import 'package:happy_habit/core/constants/asset_paths.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/shared/widgets/svg_Icon.dart';
 import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
@@ -52,14 +52,14 @@ class CustomDrawer extends StatelessWidget {
               onTap: () => context.pushNamed(SocialScreen.id),
             ),
             DrawerItem(
+              onTap: () {},
               label: 'Character',
               svg: AppIcons.editUser,
-              onTap: () => context.pushNamed(SocialScreen.id),
             ),
             DrawerItem(
+              onTap: () {},
               label: 'Wallpapers',
               svg: AppIcons.brush,
-              onTap: () => context.pushNamed(SocialScreen.id),
             ),
             DrawerItem(
               label: 'Stores',

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "918628462167",
+    "project_id": "happy-habits-b9b4d",
+    "storage_bucket": "happy-habits-b9b4d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:918628462167:android:76007b7b7315f38d023d12",
+        "android_client_info": {
+          "package_name": "com.happyHabit.android.stg"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTKZILkYDAi7CG_ii0WEbI5BcdExwsLI4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

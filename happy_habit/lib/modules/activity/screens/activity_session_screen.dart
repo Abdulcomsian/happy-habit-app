@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:happy_habit/core/constants/assets_path.dart';
+import 'package:happy_habit/core/constants/asset_paths.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/shared/widgets/custom_icon_button.dart';
 import 'package:happy_habit/core/shared/widgets/root_screen.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/activity/shared/custom_slider.dart';
+import 'package:happy_habit/modules/activity/shared/give_up_popup.dart';
 
 import 'activity_result_screen.dart';
 
@@ -43,7 +44,7 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
       if (_remainingDuration.value.inSeconds > 0) {
         _remainingDuration.value -= Duration(seconds: 1);
       } else {
-        timer.cancel();
+        _closeTimer();
       }
     }
   }
@@ -77,90 +78,95 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
 
   @override
   Widget build(BuildContext context) {
-    return RootScreen(
-      title: 'Focus Timer',
-      action: SvgPicture.asset(AppIcons.headphones),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 28.h),
-        child: ValueListenableBuilder(
-          valueListenable: _remainingDuration,
-          builder: (context, duration, _) {
-            double percentage = duration.inSeconds / widget.duration.inSeconds;
-
-            return Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GradientSlider(
-                      percentage: percentage,
-                    ),
-                    Text(
-                      '${(percentage * 100).toStringAsFixed(2)}%',
-                      style: context.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-                10.height,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CustomIconButton(
-                      onTap: _closeTimer,
-                      svg: AppIcons.closeCircle,
-                    ),
-                    ValueListenableBuilder(
-                      valueListenable: _isPaused,
-                      builder: (context, isPaused, _) {
-                        return CustomIconButton(
-                          // onTap: isPaused ? _playTimer : _pauseTimer,
-                          onTap: () => _isPaused.value = !_isPaused.value,
-                          svg: isPaused ? AppIcons.play : AppIcons.pause,
-                        );
-                      },
-                    ),
-                  ],
-                )
-              ],
-            );
-          },
-        ),
-      ),
-      child: Column(
-        children: [
-          10.height,
-          AspectRatio(
-            aspectRatio: 1.sw / 399.h,
-            child: Image.asset(
-              DummyIcons.activity,
-              fit: BoxFit.cover,
-            ),
-          ),
-          44.height,
-          Divider(color: ThemeColor.hint, indent: 80.w, endIndent: 80.w),
-          10.height,
-          ValueListenableBuilder(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: _giveUpPopup,
+      child: RootScreen(
+        title: 'Focus Timer',
+        onPop: _giveUpPopup,
+        action: SvgPicture.asset(AppIcons.headphones),
+        bottomNavigationBar: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 28.h),
+          child: ValueListenableBuilder(
             valueListenable: _remainingDuration,
             builder: (context, duration, _) {
-              String hours = duration.inHours.toString().padLeft(2, '0');
-              String minutes = (duration.inMinutes % 60).toString().padLeft(2, '0');
-              String seconds = (duration.inSeconds % 60).toString().padLeft(2, '0');
+              double percentage = duration.inSeconds / widget.duration.inSeconds;
 
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              return Column(
                 children: [
-                  _buildTimer(hours, 'hours'),
-                  _buildTimer(minutes, 'minutes'),
-                  _buildTimer(seconds, 'seconds'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GradientSlider(
+                        percentage: percentage,
+                      ),
+                      Text(
+                        '${(percentage * 100).toStringAsFixed(2)}%',
+                        style: context.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                  10.height,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomIconButton(
+                        onTap: _giveUpPopup,
+                        svg: AppIcons.closeCircle,
+                      ),
+                      ValueListenableBuilder(
+                        valueListenable: _isPaused,
+                        builder: (context, isPaused, _) {
+                          return CustomIconButton(
+                            // onTap: isPaused ? _playTimer : _pauseTimer,
+                            onTap: () => _isPaused.value = !_isPaused.value,
+                            svg: isPaused ? AppIcons.play : AppIcons.pause,
+                          );
+                        },
+                      ),
+                    ],
+                  )
                 ],
               );
             },
           ),
-          10.height,
-          Divider(color: ThemeColor.hint, indent: 80.w, endIndent: 80.w),
-        ],
+        ),
+        child: Column(
+          children: [
+            10.height,
+            AspectRatio(
+              aspectRatio: 1.sw / 399.h,
+              child: Image.asset(
+                DummyIcons.activity,
+                fit: BoxFit.cover,
+              ),
+            ),
+            44.height,
+            Divider(color: ThemeColor.hint, indent: 80.w, endIndent: 80.w),
+            10.height,
+            ValueListenableBuilder(
+              valueListenable: _remainingDuration,
+              builder: (context, duration, _) {
+                String hours = duration.inHours.toString().padLeft(2, '0');
+                String minutes = (duration.inMinutes % 60).toString().padLeft(2, '0');
+                String seconds = (duration.inSeconds % 60).toString().padLeft(2, '0');
+
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _buildTimer(hours, 'hours'),
+                    _buildTimer(minutes, 'minutes'),
+                    _buildTimer(seconds, 'seconds'),
+                  ],
+                );
+              },
+            ),
+            10.height,
+            Divider(color: ThemeColor.hint, indent: 80.w, endIndent: 80.w),
+          ],
+        ),
       ),
     );
   }
@@ -186,5 +192,17 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
   void _closeTimer() {
     _timer.cancel();
     context.pushReplacementNamed(ActivityResultScreen.id);
+  }
+
+  Future<void> _giveUpPopup([didPop, result]) async {
+    final response = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => GiveUpPopup(),
+    );
+
+    if (response == true && mounted) {
+      Navigator.pop(context);
+    }
   }
 }

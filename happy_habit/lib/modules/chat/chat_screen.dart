@@ -5,7 +5,7 @@ import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/modules/chat/shared/chat_header.dart';
 
-import '../../core/constants/assets_path.dart';
+import '../../core/constants/asset_paths.dart';
 import 'services/chat_message.dart';
 import 'shared/chat_bubble.dart';
 import 'shared/chat_field.dart';

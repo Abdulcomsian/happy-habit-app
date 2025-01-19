@@ -13,9 +13,11 @@ import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/activity/shared/activity_selection_popup.dart';
 
-import '../../../core/constants/assets_path.dart';
+import '../../../core/constants/asset_paths.dart';
+import '../../../core/services/providers.dart';
 import '../../../core/shared/widgets/custom_duration_picker.dart';
 import '../../../core/shared/widgets/root_screen.dart';
+import '../../navigation/navigation_provider.dart';
 import '../shared/start_button.dart';
 import 'activity_session_screen.dart';
 
@@ -49,6 +51,7 @@ class _ActivitySetupScreenState extends State<ActivitySetupScreen> {
   @override
   Widget build(BuildContext context) {
     return RootScreen(
+      onPop: () => serviceLocator<NavigationProvider>().changeIndex(2),
       bottomNavigationBar: Padding(
         padding: EdgeInsets.only(bottom: 40.h),
         child: Row(

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:happy_habit/core/routes/route_helper.dart';
 import 'package:happy_habit/modules/auth/screens/login_screen.dart';
 import 'package:happy_habit/modules/auth/screens/welcome_screen.dart';
-import 'package:happy_habit/modules/home/home_screen.dart';
 import 'package:happy_habit/modules/navigation/navigation_screen.dart';
 import 'package:happy_habit/modules/onboarding/onboarding_screen.dart';
 import 'package:happy_habit/modules/social/screens/social_screen.dart';
@@ -23,7 +21,11 @@ import '../../modules/profile/screens/notifications_screen.dart';
 import '../../modules/profile/screens/profile_screen.dart';
 import '../../modules/profile/screens/setting_screen.dart';
 import '../../modules/profile/screens/streak_screen.dart';
-import '../../modules/progress/screens/progress_tracking_screen.dart';
+import '../../modules/profile_setup/screens/avatar_confirmation_screen.dart';
+import '../../modules/profile_setup/screens/avatar_selection_screen.dart';
+import '../../modules/profile_setup/screens/edit_avatar_screen.dart';
+import '../../modules/profile_setup/screens/goals_setup_screen.dart';
+import '../../modules/profile_setup/screens/username_screen.dart';
 import '../../modules/store/screens/store_screen.dart';
 
 class Routes {
@@ -31,8 +33,8 @@ class Routes {
 
   static final GoRouter routers = GoRouter(
     navigatorKey: rootNavigatorKey,
-    // initialLocation: OnboardingScreen.id,
-    initialLocation: NavigationScreen.id,
+    initialLocation: OnboardingScreen.id,
+    // initialLocation: NavigationScreen.id,
     routes: [
       GoRoute(
         path: OnboardingScreen.id,
@@ -68,13 +70,47 @@ class Routes {
         builder: (context, state) => const SignInScreen(),
       ),
       GoRoute(
+        path: UsernameScreen.id,
+        name: UsernameScreen.id,
+        builder: (context, state) => const UsernameScreen(),
+        routes: [
+          GoRoute(
+            path: GoalsSetupScreen.id,
+            name: GoalsSetupScreen.id,
+            builder: (context, state) => const GoalsSetupScreen(),
+            routes: [
+              GoRoute(
+                path: AvatarSelectionScreen.id,
+                name: AvatarSelectionScreen.id,
+                builder: (context, state) => const AvatarSelectionScreen(),
+                routes: [
+                  GoRoute(
+                    path: EditAvatarScreen.id,
+                    name: EditAvatarScreen.id,
+                    builder: (context, state) => EditAvatarScreen(
+                      avatar: state.asMap['avatar'],
+                    ),
+                    routes: [
+                      GoRoute(
+                        path: AvatarConfirmationScreen.id,
+                        name: AvatarConfirmationScreen.id,
+                        builder: (context, state) => AvatarConfirmationScreen(
+                          avatar: state.asMap['avatar'],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+      GoRoute(
         path: NavigationScreen.id,
         name: NavigationScreen.id,
+        redirect: RouteHelper.navigationRedirection,
         builder: (context, state) => NavigationScreen(),
-        redirect: (context, state) {
-          FlutterNativeSplash.remove();
-          return null;
-        },
         routes: [
           // GoRoute(
           //   path: ProgressTrackingScreen.id,

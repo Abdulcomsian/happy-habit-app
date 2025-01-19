@@ -4,7 +4,7 @@ import 'package:happy_habit/core/extensions/build_context_extensions.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/modules/auth/screens/login_screen.dart';
 
-import '../../../core/constants/assets_path.dart';
+import '../../../core/constants/asset_paths.dart';
 import '../../../core/services/validators.dart';
 import '../../../core/shared/modals/custom_dialog.dart';
 import '../../../core/shared/widgets/custom_button.dart';

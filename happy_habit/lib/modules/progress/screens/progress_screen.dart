@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:happy_habit/core/constants/assets_path.dart';
+import 'package:happy_habit/core/constants/asset_paths.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
+import 'package:happy_habit/core/services/providers.dart';
 import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
 import 'package:happy_habit/core/shared/widgets/user_score_widgets.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
+import 'package:happy_habit/modules/auth/services/auth_provider.dart';
+import 'package:happy_habit/modules/navigation/navigation_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/shared/widgets/custom_outlined_button.dart';
 
@@ -33,20 +37,23 @@ class ProgressScreen extends StatelessWidget {
             height: 1.sh,
             child: Column(
               children: [
-                Image.asset(
-                  DummyIcons.avatar,
-                  width: 198.w,
-                  height: 594.h,
-                  fit: BoxFit.cover,
+                Consumer<AuthProvider>(
+                  builder: (context, prov, _) {
+                    return Image.asset(
+                      width: 198.w,
+                      height: 594.h,
+                      fit: BoxFit.cover,
+                      prov.appUser?.avatar ?? DummyIcons.male,
+                    );
+                  },
                 ),
                 30.height,
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: CustomOutlinedButton(
-                    onPressed: () {},
-                    // onPressed: () => context.pushNamed(ProgressTrackingScreen.id),
                     label: 'Progress Tracking',
                     foregroundColor: ThemeColor.fontBlack,
+                    onPressed: () => serviceLocator<NavigationProvider>().changeIndex(1),
                   ),
                 )
               ],

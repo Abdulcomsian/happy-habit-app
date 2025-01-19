@@ -14,7 +14,7 @@ import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/auth/screens/login_screen.dart';
 import 'package:happy_habit/modules/auth/shared/verify_otp_bottom_sheet.dart';
 
-import '../../../core/constants/assets_path.dart';
+import '../../../core/constants/asset_paths.dart';
 import '../../../core/shared/modals/custom_dialog.dart';
 
 class SignInScreen extends StatefulWidget {

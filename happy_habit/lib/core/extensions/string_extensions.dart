@@ -1,3 +1,5 @@
+import 'package:path/path.dart';
+
 /// Capitalizing each word of a sentence or just the first word.
 extension Capitalize on String {
   /// Capitalizes the string based on the [capitalizeAllWords] flag.
@@ -22,5 +24,11 @@ extension Capitalize on String {
       // Capitalize only the first letter of the sentence.
       return cleanedString[0].toUpperCase() + cleanedString.substring(1).toLowerCase();
     }
+  }
+}
+
+extension Basename on String {
+  String basenameWithoutExtension() {
+    return basename(this).replaceAll(RegExp(r'\.svg$'), ''); // Remove file extension
   }
 }
