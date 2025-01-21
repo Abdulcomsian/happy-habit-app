@@ -18,9 +18,8 @@ Future<void> main() async {
   await Future.wait<dynamic>([
     MainServices.setUpHive(),
     dotenv.load(fileName: fileName),
-    MainServices.initializeFirebase(),
+    // MainServices.initializeFirebase(),
   ]);
-
 
   setupLocator();
   // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top]);
