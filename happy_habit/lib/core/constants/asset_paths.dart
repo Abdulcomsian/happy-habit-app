@@ -60,6 +60,7 @@ class AppIcons {
   static const play = 'assets/icons/play.svg';
   static const pause = 'assets/icons/pause.svg';
   static const doubleCheck = 'assets/icons/double-check.svg';
+  static const purchaseSuccess = 'assets/icons/purchase-success.svg';
 }
 
 class AppAssets {
@@ -69,6 +70,9 @@ class AppAssets {
 
 class DummyIcons {
   static const man = 'assets/dummy/man.png';
+  static const suit = 'assets/dummy/suit.png';
+  static const glasses = 'assets/dummy/glasses.png';
+  static const wallpaper = 'assets/dummy/wallpaper.png';
   static const male = 'assets/dummy/male.webp';
   static const female = 'assets/dummy/female.webp';
   static const activity = 'assets/dummy/activity.webp';

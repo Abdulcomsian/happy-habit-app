@@ -59,13 +59,13 @@ class _ActivitySetupScreenState extends State<ActivitySetupScreen> {
           children: [
             StartButton(
               onTap: () {
-                if (_duration.value.inSeconds >= 900) {
+                // if (_duration.value.inSeconds >= 900) {
                   context.pushNamed(ActivitySessionScreen.id, extra: {
                     'duration': _duration.value,
                   });
-                } else {
-                  AppToast.show('Activity session duration should be greater than 15 minutes');
-                }
+                // } else {
+                //   AppToast.show('Activity session duration should be greater than 15 minutes');
+                // }
               },
             ),
           ],

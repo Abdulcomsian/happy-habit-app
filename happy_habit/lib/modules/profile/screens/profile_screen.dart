@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -9,6 +10,7 @@ import 'package:happy_habit/modules/profile/shared/friends_content.dart';
 import 'package:happy_habit/modules/profile/shared/goals_content.dart';
 import 'package:happy_habit/modules/profile/shared/invite_friend_card.dart';
 import 'package:happy_habit/modules/profile/shared/leaderboard_content.dart';
+import 'package:happy_habit/modules/profile/shared/profile_tab_bar.dart';
 
 import '../../../core/shared/widgets/fixed_header_delegate.dart';
 import '../../../core/theme/theme_colors.dart';
@@ -82,19 +84,29 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
               sliver: InviteFriendCard().sliver(),
             ),
             FixedDelegate(
-              child: TabBar(
-                labelPadding: EdgeInsets.zero,
-                indicatorPadding: EdgeInsets.zero,
-                onTap: (value) => _currentIndex.value = value,
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                tabs: [
-                  Tab(text: 'Activity'),
-                  Tab(text: 'Goals'),
-                  Tab(text: 'Friends'),
-                  Tab(text: 'Leaderboard'),
-                ],
+              child: ProfileTabBar(
+                currentIndex: _currentIndex,
               ),
             ),
+            // FixedDelegate(
+            //   child: TabBar(
+            //     // labelPadding: EdgeInsets.zero,
+            //     labelPadding: EdgeInsets.only(right: 20.w),
+            //     indicatorPadding: EdgeInsets.zero,
+            //     isScrollable: true,
+            //     onTap: (value) => _currentIndex.value = value,
+            //     padding: EdgeInsets.symmetric(horizontal: 20.w),
+            //     tabAlignment: TabAlignment.start,
+            //     dragStartBehavior: DragStartBehavior.down,
+            //     indicatorSize: TabBarIndicatorSize.tab,
+            //     tabs: [
+            //       Tab(text: 'Activity'),
+            //       Tab(text: 'Goals'),
+            //       Tab(text: 'Friends'),
+            //       Tab(text: 'Leaderboard'),
+            //     ],
+            //   ),
+            // ),
             10.height.sliver(),
             ValueListenableBuilder(
               valueListenable: _currentIndex,

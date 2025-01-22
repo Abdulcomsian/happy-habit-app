@@ -23,8 +23,17 @@ extension FormatedRichText on BuildContext {
     TextStyle? style,
     bool withTag = false,
     VoidCallback? onTap,
+    TextAlign textAlign = TextAlign.start,
   }) =>
-      RichText(text: _formatText(this, text, style: style, withTag: withTag));
+      RichText(
+        textAlign: textAlign,
+        text: _formatText(
+          this,
+          text,
+          style: style,
+          withTag: withTag,
+        ),
+      );
 
   TextSpan _formatText(
     BuildContext context,
@@ -78,13 +87,6 @@ extension FormatedRichText on BuildContext {
             ),
           ),
         );
-        // wrappedTextSpan = TextSpan(
-        //   text: match.group(1), // The text between the asterisks
-        //   style: (style ?? context.bodyMedium)?.copyWith(
-        //     color: ThemeColor.primary,
-        //     fontWeight: FontWeight.bold,
-        //   ),
-        // );
       }
 
       spans.add(wrappedTextSpan);

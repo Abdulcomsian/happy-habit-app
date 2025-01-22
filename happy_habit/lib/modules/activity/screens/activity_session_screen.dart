@@ -191,7 +191,9 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
 
   void _closeTimer() {
     _timer.cancel();
-    context.pushReplacementNamed(ActivityResultScreen.id);
+    context.pushReplacementNamed(ActivityResultScreen.id, extra: {
+      'duration': widget.duration,
+    });
   }
 
   Future<void> _giveUpPopup([didPop, result]) async {

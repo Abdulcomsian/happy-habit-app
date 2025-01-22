@@ -40,7 +40,7 @@ extension TypographyUtils on BuildContext {
 
   TextStyle? get titleLarge => textTheme.titleLarge?.copyWith(
         fontSize: 20.sp,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w700,
       );
 
   TextStyle? get titleMedium => textTheme.titleMedium?.copyWith(

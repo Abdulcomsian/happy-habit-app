@@ -26,6 +26,8 @@ import '../../modules/profile_setup/screens/avatar_selection_screen.dart';
 import '../../modules/profile_setup/screens/edit_avatar_screen.dart';
 import '../../modules/profile_setup/screens/goals_setup_screen.dart';
 import '../../modules/profile_setup/screens/username_screen.dart';
+import '../../modules/store/screens/cart_screen.dart';
+import '../../modules/store/screens/purchase_confirmation_screen.dart';
 import '../../modules/store/screens/store_screen.dart';
 
 class Routes {
@@ -33,8 +35,8 @@ class Routes {
 
   static final GoRouter routers = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: OnboardingScreen.id,
-    // initialLocation: NavigationScreen.id,
+    // initialLocation: OnboardingScreen.id,
+    initialLocation: NavigationScreen.id,
     routes: [
       GoRoute(
         path: OnboardingScreen.id,
@@ -126,6 +128,24 @@ class Routes {
             path: StoreScreen.id,
             name: StoreScreen.id,
             builder: (context, state) => const StoreScreen(),
+            routes: [
+              GoRoute(
+                path: CartScreen.id,
+                name: CartScreen.id,
+                builder: (context, state) => CartScreen(
+                  item: state.asMap['item'],
+                  // items: state.asMap['items'],
+                  // packs: state.asMap['packs'],
+                ),
+                routes: [
+                  GoRoute(
+                    path: PurchaseConfirmationScreen.id,
+                    name: PurchaseConfirmationScreen.id,
+                    builder: (context, state) => const PurchaseConfirmationScreen(),
+                  ),
+                ],
+              ),
+            ],
           ),
           GoRoute(
             path: ActivitySessionScreen.id,
@@ -137,7 +157,9 @@ class Routes {
               GoRoute(
                 path: ActivityResultScreen.id,
                 name: ActivityResultScreen.id,
-                builder: (context, state) => const ActivityResultScreen(),
+                builder: (context, state) => ActivityResultScreen(
+                  duration: state.asMap['duration'],
+                ),
               ),
             ],
           ),

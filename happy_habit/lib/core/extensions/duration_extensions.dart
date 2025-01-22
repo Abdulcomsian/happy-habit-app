@@ -1,3 +1,7 @@
+import 'package:flutter/cupertino.dart';
+import 'package:happy_habit/core/extensions/widget_extensions.dart';
+import 'package:happy_habit/core/theme/typography.dart';
+
 extension DurationFormatting on Duration {
   String toFormattedString({String symbol = 'h', bool includeSeconds = false}) {
     int hours = inHours;
@@ -16,5 +20,58 @@ extension DurationFormatting on Duration {
       // Otherwise, format as hh:mm h
       return '$formattedHours:$formattedMinutes $symbol';
     }
+  }
+
+  Widget toWidget(BuildContext context) {
+    String hours = inHours.toString().padLeft(2, '0');
+    String minutes = (inMinutes % 60).toString().padLeft(2, '0');
+    String seconds = (inSeconds % 60).toString().padLeft(2, '0');
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Column(
+          children: [
+            Text(
+              hours,
+              style: context.titleLarge,
+            ),
+            7.5.height,
+            Text(
+              'Hours',
+              style: context.bodySmall?.copyWith(fontWeight: FontWeight.w600),
+            ),
+          ],
+        ),
+        24.width,
+        Column(
+          children: [
+            Text(
+              minutes,
+              style: context.titleLarge,
+            ),
+            7.5.height,
+            Text(
+              'Minutes',
+              style: context.bodySmall?.copyWith(fontWeight: FontWeight.w600),
+            ),
+          ],
+        ),
+        24.width,
+        Column(
+          children: [
+            Text(
+              seconds,
+              style: context.titleLarge,
+            ),
+            7.5.height,
+            Text(
+              'Seconds',
+              style: context.bodySmall?.copyWith(fontWeight: FontWeight.w600),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }
