@@ -35,8 +35,8 @@ class Routes {
 
   static final GoRouter routers = GoRouter(
     navigatorKey: rootNavigatorKey,
-    // initialLocation: OnboardingScreen.id,
-    initialLocation: NavigationScreen.id,
+    initialLocation: OnboardingScreen.id,
+    // initialLocation: NavigationScreen.id,
     routes: [
       GoRoute(
         path: OnboardingScreen.id,

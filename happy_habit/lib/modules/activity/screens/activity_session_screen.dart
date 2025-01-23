@@ -8,11 +8,13 @@ import 'package:happy_habit/core/constants/asset_paths.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/shared/widgets/custom_icon_button.dart';
 import 'package:happy_habit/core/shared/widgets/root_screen.dart';
+import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/activity/shared/custom_slider.dart';
 import 'package:happy_habit/modules/activity/shared/give_up_popup.dart';
 
+import '../shared/music_selection_popup.dart';
 import 'activity_result_screen.dart';
 
 class ActivitySessionScreen extends StatefulWidget {
@@ -84,7 +86,10 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
       child: RootScreen(
         title: 'Focus Timer',
         onPop: _giveUpPopup,
-        action: SvgPicture.asset(AppIcons.headphones),
+        action: TapWidget(
+          onTap: _playMusic,
+          child: SvgPicture.asset(AppIcons.headphones),
+        ),
         bottomNavigationBar: Padding(
           padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 28.h),
           child: ValueListenableBuilder(
@@ -206,5 +211,15 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
     if (response == true && mounted) {
       Navigator.pop(context);
     }
+  }
+
+  Future<void> _playMusic() async {
+    final response = await showDialog<String>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => MusicSelectionPopup(),
+    );
+
+    if (response == '' && mounted) {}
   }
 }

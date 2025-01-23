@@ -33,6 +33,12 @@ class AppIcons {
   static const editUser = 'assets/icons/edit-user.svg';
   static const trophy = 'assets/icons/trophy.svg';
 
+  //drawer screen icons
+  static const music = 'assets/icons/music.svg';
+  static const piano = 'assets/icons/piano.svg';
+  static const flower = 'assets/icons/flower.svg';
+  static const rain = 'assets/icons/rain.svg';
+
   // other
   static const login = 'assets/icons/login.svg';
   static const success = 'assets/icons/success.svg';

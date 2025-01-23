@@ -47,8 +47,8 @@ class RouteHelper {
     if (!isProfileSetup) {
       // If profile is not set up, redirect to the UsernameScreen
       FlutterNativeSplash.remove();
-      // return UsernameScreen.id;
-      return null;
+      return UsernameScreen.id;
+      // return null;
     }
 
     // Remove the native splash screen once profile setup is complete
