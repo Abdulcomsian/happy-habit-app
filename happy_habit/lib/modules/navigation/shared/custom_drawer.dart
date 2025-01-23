@@ -3,13 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:happy_habit/core/constants/asset_paths.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
+import 'package:happy_habit/core/services/providers.dart';
 import 'package:happy_habit/core/shared/widgets/svg_Icon.dart';
 import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
+import 'package:happy_habit/modules/auth/services/auth_provider.dart';
 import 'package:happy_habit/modules/profile/screens/streak_screen.dart';
 
 import '../../achievements/screens/achievements_screen.dart';
+import '../../profile_setup/screens/edit_avatar_screen.dart';
 import '../../social/screens/social_screen.dart';
 import '../../store/screens/store_screen.dart';
 
@@ -52,12 +55,16 @@ class CustomDrawer extends StatelessWidget {
               onTap: () => context.pushNamed(SocialScreen.id),
             ),
             DrawerItem(
-              onTap: () {},
+              onTap: () => context.pushNamed(EditAvatarScreen.id, extra: {
+                'avatar': serviceLocator<AuthProvider>().appUser?.avatar ?? DummyIcons.male,
+              }),
               label: 'Character',
               svg: AppIcons.editUser,
             ),
             DrawerItem(
-              onTap: () {},
+              onTap: () => context.pushNamed(StoreScreen.id, extra: {
+                'shouldScrollToWallpaper': true,
+              }),
               label: 'Wallpapers',
               svg: AppIcons.brush,
             ),

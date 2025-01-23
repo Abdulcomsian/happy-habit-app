@@ -127,7 +127,9 @@ class Routes {
           GoRoute(
             path: StoreScreen.id,
             name: StoreScreen.id,
-            builder: (context, state) => const StoreScreen(),
+            builder: (context, state) => StoreScreen(
+              shouldScrollToWallpaper: state.asMap['shouldScrollToWallpaper'] ?? false,
+            ),
             routes: [
               GoRoute(
                 path: CartScreen.id,

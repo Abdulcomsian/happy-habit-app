@@ -14,15 +14,39 @@ import '../../../core/shared/widgets/custom_upgrade_widget.dart';
 class StoreScreen extends StatefulWidget {
   static const id = 'StoreScreen';
 
-  const StoreScreen({super.key});
+  final bool shouldScrollToWallpaper;
+
+  const StoreScreen({super.key, required this.shouldScrollToWallpaper});
 
   @override
   State<StoreScreen> createState() => _StoreScreenState();
 }
 
 class _StoreScreenState extends State<StoreScreen> {
+  final ScrollController _scrollController = ScrollController();
   final ValueNotifier<List<StoreItem>> _items = ValueNotifier([]);
   final ValueNotifier<List<CoinsPack>> _packs = ValueNotifier([]);
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.shouldScrollToWallpaper) {
+      WidgetsBinding.instance.addPostFrameCallback(_scrollToWallpaper);
+    }
+  }
+
+  // Function to scroll to a specific wallpaper index
+  void _scrollToWallpaper([_]) {
+    // Calculate the position to scroll to
+    double position = 960.h; // Adjust item height if needed
+
+    // Use animateTo to smoothly scroll to the wallpaper
+    _scrollController.animateTo(
+      position,
+      duration: Duration(milliseconds: 500), // Scroll duration
+      curve: Curves.easeInOut, // Scroll curve
+    );
+  }
 
   @override
   void dispose() {
@@ -36,6 +60,7 @@ class _StoreScreenState extends State<StoreScreen> {
     return RootScreen(
       title: 'Store',
       child: ListView(
+        controller: _scrollController,
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         children: [
           20.height,
@@ -44,6 +69,7 @@ class _StoreScreenState extends State<StoreScreen> {
             title: 'Pricing Plan',
             buttonText: 'Upgrade Plan',
             description: 'Lorem ipsum dolor sit amet,',
+            onTap: _scrollToWallpaper,
           ),
           15.height,
           Text(
