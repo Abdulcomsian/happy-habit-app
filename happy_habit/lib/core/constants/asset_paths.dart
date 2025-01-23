@@ -23,6 +23,7 @@ class AppIcons {
   static const workout = 'assets/icons/workout.svg';
   static const focus = 'assets/icons/focus.svg';
   static const dumbbells = 'assets/icons/dumbbells.svg';
+  static const wakeup = 'assets/icons/wakeup.svg';
 
   //drawer screen icons
   static const social = 'assets/icons/social.svg';
@@ -60,6 +61,7 @@ class AppIcons {
   static const play = 'assets/icons/play.svg';
   static const pause = 'assets/icons/pause.svg';
   static const doubleCheck = 'assets/icons/double-check.svg';
+  static const syncWatch = 'assets/icons/sync-watch.webp';
   static const purchaseSuccess = 'assets/icons/purchase-success.svg';
 }
 

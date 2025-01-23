@@ -10,6 +10,7 @@ class ThemeColor {
 
   static const hint = Color(0xFF656464);
   static const border = Color(0xFFE9E9E9);
+  static const skyBlue = Color(0xFF58BFFF);
   static const fontBlack = Color(0xFF4D4D4D);
 
   static const vividGreen = Color(0xff02CE76);
