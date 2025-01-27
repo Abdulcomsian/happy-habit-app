@@ -47,6 +47,7 @@ class Environment {
   }
 
   static String get baseUrl => dotenv.env['BASE_URL'] ?? '';
+  static String get stripeSecret => dotenv.env['STRIPE_SECRET'] ?? '';
 
   static bool get isProduction => _isProduction;
 }

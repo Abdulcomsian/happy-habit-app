@@ -82,7 +82,7 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: _giveUpPopup,
+      onPopInvoked: _giveUpPopup,
       child: RootScreen(
         title: 'Focus Timer',
         onPop: _giveUpPopup,
@@ -202,6 +202,8 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
   }
 
   Future<void> _giveUpPopup([didPop, result]) async {
+    if (didPop == true) return;
+
     final response = await showDialog<bool>(
       context: context,
       barrierDismissible: false,

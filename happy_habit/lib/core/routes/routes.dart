@@ -29,15 +29,31 @@ import '../../modules/profile_setup/screens/username_screen.dart';
 import '../../modules/store/screens/cart_screen.dart';
 import '../../modules/store/screens/purchase_confirmation_screen.dart';
 import '../../modules/store/screens/store_screen.dart';
+import '../../modules/subscription/subscription_screen.dart';
+import '../../modules/transition_screen.dart';
 
 class Routes {
   static final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 
   static final GoRouter routers = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: OnboardingScreen.id,
+    // initialLocation: TransitionScreen.id,
+    // initialLocation: OnboardingScreen.id,
     // initialLocation: NavigationScreen.id,
+    initialLocation: SubscriptionScreen.id,
     routes: [
+      GoRoute(
+        path: TransitionScreen.id,
+        name: TransitionScreen.id,
+        redirect: RouteHelper.unauthorizedRedirection,
+        builder: (context, state) => const TransitionScreen(),
+      ),
+      GoRoute(
+        path: SubscriptionScreen.id,
+        name: SubscriptionScreen.id,
+        redirect: RouteHelper.unauthorizedRedirection,
+        builder: (context, state) => const SubscriptionScreen(),
+      ),
       GoRoute(
         path: OnboardingScreen.id,
         name: OnboardingScreen.id,
