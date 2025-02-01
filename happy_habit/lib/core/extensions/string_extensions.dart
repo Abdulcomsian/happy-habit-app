@@ -29,6 +29,6 @@ extension Capitalize on String {
 
 extension Basename on String {
   String basenameWithoutExtension() {
-    return basename(this).replaceAll(RegExp(r'\.svg$'), ''); // Remove file extension
+    return basename(this).replaceAll(RegExp(r'\.[^.]+$'), '');
   }
 }

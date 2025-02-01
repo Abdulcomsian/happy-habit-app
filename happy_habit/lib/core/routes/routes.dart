@@ -39,8 +39,8 @@ class Routes {
     navigatorKey: rootNavigatorKey,
     // initialLocation: TransitionScreen.id,
     // initialLocation: OnboardingScreen.id,
-    // initialLocation: NavigationScreen.id,
-    initialLocation: SubscriptionScreen.id,
+    initialLocation: NavigationScreen.id,
+    // initialLocation: SubscriptionScreen.id,
     routes: [
       GoRoute(
         path: TransitionScreen.id,
@@ -106,7 +106,7 @@ class Routes {
                     path: EditAvatarScreen.id,
                     name: EditAvatarScreen.id,
                     builder: (context, state) => EditAvatarScreen(
-                      avatar: state.asMap['avatar'],
+                      characterPath: state.asMap['avatar'],
                     ),
                     routes: [
                       GoRoute(

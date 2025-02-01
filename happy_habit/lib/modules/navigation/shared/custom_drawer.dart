@@ -15,6 +15,7 @@ import '../../achievements/screens/achievements_screen.dart';
 import '../../profile_setup/screens/edit_avatar_screen.dart';
 import '../../social/screens/social_screen.dart';
 import '../../store/screens/store_screen.dart';
+import '../../subscription/subscription_screen.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -82,6 +83,12 @@ class CustomDrawer extends StatelessWidget {
               label: 'Achievements',
               svg: AppIcons.trophy,
               onTap: () => context.pushNamed(AchievementsScreen.id),
+            ),
+            // todo: temporary
+            DrawerItem(
+              label: 'Subscription',
+              svg: AppIcons.trophy,
+              onTap: () => context.pushNamed(SubscriptionScreen.id),
             ),
           ],
         ),

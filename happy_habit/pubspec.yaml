@@ -33,6 +33,7 @@ dependencies:
   firebase_auth: ^5.4.0
   firebase_remote_config: ^5.3.0
   rive: ^0.13.20
+  audioplayers: ^6.1.1
 
 dev_dependencies:
   flutter_test:
@@ -52,6 +53,7 @@ flutter:
     - assets/icons/
     - assets/dummy/
     - assets/brand/
+    - assets/musics/
     - assets/backgrounds/
     - assets/achievements/
 
@@ -61,6 +63,7 @@ flutter:
     - assets/avatar/glasses/
     - assets/avatar/male/tops/
     - assets/avatar/male/hairs/
+    - assets/avatar/male/beards/
     - assets/avatar/male/accessories/
     - assets/avatar/female/
     - assets/avatar/female/tops/
@@ -69,6 +72,7 @@ flutter:
 
     # for avatars transitions
     - assets/transitions/
+    - assets/characters/
 
 
     # for app environment

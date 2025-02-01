@@ -3,6 +3,11 @@ class BrandIcons {
 }
 
 
+class AppMusics {
+  static const piano = 'musics/piano.mp3';
+  static const success = 'musics/success.mp3';
+}
+
 class AppIcons {
   // social icons
   static const apple = 'assets/icons/apple.svg';
@@ -68,6 +73,7 @@ class AppIcons {
   static const pause = 'assets/icons/pause.svg';
   static const doubleCheck = 'assets/icons/double-check.svg';
   static const syncWatch = 'assets/icons/sync-watch.webp';
+  static const shadow = 'assets/icons/shadow.png';
   static const purchaseSuccess = 'assets/icons/purchase-success.svg';
 }
 

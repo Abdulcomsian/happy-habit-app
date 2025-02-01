@@ -14,6 +14,7 @@ import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/activity/shared/custom_slider.dart';
 import 'package:happy_habit/modules/activity/shared/give_up_popup.dart';
 
+import '../../../core/shared/helper_functions/play_music.dart';
 import '../shared/music_selection_popup.dart';
 import 'activity_result_screen.dart';
 
@@ -38,6 +39,7 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
     super.initState();
     _remainingDuration = ValueNotifier(widget.duration);
     _startTimer();
+    Music.play(AppMusics.piano);
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -73,6 +75,7 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
   void dispose() {
     _timer.cancel();
     _isPaused.dispose();
+    Music.playSuccessMusic();
     _remainingDuration.dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();

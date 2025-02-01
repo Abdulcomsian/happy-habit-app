@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as m;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:happy_habit/core/constants/asset_paths.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/profile_setup/screens/avatar_confirmation_screen.dart';
+import 'package:rive/rive.dart';
 
 import '../../../core/shared/widgets/tap_widget.dart';
 
 class AvatarSection extends StatelessWidget {
   final String avatar;
+  final Artboard? artboard;
 
-  const AvatarSection({super.key, required this.avatar});
+  const AvatarSection({
+    super.key,
+    required this.avatar,
+    required this.artboard,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       fit: StackFit.loose,
+      alignment: Alignment.center,
       children: [
         Container(
           width: 1.sw,
@@ -27,13 +36,34 @@ class AvatarSection extends StatelessWidget {
               bottom: Radius.circular(30.r),
             ),
           ),
-          child: Image.asset(
-            avatar,
-            width: 174.w,
-            height: 316.h,
-            fit: BoxFit.cover,
-            alignment: Alignment.topCenter,
-          ),
+          child: Stack(
+            children: [
+              artboard != null
+                  ? Rive(
+                artboard: artboard!,
+              )
+                  : m.Image.asset(
+                avatar,
+                width: 174.w,
+                height: 316.h,
+                fit: BoxFit.cover,
+                alignment: Alignment.topCenter,
+              ),
+
+              Positioned(
+                bottom: 0,
+                width: 1.sw,
+                child: Opacity(
+                  opacity: 0.6,
+                  child: m.Image.asset(
+                    AppIcons.shadow,
+                    width: 140.r,
+                    height: 100.r,
+                  ),
+                ),
+              ),
+            ],
+          )
         ),
         Positioned(
           width: 1.sw,
