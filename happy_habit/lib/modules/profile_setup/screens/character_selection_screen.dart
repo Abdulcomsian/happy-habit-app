@@ -6,18 +6,18 @@ import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/shared/widgets/custom_button.dart';
 import 'package:happy_habit/core/shared/widgets/root_screen.dart';
 import 'package:happy_habit/core/theme/typography.dart';
-import 'package:happy_habit/modules/profile_setup/screens/edit_avatar_screen.dart';
+import 'package:happy_habit/modules/profile_setup/screens/edit_character_screen.dart';
 
-class AvatarSelectionScreen extends StatefulWidget {
-  static const id = 'AvatarSelectionScreen';
+class CharacterSelectionScreen extends StatefulWidget {
+  static const id = 'CharacterSelectionScreen';
 
-  const AvatarSelectionScreen({super.key});
+  const CharacterSelectionScreen({super.key});
 
   @override
-  State<AvatarSelectionScreen> createState() => _AvatarSelectionScreenState();
+  State<CharacterSelectionScreen> createState() => _CharacterSelectionScreenState();
 }
 
-class _AvatarSelectionScreenState extends State<AvatarSelectionScreen> {
+class _CharacterSelectionScreenState extends State<CharacterSelectionScreen> {
   final _selectedAvatar = ValueNotifier('');
 
   @override
@@ -40,7 +40,7 @@ class _AvatarSelectionScreenState extends State<AvatarSelectionScreen> {
               onPressed: selectedAvatar.isEmpty
                   ? null
                   : () => context.pushNamed(EditAvatarScreen.id, extra: {
-                        'avatar': _selectedAvatar.value,
+                        'gender': _selectedAvatar.value,
                       }),
             );
           },
@@ -67,7 +67,7 @@ class _AvatarSelectionScreenState extends State<AvatarSelectionScreen> {
                     Stack(
                       children: [
                         InkWell(
-                          onTap: () => _selectedAvatar.value = DummyIcons.male,
+                          onTap: () => _selectedAvatar.value = 'male',
                           child: Image.asset(
                             DummyIcons.male,
                             width: 126.w,
@@ -87,7 +87,7 @@ class _AvatarSelectionScreenState extends State<AvatarSelectionScreen> {
                     Stack(
                       children: [
                         InkWell(
-                          onTap: () => _selectedAvatar.value = DummyIcons.female,
+                          onTap: () => _selectedAvatar.value = 'female',
                           child: Image.asset(
                             DummyIcons.female,
                             width: 138.w,

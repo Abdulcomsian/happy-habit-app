@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:happy_habit/modules/auth/services/auth_networking.dart';
 
 import '../../../core/hive/hive_constants.dart';
 import '../../../core/hive/hive_db_service.dart';
@@ -13,13 +14,41 @@ class AuthProvider extends ChangeNotifier {
   AuthProvider._internal();
 
   // Your methods and properties here
+  final _networkingLayer = AuthNetworking();
   final HiveDBService _hiveDBService = HiveDBService();
+
+  AppUser? get appUser => _appUser;
+  AppUser? _appUser;
 
   AuthToken? get authToken => _authToken;
   AuthToken? _authToken;
 
-  AppUser? get appUser => _appUser;
-  AppUser? _appUser;
+  Future<int?> signup(Map<String, dynamic> body) async {
+    return await _networkingLayer.signup(body);
+  }
+
+  Future<int?> forgotPassword(String email) async {
+    return await _networkingLayer.forgotPassword(email);
+  }
+
+  Future<bool> updatePassword(int uid, String password) async {
+    return await _networkingLayer.updatePassword(uid, password);
+  }
+
+  Future<bool> login(String email, String password) async {
+    final response = await _networkingLayer.login(email, password);
+    _appUser = response?.appUser;
+    _authToken = response?.authToken;
+    if (response != null) storeAuthToken();
+    return response != null;
+  }
+
+  Future<bool> getUserProfile() async {
+    final appUser = await _networkingLayer.getUserProfile();
+    _appUser = appUser;
+    if (appUser != null) notifyListeners();
+    return appUser != null;
+  }
 
   /// checks if [AuthToken] exists in Hive
   Future<bool> isUserLoggedIn() async {
@@ -29,7 +58,7 @@ class AuthProvider extends ChangeNotifier {
     ) as AuthToken?;
 
     if (authToken != null) {
-      setAuthToken(authToken, updateInHive: false);
+      _authToken = authToken;
 
       return true;
     } else {
@@ -38,34 +67,32 @@ class AuthProvider extends ChangeNotifier {
   }
 
   /// loads [AuthToken] object in [AuthServicesProvider] and stores it in Hive box authToken
-  setAuthToken(AuthToken authToken, {bool updateInHive = true}) {
-    _authToken = authToken;
-
-    if (updateInHive) {
-      // store _authToken in Hive
-      _hiveDBService.storeData(
-        object: _authToken!,
-        boxKey: HiveConstants.kAuthToken,
-        valueKey: HiveConstants.kAuthToken,
-      );
-    }
-  }
-
-  Future<bool> setProfile(String avatar) async {
-    _appUser = AppUser(
-      id: 0,
-      name: 'name',
-      email: 'email',
-      avatar: avatar,
-      username: 'username',
-      imageUrl: 'imageUrl',
+  void storeAuthToken() {
+    // store _authToken in Hive
+    _hiveDBService.storeData(
+      object: _authToken!,
+      boxKey: HiveConstants.kAuthToken,
+      valueKey: HiveConstants.kAuthToken,
     );
-    await Future.delayed(Duration(milliseconds: 300));
+  }
+
+  Future<bool> saveCharacter(String gender) async {
+    _appUser?.gender = gender;
+    notifyListeners();
     return true;
   }
 
-  Future<bool> generateOTP(String email) async {
-    await Future.delayed(Duration(milliseconds: 1000));
-    return true;
+  Future<bool> getRefreshToken() async {
+    return false;
+  }
+
+  Future<void> logout() async {}
+
+  Future<bool> sendOtp(int uid) async {
+    return await _networkingLayer.sendOtp(uid);
+  }
+
+  Future<bool> verifyOtp(int uid, int otp) async {
+    return await _networkingLayer.verifyOtp(uid, otp);
   }
 }

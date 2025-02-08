@@ -18,7 +18,7 @@ Future<void> main() async {
   await Future.wait<dynamic>([
     MainServices.setUpHive(),
     dotenv.load(fileName: fileName),
-    MainServices.initializeFirebase(),
+    // MainServices.initializeFirebase(),
   ]);
 
 

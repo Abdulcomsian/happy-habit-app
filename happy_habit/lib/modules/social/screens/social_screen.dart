@@ -6,6 +6,7 @@ import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/shared/widgets/root_screen.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
+import 'package:happy_habit/modules/profile/shared/leaderboard_content.dart';
 
 import '../shared/friend_tile.dart';
 
@@ -33,7 +34,7 @@ class _SocialScreenState extends State<SocialScreen> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: RootScreen(
         title: 'Social',
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,6 +60,7 @@ class _SocialScreenState extends State<SocialScreen> with SingleTickerProviderSt
               tabs: [
                 Tab(text: 'Friends'),
                 Tab(text: 'pending requests'),
+                Tab(text: 'Leaderboard'),
               ],
             ),
             15.height,
@@ -93,6 +95,7 @@ class _SocialScreenState extends State<SocialScreen> with SingleTickerProviderSt
                       isFriend: false,
                     ),
                   ),
+                  LeaderboardContent(),
                 ],
               ),
             ),

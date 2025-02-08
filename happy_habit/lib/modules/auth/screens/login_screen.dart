@@ -7,6 +7,7 @@ import 'package:happy_habit/core/shared/widgets/custom_button.dart';
 import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
+import 'package:happy_habit/modules/auth/services/auth_provider.dart';
 import 'package:happy_habit/modules/auth/shared/social_auth_buttons.dart';
 import 'package:happy_habit/modules/navigation/navigation_provider.dart';
 import 'package:happy_habit/modules/navigation/navigation_screen.dart';
@@ -26,6 +27,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _prov = serviceLocator<AuthProvider>();
   final _isLoading = ValueNotifier(false);
 
   final _email = InputDescriptor();
@@ -71,10 +73,11 @@ class _LoginScreenState extends State<LoginScreen> {
               descriptor: _email,
               showHintAsTitle: true,
               hint: 'Email or Username',
-              validator: (value) => Validators.emptyValidationCheck(
-                value,
-                message: 'Enter username',
-              ),
+              validator: Validators.emailValidation,
+              // validator: (value) => Validators.emptyValidationCheck(
+              //   value,
+              //   message: 'Enter username',
+              // ),
             ),
             10.height,
             CustomTextField.obscure(
@@ -112,8 +115,8 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     _isLoading.value = true;
-    await Future.delayed(const Duration(milliseconds: 1000));
-    if (mounted) context.goNamed(NavigationScreen.id);
+    final success = await _prov.login(_email.text, _password.text);
+    if (success && mounted) context.goNamed(NavigationScreen.id);
     _isLoading.value = false;
   }
 }

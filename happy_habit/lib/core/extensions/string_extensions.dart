@@ -1,4 +1,19 @@
+import 'package:go_router/go_router.dart';
+import 'package:happy_habit/core/routes/routes.dart';
 import 'package:path/path.dart';
+
+extension Basename on String {
+  String basenameWithoutExtension() {
+    return basename(this).replaceAll(RegExp(r'\.[^.]+$'), '');
+  }
+}
+
+extension NavigationExtension on String {
+  String navigateToNamed() {
+    final context = Routes.rootNavigatorKey.currentContext!;
+    return GoRouter.of(context).namedLocation(this);
+  }
+}
 
 /// Capitalizing each word of a sentence or just the first word.
 extension Capitalize on String {
@@ -24,11 +39,5 @@ extension Capitalize on String {
       // Capitalize only the first letter of the sentence.
       return cleanedString[0].toUpperCase() + cleanedString.substring(1).toLowerCase();
     }
-  }
-}
-
-extension Basename on String {
-  String basenameWithoutExtension() {
-    return basename(this).replaceAll(RegExp(r'\.[^.]+$'), '');
   }
 }

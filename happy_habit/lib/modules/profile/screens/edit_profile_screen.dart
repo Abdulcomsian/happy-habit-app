@@ -7,13 +7,10 @@ import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/profile/shared/profile_header.dart';
 
-import '../../../core/constants/asset_paths.dart';
-import '../../../core/services/providers.dart';
 import '../../../core/services/validators.dart';
 import '../../../core/shared/widgets/custom_button.dart';
 import '../../../core/shared/widgets/custom_text_field.dart';
-import '../../auth/services/auth_provider.dart';
-import '../../profile_setup/screens/edit_avatar_screen.dart';
+import '../../profile_setup/screens/edit_character_screen.dart';
 
 class EditProfileScreen extends StatefulWidget {
   static const id = 'EditProfileScreen';
@@ -88,9 +85,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     label: 'Edit Avatar',
                     color: ThemeColor.primary,
                     icon: Icon(Icons.mode_edit, color: Colors.white),
-                    onPressed: () => context.pushNamed(EditAvatarScreen.id, extra: {
-                      'avatar': serviceLocator<AuthProvider>().appUser?.avatar ?? DummyIcons.male,
-                    }),
+                    onPressed: () => context.pushNamed(EditAvatarScreen.id),
                   ),
                 ),
               ],

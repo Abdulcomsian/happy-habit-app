@@ -6,6 +6,9 @@ class BrandIcons {
 class AppMusics {
   static const piano = 'musics/piano.mp3';
   static const success = 'musics/success.mp3';
+  static const music = 'musics/music.mp3';
+  static const flower = 'musics/flower.mp3';
+  static const rain = 'musics/rain.mp3';
 }
 
 class AppIcons {
@@ -89,7 +92,7 @@ class DummyIcons {
   static const wallpaper = 'assets/dummy/wallpaper.png';
   static const male = 'assets/dummy/male.webp';
   static const female = 'assets/dummy/female.webp';
-  static const activity = 'assets/dummy/activity.webp';
+  static const read = 'assets/dummy/read.webp';
 }
 
 class AchievementIcons {

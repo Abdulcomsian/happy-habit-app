@@ -7,8 +7,10 @@ import 'package:happy_habit/core/shared/widgets/root_screen.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/auth/screens/update_password_screen.dart';
 
+import '../../../core/services/providers.dart';
 import '../../../core/services/validators.dart';
 import '../../../core/shared/widgets/custom_text_field.dart';
+import '../services/auth_provider.dart';
 import '../shared/verify_otp_bottom_sheet.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -42,7 +44,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         padding: EdgeInsets.all(20.r),
         child: CustomButton(
           label: 'Send Link',
-          onPressed: _sendLink,
+          onPressed: _sendOtp,
         ),
       ),
       child: ListView(
@@ -70,52 +72,33 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     );
   }
 
-  Future<void> _sendLink() async {
+  Future<void> _sendOtp() async {
     if (!_formKey.currentState!.validate()) {
       _validateMode = AutovalidateMode.onUserInteraction;
       setState(() {});
       return;
     }
 
-    final response = await showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (_) => VerifyOtpBottomSheet(
-        email: _email.text,
-      ),
-    ) as bool?;
+    _isLoading.value = true;
+    final int? uid = await serviceLocator<AuthProvider>().forgotPassword(_email.text);
+    _isLoading.value = false;
 
-    if (response ?? false) {
-      if (mounted) context.pushNamed(UpdatePasswordScreen.id);
+    if (uid != null && mounted) {
+      final isVerified = await showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (_) => VerifyOtpBottomSheet(
+          uid: uid,
+        ),
+      ) as bool?;
+
+      if (isVerified ?? false) {
+        if (mounted) {
+          context.pushNamed(UpdatePasswordScreen.id, extra: {
+            'uid': uid,
+          });
+        }
+      }
     }
-
-    // _isLoading.value = true;
-    // await Future.delayed(const Duration(milliseconds: 1000));
-    // _isLoading.value = false;
-
-    // if (mounted) {
-    //   showDialog(
-    //     context: context,
-    //     barrierDismissible: true,
-    //     builder: (_) => CustomDialog(
-    //       onAction: _onDone,
-    //       actionLabel: 'Done',
-    //       svg: AppIcons.mailSent,
-    //       title: 'Check Your Email',
-    //       message: 'Password reset link send to your email.',
-    //     ),
-    //   );
-    // final response = await showModalBottomSheet(
-    //   context: context,
-    //   isScrollControlled: true,
-    //   builder: (_) => VerifyOtpBottomSheet(
-    //     email: _email.text,
-    //   ),
-    // ) as bool?;
-    //
-    // if (response ?? false) {
-    //   if (mounted) Navigator.pop(context);
-    // }
-    // }
   }
 }

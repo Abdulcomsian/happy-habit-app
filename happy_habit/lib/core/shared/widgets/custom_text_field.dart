@@ -64,7 +64,7 @@ class CustomTextField extends StatefulWidget {
     this.onFieldSubmitted,
     this.inputFormatters,
     this.autofocus = false,
-    this.showIcons = false,
+    this.showIcons = true,
     required this.descriptor,
     this.showHintAsTitle = false,
     this.textInputAction = TextInputAction.done,

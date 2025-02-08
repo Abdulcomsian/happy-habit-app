@@ -21,9 +21,14 @@ import 'activity_result_screen.dart';
 class ActivitySessionScreen extends StatefulWidget {
   static const id = 'ActivitySessionScreen';
 
+  final String activity;
   final Duration duration;
 
-  const ActivitySessionScreen({super.key, required this.duration});
+  const ActivitySessionScreen({
+    super.key,
+    required this.activity,
+    required this.duration,
+  });
 
   @override
   State<ActivitySessionScreen> createState() => _ActivitySessionScreenState();
@@ -31,22 +36,22 @@ class ActivitySessionScreen extends StatefulWidget {
 
 class _ActivitySessionScreenState extends State<ActivitySessionScreen> with WidgetsBindingObserver {
   late Timer _timer;
-  late final ValueNotifier<Duration> _remainingDuration;
-  final ValueNotifier<bool> _isPaused = ValueNotifier(false);
+  MusicFlavors _selectedMusic = MusicFlavors.music;
+  final ValueNotifier<bool> _isActivityPaused = ValueNotifier(false);
+  final ValueNotifier<Duration> _sessionDuration = ValueNotifier(Duration.zero);
 
   @override
   void initState() {
     super.initState();
-    _remainingDuration = ValueNotifier(widget.duration);
     _startTimer();
-    Music.play(AppMusics.piano);
+    // Music.play(AppMusics.music);
     WidgetsBinding.instance.addObserver(this);
   }
 
   void _updateTimer(Timer timer) {
-    if (!_isPaused.value) {
-      if (_remainingDuration.value.inSeconds > 0) {
-        _remainingDuration.value -= Duration(seconds: 1);
+    if (!_isActivityPaused.value) {
+      if (_sessionDuration.value.inSeconds < widget.duration.inSeconds) {
+        _sessionDuration.value += Duration(seconds: 1);
       } else {
         _closeTimer();
       }
@@ -74,9 +79,9 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
   @override
   void dispose() {
     _timer.cancel();
-    _isPaused.dispose();
+    _isActivityPaused.dispose();
     Music.playSuccessMusic();
-    _remainingDuration.dispose();
+    _sessionDuration.dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -96,7 +101,7 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
         bottomNavigationBar: Padding(
           padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 28.h),
           child: ValueListenableBuilder(
-            valueListenable: _remainingDuration,
+            valueListenable: _sessionDuration,
             builder: (context, duration, _) {
               double percentage = duration.inSeconds / widget.duration.inSeconds;
 
@@ -125,11 +130,11 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
                         svg: AppIcons.closeCircle,
                       ),
                       ValueListenableBuilder(
-                        valueListenable: _isPaused,
+                        valueListenable: _isActivityPaused,
                         builder: (context, isPaused, _) {
                           return CustomIconButton(
                             // onTap: isPaused ? _playTimer : _pauseTimer,
-                            onTap: () => _isPaused.value = !_isPaused.value,
+                            onTap: () => _isActivityPaused.value = !_isActivityPaused.value,
                             svg: isPaused ? AppIcons.play : AppIcons.pause,
                           );
                         },
@@ -147,7 +152,8 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
             AspectRatio(
               aspectRatio: 1.sw / 399.h,
               child: Image.asset(
-                DummyIcons.activity,
+                // DummyIcons.activity,
+                'assets/dummy/${widget.activity}.webp',
                 fit: BoxFit.cover,
               ),
             ),
@@ -155,7 +161,7 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
             Divider(color: ThemeColor.hint, indent: 80.w, endIndent: 80.w),
             10.height,
             ValueListenableBuilder(
-              valueListenable: _remainingDuration,
+              valueListenable: _sessionDuration,
               builder: (context, duration, _) {
                 String hours = duration.inHours.toString().padLeft(2, '0');
                 String minutes = (duration.inMinutes % 60).toString().padLeft(2, '0');
@@ -222,7 +228,10 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
     final response = await showDialog<String>(
       context: context,
       barrierDismissible: false,
-      builder: (context) => MusicSelectionPopup(),
+      builder: (context) => MusicSelectionPopup(
+        selectedMusic: _selectedMusic,
+        onChanged: (value) => _selectedMusic = value,
+      ),
     );
 
     if (response == '' && mounted) {}

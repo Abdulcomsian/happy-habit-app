@@ -5,19 +5,21 @@ import 'package:go_router/go_router.dart';
 import 'package:happy_habit/core/constants/asset_paths.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
-import 'package:happy_habit/modules/profile_setup/screens/avatar_confirmation_screen.dart';
+import 'package:happy_habit/modules/profile_setup/screens/character_confirmation_screen.dart';
 import 'package:rive/rive.dart';
 
 import '../../../core/shared/widgets/tap_widget.dart';
 
-class AvatarSection extends StatelessWidget {
-  final String avatar;
+class CharacterSection extends StatelessWidget {
   final Artboard? artboard;
+  final String gender;
+  final String characterPath;
 
-  const AvatarSection({
+  const CharacterSection({
     super.key,
-    required this.avatar,
+    required this.gender,
     required this.artboard,
+    required this.characterPath,
   });
 
   @override
@@ -43,7 +45,7 @@ class AvatarSection extends StatelessWidget {
                 artboard: artboard!,
               )
                   : m.Image.asset(
-                avatar,
+                characterPath,
                 width: 174.w,
                 height: 316.h,
                 fit: BoxFit.cover,
@@ -85,8 +87,8 @@ class AvatarSection extends StatelessWidget {
                   radius: 6.r,
                   color: ThemeColor.primary,
                   padding: EdgeInsets.symmetric(horizontal: 12.5.w, vertical: 6.h),
-                  onTap: () => context.pushNamed(AvatarConfirmationScreen.id, extra: {
-                    'avatar': avatar,
+                  onTap: () => context.pushNamed(CharacterConfirmationScreen.id, extra: {
+                    'gender': gender,
                   }),
                   child: Text(
                     'Save',

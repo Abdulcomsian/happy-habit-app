@@ -139,7 +139,8 @@ class StatsTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            title == 'sleep' ? 'Sleep & Wakeup' : '$title Time',
+            // title == 'sleep' ? 'Sleep & Wakeup' : '$title Time',
+            '$title Time',
             style: context.bodyLarge?.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.w700,

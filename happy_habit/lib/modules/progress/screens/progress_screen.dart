@@ -42,8 +42,8 @@ class ProgressScreen extends StatelessWidget {
                     return Image.asset(
                       width: 198.w,
                       height: 594.h,
+                      DummyIcons.male,
                       fit: BoxFit.cover,
-                      prov.appUser?.avatar ?? DummyIcons.male,
                     );
                   },
                 ),
@@ -53,7 +53,7 @@ class ProgressScreen extends StatelessWidget {
                   child: CustomOutlinedButton(
                     label: 'Progress Tracking',
                     foregroundColor: ThemeColor.fontBlack,
-                    onPressed: () => serviceLocator<NavigationProvider>().changeIndex(1),
+                    onPressed: () => serviceLocator<NavigationProvider>().changeIndex(3),
                   ),
                 )
               ],

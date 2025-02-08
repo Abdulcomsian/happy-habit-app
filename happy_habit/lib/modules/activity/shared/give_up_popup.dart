@@ -19,7 +19,7 @@ class GiveUpPopup extends StatelessWidget {
         ),
         contentPadding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 20.h),
         content: Text(
-          'There will be 1 withered tree(s) in your forest',
+          'Quitting now will trigger an ad as your penalty.',
           textAlign: TextAlign.center,
           style: context.bodyMedium?.copyWith(
             color: ThemeColor.graphiteGrey,

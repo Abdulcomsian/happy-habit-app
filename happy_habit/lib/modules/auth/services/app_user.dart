@@ -1,27 +1,30 @@
 class AppUser {
   final int id;
-  final String avatar;
-  final String name, email, username, imageUrl;
+  bool areGoalsReady;
+  String name, email;
+  String? gender, username, imageUrl;
 
-  const AppUser({
+  AppUser({
     required this.id,
-    this.username = '',
     required this.name,
     required this.email,
-    required this.avatar,
+    required this.gender,
     required this.imageUrl,
+    required this.username,
+    required this.areGoalsReady,
   });
 
   factory AppUser.fromJson(Map<String, dynamic> json) {
     return AppUser(
       id: json['id'],
       name: json['name'],
-      avatar: json['avatar'],
       email: json['email'],
+      gender: json['gender'],
       imageUrl: json['imageUrl'],
-      username: json['username'] ?? '',
+      username: json['username'],
+      areGoalsReady: json['areGoalsReady'] ?? false,
     );
   }
 
-  bool get isProfileSetup => username.isNotEmpty;
+  bool get isMaleCharacter => gender == 'male';
 }

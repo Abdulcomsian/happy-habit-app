@@ -16,8 +16,8 @@ class AuthToken extends HiveObject {
         _jwtToken = jwtToken;
 
   factory AuthToken.fromJson(Map<String, dynamic> json) => AuthToken(
-    jwtToken: json['jwtToken'],
-    refreshToken: json['refreshToken'],
+    jwtToken: json['access_token'],
+    refreshToken: json['refreshToken'] ?? '',
   );
 
   String get accessToken {

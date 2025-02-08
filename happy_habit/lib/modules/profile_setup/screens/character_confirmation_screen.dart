@@ -11,18 +11,18 @@ import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/auth/services/auth_provider.dart';
 import 'package:happy_habit/modules/navigation/navigation_screen.dart';
 
-class AvatarConfirmationScreen extends StatefulWidget {
-  static const id = 'AvatarConfirmationScreen';
+class CharacterConfirmationScreen extends StatefulWidget {
+  static const id = 'CharacterConfirmationScreen';
 
-  final String avatar;
+  final String gender;
 
-  const AvatarConfirmationScreen({super.key, required this.avatar});
+  const CharacterConfirmationScreen({super.key, required this.gender});
 
   @override
-  State<AvatarConfirmationScreen> createState() => _AvatarConfirmationScreenState();
+  State<CharacterConfirmationScreen> createState() => _CharacterConfirmationScreenState();
 }
 
-class _AvatarConfirmationScreenState extends State<AvatarConfirmationScreen> {
+class _CharacterConfirmationScreenState extends State<CharacterConfirmationScreen> {
   final _authProv = serviceLocator<AuthProvider>();
 
   @override
@@ -39,7 +39,7 @@ class _AvatarConfirmationScreenState extends State<AvatarConfirmationScreen> {
             ),
             15.height,
             CustomButton(
-              label: 'Set As Profile',
+              label: 'Save',
               onPressed: _setProfile,
             ),
           ],
@@ -57,7 +57,7 @@ class _AvatarConfirmationScreenState extends State<AvatarConfirmationScreen> {
               ),
             ),
             child: Image.asset(
-              widget.avatar,
+              widget.gender,
               width: 126.w,
               height: 384.h,
               alignment: Alignment.bottomCenter,
@@ -83,7 +83,7 @@ class _AvatarConfirmationScreenState extends State<AvatarConfirmationScreen> {
   }
 
   Future<void> _setProfile() async {
-    final success = await _authProv.setProfile(widget.avatar);
+    final success = await _authProv.saveCharacter(widget.gender);
     if (success && mounted) context.goNamed(NavigationScreen.id);
   }
 }

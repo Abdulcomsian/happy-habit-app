@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:happy_habit/core/constants/asset_paths.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
+import 'package:happy_habit/core/services/providers.dart';
 import 'package:happy_habit/core/shared/modals/custom_dialog.dart';
 import 'package:happy_habit/core/shared/widgets/custom_button.dart';
 import 'package:happy_habit/core/shared/widgets/root_screen.dart';
@@ -12,6 +13,7 @@ import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/auth/screens/login_screen.dart';
+import 'package:happy_habit/modules/navigation/navigation_provider.dart';
 import 'package:happy_habit/modules/profile/screens/notifications_screen.dart';
 import 'package:happy_habit/modules/profile/shared/profile_header.dart';
 
@@ -137,6 +139,7 @@ class SettingScreen extends StatelessWidget {
     ) ?? false;
 
     if (response && context.mounted) {
+      serviceLocator<NavigationProvider>().reset();
       context.goNamed(LoginScreen.id);
     }
   }

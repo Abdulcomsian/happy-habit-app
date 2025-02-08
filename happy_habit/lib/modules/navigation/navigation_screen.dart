@@ -14,9 +14,7 @@ import 'shared/custom_drawer.dart';
 class NavigationScreen extends StatelessWidget {
   static const id = '/NavigationScreen';
 
-  NavigationScreen({super.key}) {
-    serviceLocator<NavigationProvider>().storeIsFirstLaunch();
-  }
+  const NavigationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -7,7 +7,7 @@ import 'package:happy_habit/core/shared/widgets/custom_outlined_button.dart';
 import 'package:happy_habit/core/shared/widgets/root_screen.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
-import 'package:happy_habit/modules/profile_setup/screens/avatar_selection_screen.dart';
+import 'package:happy_habit/modules/profile_setup/screens/character_selection_screen.dart';
 import 'package:happy_habit/modules/profile_setup/shared/goal_tile.dart';
 import 'package:happy_habit/modules/progress/services/activity.dart';
 
@@ -36,7 +36,7 @@ class _GoalsSetupScreenState extends State<GoalsSetupScreen> {
             15.height,
             CustomButton(
               label: 'Done',
-              onPressed: () => context.pushNamed(AvatarSelectionScreen.id),
+              onPressed: () => context.pushNamed(CharacterSelectionScreen.id),
             )
           ],
         ),
@@ -53,18 +53,18 @@ class _GoalsSetupScreenState extends State<GoalsSetupScreen> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              Text(
-                'Edit Goals',
-                style: context.bodyMedium?.copyWith(
-                  color: ThemeColor.primary,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              // Text(
+              //   'Edit Goals',
+              //   style: context.bodyMedium?.copyWith(
+              //     color: ThemeColor.primary,
+              //     fontWeight: FontWeight.w600,
+              //   ),
+              // ),
             ],
           ),
           15.height,
           Text(
-              'Lorem ipsum dolor sit amet consectetur. Nibh arcu vulputate ut elit dignissim tempus augue. Egestas accumsan ut venenatis tortor. Lacus massa augue sit enim at ac massa vel. Ullamcorper tristique gravida fames consectetur nunc feugiat sed.'),
+              'Take charge of your daily routine by choosing how much time you want to dedicate to each key habit. Setting clear goals for sleep, screen use, workouts and focused  time for a meaningful activity helps you stay on track and build a healthier, more balanced lifestyle.'),
           5.height,
           ...List.generate(
             Activity.activities.length,

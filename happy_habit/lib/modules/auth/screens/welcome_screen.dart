@@ -7,13 +7,18 @@ import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/shared/widgets/custom_button.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/auth/screens/login_screen.dart';
-import 'package:happy_habit/modules/auth/screens/sign_in_screen.dart';
+import 'package:happy_habit/modules/auth/screens/sign_up_screen.dart';
 import 'package:happy_habit/modules/auth/shared/social_auth_buttons.dart';
+
+import '../../../core/services/providers.dart';
+import '../../navigation/navigation_provider.dart';
 
 class WelcomeScreen extends StatelessWidget {
   static const id = '/WelcomeScreen';
 
-  const WelcomeScreen({super.key});
+  WelcomeScreen({super.key}) {
+    serviceLocator<NavigationProvider>().storeIsFirstLaunch();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +69,7 @@ class WelcomeScreen extends StatelessWidget {
                       Flexible(
                         child: CustomButton(
                           label: 'Sign up',
-                          onPressed: () => context.pushNamed(SignInScreen.id),
+                          onPressed: () => context.pushNamed(SignUpScreen.id),
                         ),
                       ),
                     ],

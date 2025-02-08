@@ -2,10 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:happy_habit/core/constants/asset_paths.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/services/providers.dart';
-import 'package:happy_habit/core/shared/modals/custom_dialog.dart';
 import 'package:happy_habit/core/shared/widgets/app_toast.dart';
 import 'package:happy_habit/core/shared/widgets/custom_button.dart';
 import 'package:happy_habit/core/shared/widgets/fullscreen_.dart';
@@ -18,9 +16,9 @@ import '../../../core/shared/widgets/otp_text_field.dart';
 import '../../../core/theme/theme_colors.dart';
 
 class VerifyOtpBottomSheet extends StatefulWidget {
-  final String email;
+  final int uid;
 
-  const VerifyOtpBottomSheet({super.key, required this.email});
+  const VerifyOtpBottomSheet({super.key, required this.uid});
 
   @override
   State<VerifyOtpBottomSheet> createState() => _VerifyOtpBottomSheetState();
@@ -38,14 +36,14 @@ class _VerifyOtpBottomSheetState extends State<VerifyOtpBottomSheet> with Widget
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback(
-      (timeStamp) => _sendOTP(),
+      (timeStamp) => _startTimer(),
     );
   }
 
   /// makes the API call to generate OTP on the provided email
   Future<void> _sendOTP() async {
     AppLoader.showFullScreenLoader();
-    final isOtpSent = await _authProv.generateOTP(widget.email);
+    final isOtpSent = await _authProv.sendOtp(widget.uid);
     AppLoader.hideLoader();
 
     if (isOtpSent) {
@@ -210,10 +208,11 @@ class _VerifyOtpBottomSheetState extends State<VerifyOtpBottomSheet> with Widget
       AppToast.show('Please enter OTP');
       return;
     }
+
     AppLoader.showFullScreenLoader();
-    // todo: verify OTP by API
-    await Future.delayed(const Duration(seconds: 2));
+    final otp = int.parse(_otpController.text.trim());
+    final isVerified = await serviceLocator<AuthProvider>().verifyOtp(widget.uid, otp);
     AppLoader.hideLoader();
-    if (mounted) Navigator.pop(context, true);
+    if (isVerified && mounted) Navigator.pop(context, isVerified);
   }
 }

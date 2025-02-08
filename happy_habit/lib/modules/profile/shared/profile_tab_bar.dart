@@ -28,7 +28,7 @@ class ProfileTabBar extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 14.w),
           child: Flex(
             direction: Axis.horizontal,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: List.generate(
               _items.length,
               (i) => InkWell(
@@ -46,7 +46,7 @@ class ProfileTabBar extends StatelessWidget {
                           ),
                         ),
                       ),
-                      padding: EdgeInsets.all(7.r),
+                      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 7.h),
                       child: Text(
                         _items[i],
                         style: context.bodyMedium?.copyWith(
@@ -69,6 +69,6 @@ class ProfileTabBar extends StatelessWidget {
     'Activity',
     'Goals',
     'Friends',
-    'Leaderboard',
+    // 'Leaderboard',
   ];
 }

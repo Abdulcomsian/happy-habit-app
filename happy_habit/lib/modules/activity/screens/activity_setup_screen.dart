@@ -62,6 +62,7 @@ class _ActivitySetupScreenState extends State<ActivitySetupScreen> {
                 // if (_duration.value.inSeconds >= 900) {
                   context.pushNamed(ActivitySessionScreen.id, extra: {
                     'duration': _duration.value,
+                    'activity': _selectedActivity.value,
                   });
                 // } else {
                 //   AppToast.show('Activity session duration should be greater than 15 minutes');

@@ -6,13 +6,13 @@ import '../../../core/shared/widgets/svg_Icon.dart';
 import '../../../core/theme/theme_colors.dart';
 
 class ElementTypesList extends StatelessWidget {
-  final bool isFemale;
+  final bool isMale;
   final ValueChanged<String> onChanged;
   final ValueNotifier<String> selectedAccessoriesTypes;
 
   const ElementTypesList({
     super.key,
-    required this.isFemale,
+    required this.isMale,
     required this.onChanged,
     required this.selectedAccessoriesTypes,
   });
@@ -55,10 +55,10 @@ class ElementTypesList extends StatelessWidget {
   }
 
   List<String> get _elements {
-    if (isFemale) {
-      AvatarIcons.elements.removeLast();
+    if (isMale) {
       return AvatarIcons.elements;
     } else {
+      AvatarIcons.elements.removeLast();
       return AvatarIcons.elements;
     }
   }

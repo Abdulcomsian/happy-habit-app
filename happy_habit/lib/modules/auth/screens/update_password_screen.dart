@@ -5,16 +5,19 @@ import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/modules/auth/screens/login_screen.dart';
 
 import '../../../core/constants/asset_paths.dart';
+import '../../../core/services/providers.dart';
 import '../../../core/services/validators.dart';
 import '../../../core/shared/modals/custom_dialog.dart';
 import '../../../core/shared/widgets/custom_button.dart';
 import '../../../core/shared/widgets/custom_text_field.dart';
 import '../../../core/shared/widgets/root_screen.dart';
+import '../services/auth_provider.dart';
 
 class UpdatePasswordScreen extends StatefulWidget {
   static const id = 'UpdatePasswordScreen';
 
-  const UpdatePasswordScreen({super.key});
+  final int uid;
+  const UpdatePasswordScreen({super.key, required this.uid});
 
   @override
   State<UpdatePasswordScreen> createState() => _UpdatePasswordScreenState();
@@ -86,23 +89,24 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
     }
 
     _isLoading.value = true;
-    await Future.delayed(const Duration(milliseconds: 1000));
+    final isUpdated = await serviceLocator<AuthProvider>().updatePassword(
+      widget.uid,
+      _password.text,
+    );
     _isLoading.value = false;
 
-    if (mounted) {
+    if (isUpdated && mounted) {
       showDialog(
         context: context,
         barrierDismissible: true,
         builder: (_) => CustomDialog(
-          onAction: _onSuccess,
           svg: AppIcons.success,
           actionLabel: 'Login',
           title: 'Password updated successfully',
+          onAction: () => context.popUntil(LoginScreen.id),
           message: 'Your password has been successfully updated. You can now log in.',
         ),
       );
     }
   }
-
-  void _onSuccess() => context.popUntil(LoginScreen.id);
 }

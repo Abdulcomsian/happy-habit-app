@@ -70,14 +70,14 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                   label: 'Add Friend',
                 ).sliver(),
               ),
-            SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              sliver: OutlinedButton(
-                onPressed: () {},
-                child: Text(widget.isAppUser ? 'Add Seasonal Avatar' : 'Chat'),
-              ).sliver(),
-            ),
-            13.height.sliver(),
+            // SliverPadding(
+            //   padding: EdgeInsets.symmetric(horizontal: 20.w),
+            //   sliver: OutlinedButton(
+            //     onPressed: () {},
+            //     child: Text(widget.isAppUser ? 'Add Seasonal Avatar' : 'Chat'),
+            //   ).sliver(),
+            // ),
+            // 13.height.sliver(),
             if (widget.isAppUser)
               SliverPadding(
               padding: EdgeInsets.only(bottom: 10.h),

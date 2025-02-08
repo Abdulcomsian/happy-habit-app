@@ -5,29 +5,28 @@ import 'package:happy_habit/core/extensions/string_extensions.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/services/logger.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
-import 'package:happy_habit/modules/profile_setup/shared/elements_list.dart';
 import 'package:happy_habit/modules/profile_setup/shared/element_types_list.dart';
+import 'package:happy_habit/modules/profile_setup/shared/elements_list.dart';
 import 'package:rive/rive.dart';
 
 import '../services/character_attributes.dart';
-import '../shared/avatar_section.dart';
+import '../shared/character_section.dart';
 
 class EditAvatarScreen extends StatefulWidget {
   static const id = 'EditAvatarScreen';
 
-  final String characterPath;
+  final String gender;
 
-  const EditAvatarScreen({super.key, required this.characterPath});
+  const EditAvatarScreen({super.key, required this.gender});
 
   @override
   State<EditAvatarScreen> createState() => _EditAvatarScreenState();
 }
 
 class _EditAvatarScreenState extends State<EditAvatarScreen> {
-  String _avatar = '';
-  String character = '';
   Artboard? riveArtboard;
-  String characterPath = 'assets/characters/male.riv';
+  late bool _isMaleCharacter;
+  late String _characterPath;
   CharacterAttributes attributes = CharacterAttributes();
 
   final _selectedElementTypes = ValueNotifier(AvatarIcons.elements.first);
@@ -36,23 +35,22 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
   @override
   void initState() {
     super.initState();
-    _avatar = widget.characterPath.basenameWithoutExtension();
+    _isMaleCharacter = widget.gender == 'male';
+    _characterPath = 'assets/characters/${widget.gender}.riv';
     _loadCharacter();
   }
 
   _loadCharacter() {
     // rootBundle.load(widget.avatar).then(
-    rootBundle.load(characterPath).then(
-          (data) async {
+    rootBundle.load(_characterPath).then(
+      (data) async {
         try {
           final file = RiveFile.import(data);
           final artboard = file.mainArtboard;
 
-          var machineCode = characterPath.contains("male") ? 'State Machine 2' : 'State Machine 1';
+          var machineCode = _isMaleCharacter ? 'State Machine 2' : 'State Machine 1';
 
-          character = characterPath.contains("male") ? "male" : "female";
-
-          Logger.logInfo("Character: $character");
+          Logger.logInfo("Character: ${widget.gender}");
 
           var controller = StateMachineController.fromArtboard(artboard, machineCode);
 
@@ -74,7 +72,6 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
     );
   }
 
-
   void _setAccessory(String path) {
     _selectedElementTypes.value = path;
     _elementType.value = path.basenameWithoutExtension();
@@ -94,23 +91,24 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
       backgroundColor: ThemeColor.background,
       body: Column(
         children: [
-          AvatarSection(
+          CharacterSection(
+            gender: widget.gender,
             artboard: riveArtboard,
-            avatar: widget.characterPath,
+            characterPath: _characterPath,
           ),
           13.height,
           Align(
             alignment: Alignment.centerRight,
             child: ElementTypesList(
               onChanged: _setAccessory,
-              isFemale: widget.characterPath.contains('female'),
+              isMale: _isMaleCharacter,
               selectedAccessoriesTypes: _selectedElementTypes,
             ),
           ),
           13.height,
           ElementsList(
-            avatar: _avatar,
             onChanged: _setValue,
+            isMale: _isMaleCharacter,
             elementType: _elementType,
             selectedElement: _selectedElement,
           ),
@@ -176,48 +174,56 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
       noseNumber?.change(attributes.noseNumber.toDouble()); // Now update the Rive input
     }
   }
+
   _setBeard(int number) {
     if (attributes.beardNumber != number) {
       attributes.beardNumber = number;
       beardNumber?.change(attributes.beardNumber.toDouble());
     }
   }
+
   _setColor(int number) {
     if (attributes.bodyColorNumber != number) {
       attributes.bodyColorNumber = number;
       colorNumber?.change(attributes.bodyColorNumber.toDouble());
     }
   }
+
   _setShoes(int number) {
     if (attributes.shoesNumber != number) {
       attributes.shoesNumber = number;
       shoesNumber?.change(attributes.shoesNumber.toDouble());
     }
   }
+
   _setCloth(int number) {
     if (attributes.clothingNumber != number) {
       attributes.clothingNumber = number;
       clothingNumber?.change(attributes.clothingNumber.toDouble());
     }
   }
+
   _setMouth(int number) {
     if (attributes.mouthNumber != number) {
       attributes.mouthNumber = number;
       mouthNumber?.change(attributes.mouthNumber.toDouble());
     }
   }
+
   _setEye(int number) {
     if (attributes.eyeNumber != number) {
       attributes.eyeNumber = number;
       eyeNumber?.change(attributes.eyeNumber.toDouble());
     }
   }
+
   _setEyebrows(int number) {
     if (attributes.eyebrowsNumber != number) {
       attributes.eyebrowsNumber = number;
       eyebrowsNumber?.change(attributes.eyebrowsNumber.toDouble());
     }
   }
+
   _setHat(int number) {
     if (attributes.hatNumber != number) {
       attributes.hatNumber = number;
@@ -246,22 +252,20 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
   //   }
   // }
 
-  void _addAttributes(SMIInput<dynamic> element){
+  void _addAttributes(SMIInput<dynamic> element) {
     if (element.name == "hair") {
       hairNumber = element as SMINumber;
     } else if (element.name == "shoes") {
       shoesNumber = element as SMINumber;
     } else if (element.name == "hat") {
       hatNumber = element as SMINumber;
-    } else if (element.name == "eye"/* || element.name == "eyes"*/) {
+    } else if (element.name == "eye" /* || element.name == "eyes"*/) {
       eyeNumber = element as SMINumber;
     } else if (element.name == "eye brows" || element.name == "eyebrows") {
       eyebrowsNumber = element as SMINumber;
     } else if (element.name == "mouth") {
       mouthNumber = element as SMINumber;
-    } else if (element.name == "clothing" ||
-        element.name == "cloth" ||
-        element.name == "body") {
+    } else if (element.name == "clothing" || element.name == "cloth" || element.name == "body") {
       clothingNumber = element as SMINumber;
     } else if (element.name == "body colore") {
       colorNumber = element as SMINumber;

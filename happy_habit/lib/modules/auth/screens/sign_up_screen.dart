@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
+import 'package:happy_habit/core/services/providers.dart';
 import 'package:happy_habit/core/services/validators.dart';
 import 'package:happy_habit/core/shared/widgets/app_toast.dart';
 import 'package:happy_habit/core/shared/widgets/custom_button.dart';
@@ -12,25 +13,28 @@ import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/auth/screens/login_screen.dart';
+import 'package:happy_habit/modules/auth/services/auth_provider.dart';
 import 'package:happy_habit/modules/auth/shared/verify_otp_bottom_sheet.dart';
 
 import '../../../core/constants/asset_paths.dart';
 import '../../../core/shared/modals/custom_dialog.dart';
 
-class SignInScreen extends StatefulWidget {
-  static const id = '/SignInScreen';
+class SignUpScreen extends StatefulWidget {
+  static const id = '/SignUpScreen';
 
-  const SignInScreen({super.key});
+  const SignUpScreen({super.key});
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
+  final _prov = serviceLocator<AuthProvider>();
+
   final _isLoading = ValueNotifier(false);
   final _allowedTermsAndConditions = ValueNotifier(false);
 
-  final _username = InputDescriptor();
+  final _name = InputDescriptor();
   final _email = InputDescriptor();
   final _password = InputDescriptor();
   final _confirmPassword = InputDescriptor();
@@ -41,7 +45,7 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   void dispose() {
     _isLoading.dispose();
-    _username.dispose();
+    _name.dispose();
     _email.dispose();
     _password.dispose();
     _confirmPassword.dispose();
@@ -80,11 +84,11 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
             40.height,
             CustomTextField(
-              hint: 'Username',
-              descriptor: _username,
+              hint: 'Name',
+              descriptor: _name,
               validator: (value) => Validators.emptyValidationCheck(
                 value,
-                message: 'Enter username',
+                message: 'Enter name',
               ),
             ),
             15.height,
@@ -153,27 +157,37 @@ class _SignInScreenState extends State<SignInScreen> {
       return;
     }
 
-    final response = await showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (_) => VerifyOtpBottomSheet(
-        email: _email.text,
-      ),
-    ) as bool?;
-    // final response = await VerifyOtpNavigation.openVerifyBottomSheet(context, _email.text);
+    final body = {
+      'name': _name.text,
+      'email': _email.text,
+      'password': _password.text,
+      'tc_status': _allowedTermsAndConditions.value,
+    };
 
-    if (response ?? false) {
-      if (mounted) {
-        showDialog(
-          context: context,
-          barrierDismissible: true,
-          builder: (_) => CustomDialog(
-            onAction: _onSuccess,
-            svg: AppIcons.success,
-            title: 'Verification Complete!',
-            message: 'Thanks for your patience. Enjoy the all features of app',
-          ),
-        );
+    _isLoading.value = true;
+    final int? uid = await _prov.signup(body);
+    _isLoading.value = false;
+
+    if (uid != null && mounted) {
+      final isVerified = await showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (_) => VerifyOtpBottomSheet(uid: uid),
+      ) as bool?;
+
+      if (isVerified ?? false) {
+        if (mounted) {
+          showDialog(
+            context: context,
+            barrierDismissible: true,
+            builder: (_) => CustomDialog(
+              onAction: _onSuccess,
+              svg: AppIcons.success,
+              title: 'Verification Complete!',
+              message: 'Thanks for your patience. Enjoy the all features of app',
+            ),
+          );
+        }
       }
     }
   }

@@ -14,17 +14,12 @@ class Activity {
   static List<Activity> activities = [
     Activity(
       title: "sleep",
-      duration: Duration(hours: 12),
+      duration: Duration(hours: 2),
       color: Color(0xFF80E335),
     ),
-    // Activity(
-    //   title: "Productivity",
-    //   duration: Duration(hours: 8),
-    //   color: Color(0xFFEF1152),
-    // ),
     Activity(
       title: "focus",
-      duration: Duration(hours: 4),
+      duration: Duration(hours: 2),
       color: Color(0xFFF72805),
     ),
     Activity(
@@ -34,7 +29,7 @@ class Activity {
     ),
     Activity(
       title: "workout",
-      duration: Duration(hours: 1, minutes: 15),
+      duration: Duration(hours: 2),
       color: Color(0xFFE8EB03),
     ),
   ];

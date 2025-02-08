@@ -58,4 +58,9 @@ class NavigationProvider extends ChangeNotifier {
     }
     _isFirstLaunch = false;
   }
+
+  void reset() {
+    _currentIndex = 2;
+    notifyListeners();
+  }
 }

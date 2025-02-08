@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:happy_habit/core/shared/helper_functions/play_music.dart';
 import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 
-import '../../../core/constants/asset_paths.dart';
+enum MusicFlavors { none, music, piano, rain, flower }
 
 class MusicSelectionPopup extends StatelessWidget {
-  MusicSelectionPopup({super.key});
+  final MusicFlavors selectedMusic;
+  final ValueChanged<MusicFlavors> onChanged;
 
-  final _musicFlavors = [
-    AppIcons.music,
-    AppIcons.piano,
-    AppIcons.rain,
-    AppIcons.flower,
-  ];
+  const MusicSelectionPopup({
+    super.key,
+    required this.onChanged,
+    required this.selectedMusic,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class MusicSelectionPopup extends StatelessWidget {
           child: GridView.builder(
             shrinkWrap: true,
             padding: EdgeInsets.zero,
-            itemCount: _musicFlavors.length,
+            itemCount: _musics.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 1,
@@ -41,10 +42,10 @@ class MusicSelectionPopup extends StatelessWidget {
                 radius: 100,
                 padding: EdgeInsets.all(12.r),
                 color: ThemeColor.backgroundV2,
-                onTap: () => Navigator.pop(context),
+                onTap: () => _musicManagement(context, _musics[i]),
                 child: Center(
                   child: SvgPicture.asset(
-                    _musicFlavors[i],
+                    'assets/icons/${_musics[i].name}.svg',
                     width: 50.r,
                     height: 50.r,
                   ),
@@ -55,5 +56,20 @@ class MusicSelectionPopup extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  List<MusicFlavors> get _musics {
+    return MusicFlavors.values.where((x) => x != MusicFlavors.none).toList();
+  }
+
+  void _musicManagement(BuildContext context, MusicFlavors flavor) {
+    if (flavor == selectedMusic) {
+      Music.stop();
+      onChanged.call(MusicFlavors.none);
+    } else {
+      Music.play('musics/${flavor.name}.mp3');
+      onChanged.call(flavor);
+    }
+    Navigator.pop(context);
   }
 }

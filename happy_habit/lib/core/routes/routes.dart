@@ -11,7 +11,7 @@ import '../../modules/achievements/screens/achievements_screen.dart';
 import '../../modules/activity/screens/activity_result_screen.dart';
 import '../../modules/activity/screens/activity_session_screen.dart';
 import '../../modules/auth/screens/forgot_password_screen.dart';
-import '../../modules/auth/screens/sign_in_screen.dart';
+import '../../modules/auth/screens/sign_up_screen.dart';
 import '../../modules/auth/screens/update_password_screen.dart';
 import '../../modules/chat/chat_screen.dart';
 import '../../modules/profile/screens/about_us_screen.dart';
@@ -21,9 +21,9 @@ import '../../modules/profile/screens/notifications_screen.dart';
 import '../../modules/profile/screens/profile_screen.dart';
 import '../../modules/profile/screens/setting_screen.dart';
 import '../../modules/profile/screens/streak_screen.dart';
-import '../../modules/profile_setup/screens/avatar_confirmation_screen.dart';
-import '../../modules/profile_setup/screens/avatar_selection_screen.dart';
-import '../../modules/profile_setup/screens/edit_avatar_screen.dart';
+import '../../modules/profile_setup/screens/character_confirmation_screen.dart';
+import '../../modules/profile_setup/screens/character_selection_screen.dart';
+import '../../modules/profile_setup/screens/edit_character_screen.dart';
 import '../../modules/profile_setup/screens/goals_setup_screen.dart';
 import '../../modules/profile_setup/screens/username_screen.dart';
 import '../../modules/store/screens/cart_screen.dart';
@@ -38,8 +38,8 @@ class Routes {
   static final GoRouter routers = GoRouter(
     navigatorKey: rootNavigatorKey,
     // initialLocation: TransitionScreen.id,
-    // initialLocation: OnboardingScreen.id,
-    initialLocation: NavigationScreen.id,
+    initialLocation: OnboardingScreen.id,
+    // initialLocation: NavigationScreen.id,
     // initialLocation: SubscriptionScreen.id,
     routes: [
       GoRoute(
@@ -63,7 +63,7 @@ class Routes {
       GoRoute(
         path: WelcomeScreen.id,
         name: WelcomeScreen.id,
-        builder: (context, state) => const WelcomeScreen(),
+        builder: (context, state) => WelcomeScreen(),
       ),
       GoRoute(
         path: LoginScreen.id,
@@ -78,14 +78,16 @@ class Routes {
           GoRoute(
             path: UpdatePasswordScreen.id,
             name: UpdatePasswordScreen.id,
-            builder: (context, state) => const UpdatePasswordScreen(),
+            builder: (context, state) => UpdatePasswordScreen(
+              uid: state.asMap['uid'],
+            ),
           ),
         ],
       ),
       GoRoute(
-        path: SignInScreen.id,
-        name: SignInScreen.id,
-        builder: (context, state) => const SignInScreen(),
+        path: SignUpScreen.id,
+        name: SignUpScreen.id,
+        builder: (context, state) => const SignUpScreen(),
       ),
       GoRoute(
         path: UsernameScreen.id,
@@ -98,22 +100,22 @@ class Routes {
             builder: (context, state) => const GoalsSetupScreen(),
             routes: [
               GoRoute(
-                path: AvatarSelectionScreen.id,
-                name: AvatarSelectionScreen.id,
-                builder: (context, state) => const AvatarSelectionScreen(),
+                path: CharacterSelectionScreen.id,
+                name: CharacterSelectionScreen.id,
+                builder: (context, state) => const CharacterSelectionScreen(),
                 routes: [
                   GoRoute(
                     path: EditAvatarScreen.id,
                     name: EditAvatarScreen.id,
                     builder: (context, state) => EditAvatarScreen(
-                      characterPath: state.asMap['avatar'],
+                      gender: state.asMap['gender'],
                     ),
                     routes: [
                       GoRoute(
-                        path: AvatarConfirmationScreen.id,
-                        name: AvatarConfirmationScreen.id,
-                        builder: (context, state) => AvatarConfirmationScreen(
-                          avatar: state.asMap['avatar'],
+                        path: CharacterConfirmationScreen.id,
+                        name: CharacterConfirmationScreen.id,
+                        builder: (context, state) => CharacterConfirmationScreen(
+                          gender: state.asMap['gender'],
                         ),
                       ),
                     ],
@@ -169,6 +171,7 @@ class Routes {
             path: ActivitySessionScreen.id,
             name: ActivitySessionScreen.id,
             builder: (context, state) => ActivitySessionScreen(
+              activity: state.asMap['activity'],
               duration: state.asMap['duration'],
             ),
             routes: [

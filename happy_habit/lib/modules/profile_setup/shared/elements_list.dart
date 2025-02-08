@@ -7,14 +7,14 @@ import '../../../core/theme/theme_colors.dart';
 import 'accessory_tile.dart';
 
 class ElementsList extends StatelessWidget {
-  final String avatar;
+  final bool isMale;
   final Function(int, String) onChanged;
   final ValueNotifier<String> elementType;
   final ValueNotifier<Map<String, String>> selectedElement;
 
   const ElementsList({
     super.key,
-    required this.avatar,
+    required this.isMale,
     required this.onChanged,
     required this.elementType,
     required this.selectedElement,
@@ -74,7 +74,7 @@ class ElementsList extends StatelessWidget {
 
 // Get the correct accessories based on avatar type and selected accessory name
   List<String> _accessories(String accessoryType) {
-    if (avatar == 'male') {
+    if (isMale) {
       return maleAccessories(accessoryType); // Return male-specific accessories
     } else {
       return femaleAccessories(accessoryType); // Return female-specific accessories
