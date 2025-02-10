@@ -21,7 +21,6 @@ Future<void> main() async {
     // MainServices.initializeFirebase(),
   ]);
 
-
   setupLocator();
   // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top]);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
