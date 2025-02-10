@@ -18,18 +18,15 @@ class AuthTokenAdapter extends TypeAdapter<AuthToken> {
     };
     return AuthToken(
       jwtToken: fields[0] as String,
-      refreshToken: fields[1] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, AuthToken obj) {
     writer
-      ..writeByte(2)
-      ..writeByte(0)
-      ..write(obj._jwtToken)
       ..writeByte(1)
-      ..write(obj._refreshToken);
+      ..writeByte(0)
+      ..write(obj._jwtToken);
   }
 
   @override

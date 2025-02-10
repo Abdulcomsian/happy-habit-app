@@ -13,7 +13,7 @@ import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/auth/screens/login_screen.dart';
-import 'package:happy_habit/modules/navigation/navigation_provider.dart';
+import 'package:happy_habit/modules/auth/services/auth_provider.dart';
 import 'package:happy_habit/modules/profile/screens/notifications_screen.dart';
 import 'package:happy_habit/modules/profile/shared/profile_header.dart';
 
@@ -126,20 +126,21 @@ class SettingScreen extends StatelessWidget {
   }
 
   Future<void> _logout(BuildContext context) async {
-    final response = await showDialog(
-      context: context,
-      builder: (context) => CustomDialog(
-        actionLabel: 'Logout',
-        svg: AppIcons.happyStar,
-        title: 'Do you want to logout?',
-        message: "We are looking forward to see you soon!",
-        onAction: () => Navigator.pop(context, true),
-        onSecondaryAction: () => Navigator.pop(context, false),
-      ),
-    ) ?? false;
+    final shouldLogout = await showDialog(
+          context: context,
+          builder: (context) => CustomDialog(
+            actionLabel: 'Logout',
+            svg: AppIcons.happyStar,
+            title: 'Do you want to logout?',
+            message: "We are looking forward to see you soon!",
+            onAction: () => Navigator.pop(context, true),
+            onSecondaryAction: () => Navigator.pop(context, false),
+          ),
+        ) ??
+        false;
 
-    if (response && context.mounted) {
-      serviceLocator<NavigationProvider>().reset();
+    if (shouldLogout && context.mounted) {
+      serviceLocator<AuthProvider>().logout();
       context.goNamed(LoginScreen.id);
     }
   }

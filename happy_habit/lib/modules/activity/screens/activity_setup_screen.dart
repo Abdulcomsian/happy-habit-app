@@ -1,13 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:happy_habit/core/extensions/string_extensions.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
-import 'package:happy_habit/core/shared/widgets/app_toast.dart';
+import 'package:happy_habit/core/services/logger.dart';
 import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
@@ -33,6 +34,7 @@ class ActivitySetupScreen extends StatefulWidget {
 class _ActivitySetupScreenState extends State<ActivitySetupScreen> {
   late final ValueNotifier<String> _selectedActivity;
   final ValueNotifier<Duration> _duration = ValueNotifier(Duration.zero);
+
   // final ValueNotifier<Duration> _duration = ValueNotifier(Duration(minutes: 15));
 
   @override
@@ -60,10 +62,10 @@ class _ActivitySetupScreenState extends State<ActivitySetupScreen> {
             StartButton(
               onTap: () {
                 // if (_duration.value.inSeconds >= 900) {
-                  context.pushNamed(ActivitySessionScreen.id, extra: {
-                    'duration': _duration.value,
-                    'activity': _selectedActivity.value,
-                  });
+                context.pushNamed(ActivitySessionScreen.id, extra: {
+                  'duration': _duration.value,
+                  'activity': _selectedActivity.value,
+                });
                 // } else {
                 //   AppToast.show('Activity session duration should be greater than 15 minutes');
                 // }
@@ -118,20 +120,25 @@ class _ActivitySetupScreenState extends State<ActivitySetupScreen> {
             ],
           ),
           15.height,
-          ValueListenableBuilder(
-            valueListenable: _selectedActivity,
-            builder: (context, activity, _) {
-              return ActivityTile(
-                activity: activity,
-                onChanged: (value) => _selectedActivity.value = value,
-              );
-            },
+          SizedBox(
+            height: 110.h,
+            child: ListWheelScrollView.useDelegate(
+              itemExtent: 100.h,
+              physics: FixedExtentScrollPhysics(),
+              onSelectedItemChanged: _onSelectedItemChanged,
+              childDelegate: ListWheelChildBuilderDelegate(
+                childCount: _activities.length,
+                builder: (context, i) => ActivityTile(
+                  activity: _activities[i],
+                ),
+              ),
+            ),
           ),
           5.height,
           TextButton.icon(
-            onPressed: () {},
             label: Text('Add New'),
             icon: Icon(CupertinoIcons.add_circled),
+            onPressed: () => _onAddActivity(context),
           ),
           40.height,
           ValueListenableBuilder(
@@ -154,62 +161,63 @@ class _ActivitySetupScreenState extends State<ActivitySetupScreen> {
     'study',
     'workout',
   ];
-}
 
-class ActivityTile extends StatelessWidget {
-  final String activity;
-  final ValueChanged<String> onChanged;
-
-  const ActivityTile({
-    super.key,
-    required this.activity,
-    required this.onChanged,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return TapWidget(
-      onTap: () => _onActivityChange(context),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 10.h),
-        decoration: BoxDecoration(
-          color: ThemeColor.vividGreen,
-          borderRadius: BorderRadius.circular(12.r),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              activity.capitalize(),
-              style: context.bodyLarge?.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SvgPicture.asset(
-              'assets/icons/$activity.svg',
-              width: 86.r,
-              height: 86.r,
-            )
-          ],
-        ),
-      ),
-    );
+  void _onSelectedItemChanged(int i) {
+    _selectedActivity.value = _activities[i];
+    Logger.logInfo('_selectedActivity: ${_selectedActivity.value}');
   }
 
-  Future<void> _onActivityChange(BuildContext context) async {
+  Future<void> _onAddActivity(BuildContext context) async {
     final response = await showDialog<String?>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext dialogContext) {
-        return ActivitySelectionPopup(
-          selectedActivity: activity,
-        );
+        return ActivitySelectionPopup();
       },
     );
 
     if (response != null) {
-      onChanged.call(response);
+      _activities.add(response);
+      _selectedActivity.value = response;
+      setState(() {});
     }
+  }
+}
+
+class ActivityTile extends StatelessWidget {
+  final String activity;
+
+  const ActivityTile({
+    super.key,
+    required this.activity,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 5.w),
+      padding: EdgeInsets.symmetric(horizontal: 18.w),
+      decoration: BoxDecoration(
+        color: ThemeColor.vividGreen,
+        borderRadius: BorderRadius.circular(12.r),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            activity.capitalize(),
+            style: context.bodyLarge?.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SvgPicture.asset(
+            'assets/icons/$activity.svg',
+            width: 86.r,
+            height: 86.r,
+          )
+        ],
+      ),
+    );
   }
 }

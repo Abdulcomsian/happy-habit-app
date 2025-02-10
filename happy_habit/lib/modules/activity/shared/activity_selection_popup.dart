@@ -3,26 +3,46 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:happy_habit/core/extensions/string_extensions.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
+import 'package:happy_habit/core/services/validators.dart';
 import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 
 import '../../../core/shared/widgets/custom_button.dart';
 
-class ActivitySelectionPopup extends StatelessWidget {
-  final String selectedActivity;
-  late final ValueNotifier _selectedActivity;
+class ActivitySelectionPopup extends StatefulWidget {
 
-  ActivitySelectionPopup({super.key, required this.selectedActivity}) {
-    _selectedActivity = ValueNotifier(selectedActivity);
-  }
+  const ActivitySelectionPopup({super.key});
 
-  final List<String> _activities = [
+  @override
+  State<ActivitySelectionPopup> createState() => _ActivitySelectionPopupState();
+}
+
+class _ActivitySelectionPopupState extends State<ActivitySelectionPopup> {
+  late final ValueNotifier _selectedMode;
+  final _controller = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+  AutovalidateMode _validateMode = AutovalidateMode.disabled;
+
+  final List<String> _modes = [
     'meditation',
     'read',
     'study',
     'workout',
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedMode = ValueNotifier(_modes.first);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,20 +60,25 @@ class ActivitySelectionPopup extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TextFormField(
-            controller: TextEditingController(),
-            style: context.bodyMedium?.copyWith(
-              color: ThemeColor.primary,
-            ),
-            onTapOutside: (event) => FocusScope.of(context).unfocus(),
-            decoration: InputDecoration(
-              hintText: 'Title here',
-              hintStyle: context.bodyMedium?.copyWith(
+          Form(
+            key: _formKey,
+            autovalidateMode: _validateMode,
+            child: TextFormField(
+              controller: _controller,
+              style: context.bodyMedium?.copyWith(
                 color: ThemeColor.primary,
               ),
-              border: _border,
-              focusedBorder: _border,
-              enabledBorder: _border,
+              onTapOutside: (event) => FocusScope.of(context).unfocus(),
+              validator: (value) => Validators.emptyValidationCheck(value, message: 'Enter title'),
+              decoration: InputDecoration(
+                hintText: 'Title here',
+                hintStyle: context.bodyMedium?.copyWith(
+                  color: ThemeColor.primary,
+                ),
+                border: _border,
+                focusedBorder: _border,
+                enabledBorder: _border,
+              ),
             ),
           ),
           15.height,
@@ -72,11 +97,11 @@ class ActivitySelectionPopup extends StatelessWidget {
                 runSpacing: 12.r,
                 alignment: WrapAlignment.center,
                 children: List.generate(
-                  _activities.length,
+                  _modes.length,
                   (i) => TapWidget(
-                    onTap: () => _selectedActivity.value = _activities[i],
+                    onTap: () => _selectedMode.value = _modes[i],
                     child: ValueListenableBuilder(
-                      valueListenable: _selectedActivity,
+                      valueListenable: _selectedMode,
                       builder: (context, act, _) {
                         return Container(
                           width: 80.r,
@@ -85,23 +110,23 @@ class ActivitySelectionPopup extends StatelessWidget {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.r),
                             border: Border.all(
-                              color: _activities[i] == act ? ThemeColor.primary : ThemeColor.border,
+                              color: _modes[i] == act ? ThemeColor.primary : ThemeColor.border,
                             ),
                           ),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               SvgPicture.asset(
-                                'assets/icons/${_activities[i]}.svg',
+                                'assets/icons/${_modes[i]}.svg',
                                 width: 40.r,
                                 height: 40.r,
                               ),
                               5.height,
                               Text(
-                                _activities[i].capitalize(),
+                                _modes[i].capitalize(),
                                 style: context.bodySmall?.copyWith(
-                                  color: _activities[i] == act ? ThemeColor.primary : null,
-                                  fontWeight: _activities[i] == act ? FontWeight.w600 : FontWeight.w500,
+                                  color: _modes[i] == act ? ThemeColor.primary : null,
+                                  fontWeight: _modes[i] == act ? FontWeight.w600 : FontWeight.w500,
                                 ),
                               ),
                             ],
@@ -128,7 +153,7 @@ class ActivitySelectionPopup extends StatelessWidget {
               Flexible(
                 child: CustomButton(
                   label: 'Submit',
-                  onPressed: () => Navigator.pop(context, _selectedActivity.value),
+                  onPressed: () => _submit(context),
                 ),
               ),
             ],
@@ -136,6 +161,16 @@ class ActivitySelectionPopup extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _submit(BuildContext context) {
+    if(!_formKey.currentState!.validate()){
+      setState(() => _validateMode = AutovalidateMode.onUserInteraction);
+      return;
+    }
+
+    Navigator.pop(context, _selectedMode.value);
+    // Navigator.pop(context, _controller.text.trim());
   }
 
   OutlineInputBorder get _border => OutlineInputBorder(

@@ -79,7 +79,7 @@ class _ProgressTrackingScreenState extends State<ProgressTrackingScreen> {
           ),
           20.height,
           Text(
-            'Progress Tracking',
+            'Focused time',
             style: context.titleMedium?.copyWith(
               color: ThemeColor.hint,
               fontWeight: FontWeight.bold,

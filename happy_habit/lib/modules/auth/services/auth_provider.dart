@@ -3,6 +3,8 @@ import 'package:happy_habit/modules/auth/services/auth_networking.dart';
 
 import '../../../core/hive/hive_constants.dart';
 import '../../../core/hive/hive_db_service.dart';
+import '../../../core/services/providers.dart';
+import '../../navigation/navigation_provider.dart';
 import 'app_user.dart';
 import 'auth_token.dart';
 
@@ -86,7 +88,12 @@ class AuthProvider extends ChangeNotifier {
     return false;
   }
 
-  Future<void> logout() async {}
+  Future<void> logout() async {
+    _appUser = null;
+    _authToken = null;
+    serviceLocator<NavigationProvider>().reset();
+    _hiveDBService.resetBox(boxKey: HiveConstants.kAuthToken);
+  }
 
   Future<bool> sendOtp(int uid) async {
     return await _networkingLayer.sendOtp(uid);
