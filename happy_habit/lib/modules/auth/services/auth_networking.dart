@@ -45,7 +45,7 @@ class AuthNetworking {
   }
 
   Future<AppUser?> getUserProfile() async {
-    const urlExt = '/api/user-profile';
+    const urlExt = '/api/my-profile';
 
     final response = await _networkingLayer.makeRequest(
       RequestType.GET,
@@ -55,7 +55,7 @@ class AuthNetworking {
 
     response.showMessage();
     if (response.success && response.data != null) {
-      return AppUser.fromJson(response.data!['user']);
+      return AppUser.fromJson(response.data!);
     }
     return null;
   }
@@ -123,5 +123,26 @@ class AuthNetworking {
 
     response.showMessage();
     return response.success;
+  }
+
+  Future<AuthToken?> refreshToken(String token) async {
+    const urlExt = '/api/refresh-token';
+
+    final response = await _networkingLayer.makeRequest(
+      RequestType.POST,
+      urlExt,
+      body: FormData.fromMap({
+        'token': token,
+      }),
+    );
+
+    if (response.success && response.data != null) {
+      final token = {
+        'access_token': response.data!['refresh_token'],
+      };
+      return AuthToken.fromJson(token);
+    } else {
+      return null;
+    }
   }
 }

@@ -15,6 +15,10 @@ class AuthToken extends HiveObject {
     jwtToken: json['access_token'],
   );
 
+  String get token {
+    return _jwtToken;
+  }
+
   String get accessToken {
     return 'Bearer $_jwtToken';
   }

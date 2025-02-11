@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:happy_habit/core/services/logger.dart';
 import 'package:happy_habit/core/services/providers.dart';
 import 'package:happy_habit/modules/auth/services/auth_provider.dart';
 
@@ -36,21 +35,13 @@ class RefreshTokenInterceptor extends Interceptor {
   }
 
   Future<void> _handleAuthenticationError(DioException err, ErrorInterceptorHandler handler) async {
-    try {
-      bool success = await _refreshToken();
-      if (success) {
-        final response = await _retry(err.requestOptions);
-        return handler.resolve(response);
-      } else {
-        await _signOut();
-      }
-    } catch (e) {
-      Logger.logError('Error while refreshing token');
+    if (await serviceLocator<AuthProvider>().refreshToken()) {
+      final response = await _retry(err.requestOptions);
+      return handler.resolve(response);
+    } else {
+      await _signOut();
+      super.onError(err, handler);
     }
-  }
-
-  Future<bool> _refreshToken() async {
-    return await serviceLocator<AuthProvider>().getRefreshToken();
   }
 
   Future<void> _signOut() async {

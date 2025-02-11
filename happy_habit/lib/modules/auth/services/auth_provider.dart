@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:happy_habit/modules/auth/services/auth_networking.dart';
 
 import '../../../core/hive/hive_constants.dart';
 import '../../../core/hive/hive_db_service.dart';
+import '../../../core/routes/routes.dart';
 import '../../../core/services/providers.dart';
 import '../../navigation/navigation_provider.dart';
+import '../screens/login_screen.dart';
 import 'app_user.dart';
 import 'auth_token.dart';
 
@@ -45,10 +48,26 @@ class AuthProvider extends ChangeNotifier {
     return response != null;
   }
 
+  Future<bool> refreshToken() async {
+    final token = await _networkingLayer.refreshToken(_authToken!.token);
+    _authToken = token;
+    if (token != null) {
+      storeAuthToken();
+    } else {
+      clearToken();
+    }
+
+    return token != null;
+  }
+
   Future<bool> getUserProfile() async {
     final appUser = await _networkingLayer.getUserProfile();
     _appUser = appUser;
-    if (appUser != null) notifyListeners();
+    if (appUser != null) {
+      notifyListeners();
+    } else {
+      clearToken();
+    }
     return appUser != null;
   }
 
@@ -84,15 +103,19 @@ class AuthProvider extends ChangeNotifier {
     return true;
   }
 
-  Future<bool> getRefreshToken() async {
-    return false;
+  void clearToken() {
+    _authToken = null;
+    _hiveDBService.resetBox(boxKey: HiveConstants.kAuthToken);
   }
 
   Future<void> logout() async {
+    clearToken();
     _appUser = null;
     _authToken = null;
     serviceLocator<NavigationProvider>().reset();
-    _hiveDBService.resetBox(boxKey: HiveConstants.kAuthToken);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => Routes.rootNavigatorKey.currentContext!.goNamed(LoginScreen.id),
+    );
   }
 
   Future<bool> sendOtp(int uid) async {

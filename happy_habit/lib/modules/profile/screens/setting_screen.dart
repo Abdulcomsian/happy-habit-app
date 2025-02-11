@@ -12,7 +12,6 @@ import 'package:happy_habit/core/shared/widgets/root_screen.dart';
 import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
-import 'package:happy_habit/modules/auth/screens/login_screen.dart';
 import 'package:happy_habit/modules/auth/services/auth_provider.dart';
 import 'package:happy_habit/modules/profile/screens/notifications_screen.dart';
 import 'package:happy_habit/modules/profile/shared/profile_header.dart';
@@ -141,7 +140,6 @@ class SettingScreen extends StatelessWidget {
 
     if (shouldLogout && context.mounted) {
       serviceLocator<AuthProvider>().logout();
-      context.goNamed(LoginScreen.id);
     }
   }
 }

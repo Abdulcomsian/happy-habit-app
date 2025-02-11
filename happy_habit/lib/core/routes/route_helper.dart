@@ -32,10 +32,10 @@ class RouteHelper {
     }
 
     if (isUserLoggedIn) {
-      // final isSuccess = await authProv.getUserProfile();
+      final isSuccess = await authProv.getUserProfile();
       FlutterNativeSplash.remove();
-      // return isSuccess ? NavigationScreen.id : LoginScreen.id;
-      return NavigationScreen.id;
+      return isSuccess ? NavigationScreen.id : LoginScreen.id;
+      // return NavigationScreen.id;
     }
 
     FlutterNativeSplash.remove();
