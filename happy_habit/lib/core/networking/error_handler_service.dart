@@ -66,9 +66,9 @@ class CustomExceptionHandler {
         e.response != null &&
         e.response!.data != null &&
         e.response!.data is Map &&
-        e.response!.data['msg'] != null) {
+        e.response!.data['message'] != null) {
       try {
-        final String message = e.response!.data['msg'];
+        final String message = e.response!.data['message'];
 
         return ApiResponseGeneric(
           success: false,

@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:happy_habit/core/services/providers.dart';
+import 'package:happy_habit/modules/auth/services/auth_provider.dart';
+
+import 'goal.dart';
+import 'profile_setup_networking.dart';
 
 class ProfileSetupProvider extends ChangeNotifier {
   static final ProfileSetupProvider _instance = ProfileSetupProvider._internal();
@@ -8,14 +13,25 @@ class ProfileSetupProvider extends ChangeNotifier {
   ProfileSetupProvider._internal();
 
   // Your methods and properties here
-  Future<bool> validateUsername(String username) async {
+  final _networkingLayer = ProfileSetupNetworking();
 
-    await Future.delayed(Duration(milliseconds: 500));
-    return true;
+  List<Goal> get goals => _goals;
+  List<Goal> _goals = [];
+
+  Future<bool> validateUsername(String username) async {
+    return await _networkingLayer.validateUsername(username);
   }
 
   Future<bool> setUsername(String username) async {
-    await Future.delayed(Duration(milliseconds: 500));
-    return true;
+    final uid = serviceLocator<AuthProvider>().appUser!.id;
+    return await _networkingLayer.setUsername(uid, username);
+  }
+
+  Future<void> getGoals() async {
+    final goals = await _networkingLayer.getGoals();
+    if (goals != null) {
+      _goals = goals;
+      notifyListeners();
+    }
   }
 }

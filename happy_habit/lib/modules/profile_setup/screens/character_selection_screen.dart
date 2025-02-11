@@ -9,7 +9,7 @@ import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/profile_setup/screens/edit_character_screen.dart';
 
 class CharacterSelectionScreen extends StatefulWidget {
-  static const id = 'CharacterSelectionScreen';
+  static const id = '/CharacterSelectionScreen';
 
   const CharacterSelectionScreen({super.key});
 

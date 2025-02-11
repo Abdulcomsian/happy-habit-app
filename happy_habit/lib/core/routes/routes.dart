@@ -93,34 +93,30 @@ class Routes {
         path: UsernameScreen.id,
         name: UsernameScreen.id,
         builder: (context, state) => const UsernameScreen(),
+      ),
+      GoRoute(
+        path: GoalsSetupScreen.id,
+        name: GoalsSetupScreen.id,
+        builder: (context, state) => const GoalsSetupScreen(),
+      ),
+      GoRoute(
+        path: CharacterSelectionScreen.id,
+        name: CharacterSelectionScreen.id,
+        builder: (context, state) => const CharacterSelectionScreen(),
         routes: [
           GoRoute(
-            path: GoalsSetupScreen.id,
-            name: GoalsSetupScreen.id,
-            builder: (context, state) => const GoalsSetupScreen(),
+            path: EditAvatarScreen.id,
+            name: EditAvatarScreen.id,
+            builder: (context, state) => EditAvatarScreen(
+              gender: state.asMap['gender'],
+            ),
             routes: [
               GoRoute(
-                path: CharacterSelectionScreen.id,
-                name: CharacterSelectionScreen.id,
-                builder: (context, state) => const CharacterSelectionScreen(),
-                routes: [
-                  GoRoute(
-                    path: EditAvatarScreen.id,
-                    name: EditAvatarScreen.id,
-                    builder: (context, state) => EditAvatarScreen(
-                      gender: state.asMap['gender'],
-                    ),
-                    routes: [
-                      GoRoute(
-                        path: CharacterConfirmationScreen.id,
-                        name: CharacterConfirmationScreen.id,
-                        builder: (context, state) => CharacterConfirmationScreen(
-                          gender: state.asMap['gender'],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                path: CharacterConfirmationScreen.id,
+                name: CharacterConfirmationScreen.id,
+                builder: (context, state) => CharacterConfirmationScreen(
+                  gender: state.asMap['gender'],
+                ),
               ),
             ],
           ),

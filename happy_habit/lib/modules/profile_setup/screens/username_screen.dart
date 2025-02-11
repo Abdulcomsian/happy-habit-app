@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
+import 'package:happy_habit/core/services/logger.dart';
 import 'package:happy_habit/core/services/providers.dart';
 import 'package:happy_habit/core/services/validators.dart';
 import 'package:happy_habit/core/shared/widgets/custom_button.dart';
@@ -56,10 +57,10 @@ class _UsernameScreenState extends State<UsernameScreen> {
         padding: EdgeInsets.all(20.r),
         child: ValueListenableBuilder(
           valueListenable: _isUsernameValid,
-          builder: (context, isUsernameSetup, _) {
+          builder: (context, isUsernameValid, _) {
             return CustomButton(
               label: 'Set Username',
-              onPressed: isUsernameSetup ? _setUsername : null,
+              onPressed: isUsernameValid ? _setUsername : null,
             );
           },
         ),
@@ -123,11 +124,11 @@ class _UsernameScreenState extends State<UsernameScreen> {
   void _debounceValidateUsername(String username) {
     username = username.trim();
 
-    if (username.isEmpty) {
-      _isUsernameValid.value = false;
-      _isValidatingUsername.value = false; // Stop validating immediately if the field is empty
-      return;
-    }
+    _isUsernameValid.value = false;
+    _isValidatingUsername.value = username.isNotEmpty;
+    Logger.logInfo('_isUsernameValid: ${_isUsernameValid.value}');
+
+    if (username.isEmpty) return;
 
     // Cancel the previous timer if it exists
     _debounceTimer?.cancel();
@@ -139,7 +140,7 @@ class _UsernameScreenState extends State<UsernameScreen> {
   }
 
   Future<void> _validateUsername(String username) async {
-    _isValidatingUsername.value = true;
+    // _isValidatingUsername.value = true;
 
     final success = await prov.validateUsername(username);
     _isUsernameValid.value = success;

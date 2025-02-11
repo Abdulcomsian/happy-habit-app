@@ -9,8 +9,9 @@ class ApiResponseGeneric {
   int? code;
   bool success;
   String? type;
+  dynamic data;
   String? message;
-  Map<String, dynamic>? data;
+  // Map<String, dynamic>? data;
 
   ApiResponseGeneric({
     this.code,

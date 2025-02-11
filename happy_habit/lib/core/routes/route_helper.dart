@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
+import 'package:happy_habit/core/extensions/string_extensions.dart';
 import 'package:happy_habit/modules/auth/screens/login_screen.dart';
 import 'package:happy_habit/modules/auth/screens/welcome_screen.dart';
 import 'package:happy_habit/modules/auth/services/auth_provider.dart';
 import 'package:happy_habit/modules/navigation/navigation_provider.dart';
 import 'package:happy_habit/modules/navigation/navigation_screen.dart';
 import 'package:happy_habit/modules/profile_setup/screens/username_screen.dart';
+import 'package:happy_habit/modules/profile_setup/services/profile_setup_provider.dart';
 
 import '../../modules/profile_setup/screens/character_selection_screen.dart';
 import '../../modules/profile_setup/screens/goals_setup_screen.dart';
@@ -56,14 +58,12 @@ class RouteHelper {
       // If Goals are not set up, redirect to the GoalsSetupScreen
       FlutterNativeSplash.remove();
       return GoalsSetupScreen.id;
-      // return null;
     }
 
     if (authProv.appUser?.gender == null) {
       // If character is not set up, redirect to the AvatarSelectionScreen
       FlutterNativeSplash.remove();
       return CharacterSelectionScreen.id;
-      // return null;
     }
 
 
