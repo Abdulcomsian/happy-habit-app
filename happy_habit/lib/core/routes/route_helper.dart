@@ -54,17 +54,17 @@ class RouteHelper {
       // return null; // todo: for development
     }
 
-    if (authProv.appUser?.areGoalsReady == false) {
-      // If Goals are not set up, redirect to the GoalsSetupScreen
-      FlutterNativeSplash.remove();
-      return GoalsSetupScreen.id;
-    }
-
-    if (authProv.appUser?.gender == null) {
-      // If character is not set up, redirect to the AvatarSelectionScreen
-      FlutterNativeSplash.remove();
-      return CharacterSelectionScreen.id;
-    }
+    // if (authProv.appUser?.areGoalsReady == false) {
+    //   // If Goals are not set up, redirect to the GoalsSetupScreen
+    //   FlutterNativeSplash.remove();
+    //   return GoalsSetupScreen.id;
+    // }
+    //
+    // if (authProv.appUser?.gender == null) {
+    //   // If character is not set up, redirect to the AvatarSelectionScreen
+    //   FlutterNativeSplash.remove();
+    //   return CharacterSelectionScreen.id;
+    // }
 
 
     // Remove the native splash screen once profile setup is complete

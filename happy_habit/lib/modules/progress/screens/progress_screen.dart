@@ -41,7 +41,7 @@ class ProgressScreen extends StatelessWidget {
                   builder: (context, prov, _) {
                     return Image.asset(
                       width: 198.w,
-                      height: 594.h,
+                      height: 0.73.sh,
                       DummyIcons.male,
                       fit: BoxFit.cover,
                     );

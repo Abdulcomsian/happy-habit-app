@@ -35,6 +35,8 @@ class _ActivitySetupScreenState extends State<ActivitySetupScreen> {
   late final ValueNotifier<String> _selectedActivity;
   final ValueNotifier<Duration> _duration = ValueNotifier(Duration.zero);
 
+  final _controller = FixedExtentScrollController();
+
   // final ValueNotifier<Duration> _duration = ValueNotifier(Duration(minutes: 15));
 
   @override
@@ -46,6 +48,7 @@ class _ActivitySetupScreenState extends State<ActivitySetupScreen> {
   @override
   void dispose() {
     _duration.dispose();
+    _controller.dispose();
     _selectedActivity.dispose();
     super.dispose();
   }
@@ -124,6 +127,7 @@ class _ActivitySetupScreenState extends State<ActivitySetupScreen> {
             height: 110.h,
             child: ListWheelScrollView.useDelegate(
               itemExtent: 100.h,
+              controller: _controller,
               physics: FixedExtentScrollPhysics(),
               onSelectedItemChanged: _onSelectedItemChanged,
               childDelegate: ListWheelChildBuilderDelegate(
@@ -177,9 +181,14 @@ class _ActivitySetupScreenState extends State<ActivitySetupScreen> {
     );
 
     if (response != null) {
-      _activities.add(response);
+      // _activities.add(response);
+      _activities.insert(0, response);
       _selectedActivity.value = response;
       setState(() {});
+
+      // Animate to the last index
+      double offset = _controller.position.minScrollExtent;  // Get the last scroll position
+      _controller.animateTo(offset, duration: Duration(milliseconds: 300), curve: Curves.easeIn);
     }
   }
 }

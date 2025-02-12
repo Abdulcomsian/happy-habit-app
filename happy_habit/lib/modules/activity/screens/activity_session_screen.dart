@@ -36,9 +36,11 @@ class ActivitySessionScreen extends StatefulWidget {
 
 class _ActivitySessionScreenState extends State<ActivitySessionScreen> with WidgetsBindingObserver {
   late Timer _timer;
-  MusicFlavors _selectedMusic = MusicFlavors.music;
   final ValueNotifier<bool> _isActivityPaused = ValueNotifier(false);
   final ValueNotifier<Duration> _sessionDuration = ValueNotifier(Duration.zero);
+  final ValueNotifier<MusicFlavors> _selectedMusic = ValueNotifier(MusicFlavors.none);
+
+  MusicFlavors? _previousMusic;
 
   @override
   void initState() {
@@ -79,9 +81,10 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
   @override
   void dispose() {
     _timer.cancel();
-    _isActivityPaused.dispose();
+    _selectedMusic.dispose();
     Music.playSuccessMusic();
     _sessionDuration.dispose();
+    _isActivityPaused.dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -130,15 +133,32 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
                         svg: AppIcons.closeCircle,
                       ),
                       ValueListenableBuilder(
-                        valueListenable: _isActivityPaused,
-                        builder: (context, isPaused, _) {
+                        valueListenable: _selectedMusic,
+                        builder: (context, music, _) {
                           return CustomIconButton(
-                            // onTap: isPaused ? _playTimer : _pauseTimer,
-                            onTap: () => _isActivityPaused.value = !_isActivityPaused.value,
-                            svg: isPaused ? AppIcons.play : AppIcons.pause,
+                            svg: music == MusicFlavors.none ? AppIcons.play : AppIcons.pause,
+                            onTap: () {
+                              if (music == MusicFlavors.none) {
+                                Music.play(_previousMusic?.path ?? AppMusics.music);
+                                _selectedMusic.value = _previousMusic ?? MusicFlavors.music;
+                              } else {
+                                Music.stop();
+                                _selectedMusic.value = MusicFlavors.none;
+                              }
+                            },
                           );
                         },
                       ),
+                      // ValueListenableBuilder(
+                      //   valueListenable: _isActivityPaused,
+                      //   builder: (context, isPaused, _) {
+                      //     return CustomIconButton(
+                      //       // onTap: isPaused ? _playTimer : _pauseTimer,
+                      //       onTap: () => _isActivityPaused.value = !_isActivityPaused.value,
+                      //       svg: isPaused ? AppIcons.play : AppIcons.pause,
+                      //     );
+                      //   },
+                      // ),
                     ],
                   )
                 ],
@@ -229,8 +249,11 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
       context: context,
       barrierDismissible: false,
       builder: (context) => MusicSelectionPopup(
-        selectedMusic: _selectedMusic,
-        onChanged: (value) => _selectedMusic = value,
+        selectedMusic: _selectedMusic.value,
+        onChanged: (value) {
+          _selectedMusic.value = value;
+          if (value != MusicFlavors.none) _previousMusic = value;
+        },
       ),
     );
 

@@ -13,6 +13,7 @@ import 'package:happy_habit/core/shared/widgets/root_screen.dart';
 import 'package:happy_habit/core/shared/widgets/value_listenable_builder_2.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
+import 'package:happy_habit/modules/navigation/navigation_screen.dart';
 
 import '../services/profile_setup_provider.dart';
 import 'goals_setup_screen.dart';
@@ -161,7 +162,8 @@ class _UsernameScreenState extends State<UsernameScreen> {
 
     if (success) {
       // Navigate to the next screen (e.g., ProfileSetupCompleteScreen or wherever needed)
-      if (mounted) context.pushReplacementNamed(GoalsSetupScreen.id);
+      // if (mounted) context.pushReplacementNamed(GoalsSetupScreen.id);
+      if (mounted) context.goNamed(NavigationScreen.id);
     } else {
       // Show an error message
     }

@@ -5,7 +5,16 @@ import 'package:happy_habit/core/shared/helper_functions/play_music.dart';
 import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 
-enum MusicFlavors { none, music, piano, rain, flower }
+enum MusicFlavors {
+  none,
+  music,
+  piano,
+  rain,
+  flower;
+
+  String get path => 'musics/$name.mp3';
+  String get icon => 'assets/icons/$name.svg';
+}
 
 class MusicSelectionPopup extends StatelessWidget {
   final MusicFlavors selectedMusic;
@@ -45,7 +54,7 @@ class MusicSelectionPopup extends StatelessWidget {
                 onTap: () => _musicManagement(context, _musics[i]),
                 child: Center(
                   child: SvgPicture.asset(
-                    'assets/icons/${_musics[i].name}.svg',
+                    _musics[i].icon,
                     width: 50.r,
                     height: 50.r,
                   ),
@@ -67,7 +76,7 @@ class MusicSelectionPopup extends StatelessWidget {
       Music.stop();
       onChanged.call(MusicFlavors.none);
     } else {
-      Music.play('musics/${flavor.name}.mp3');
+      Music.play(flavor.path);
       onChanged.call(flavor);
     }
     Navigator.pop(context);
