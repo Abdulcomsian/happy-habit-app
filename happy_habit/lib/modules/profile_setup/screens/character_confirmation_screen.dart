@@ -8,23 +8,29 @@ import 'package:happy_habit/core/shared/widgets/custom_outlined_button.dart';
 import 'package:happy_habit/core/shared/widgets/root_screen.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
-import 'package:happy_habit/modules/auth/services/auth_provider.dart';
 import 'package:happy_habit/modules/navigation/navigation_screen.dart';
+import 'package:happy_habit/modules/profile_setup/services/character_attributes.dart';
+import 'package:rive/rive.dart';
+
+import '../services/profile_setup_provider.dart';
 
 class CharacterConfirmationScreen extends StatefulWidget {
   static const id = 'CharacterConfirmationScreen';
 
-  final String gender;
+  final Artboard artboard;
+  final CharacterAttributes attributes;
 
-  const CharacterConfirmationScreen({super.key, required this.gender});
+  const CharacterConfirmationScreen({
+    super.key,
+    required this.artboard,
+    required this.attributes,
+  });
 
   @override
   State<CharacterConfirmationScreen> createState() => _CharacterConfirmationScreenState();
 }
 
 class _CharacterConfirmationScreenState extends State<CharacterConfirmationScreen> {
-  final _authProv = serviceLocator<AuthProvider>();
-
   @override
   Widget build(BuildContext context) {
     return RootScreen(
@@ -56,11 +62,12 @@ class _CharacterConfirmationScreenState extends State<CharacterConfirmationScree
                 bottom: Radius.circular(30.r),
               ),
             ),
-            child: Image.asset(
-              widget.gender,
+            child: SizedBox(
               width: 126.w,
               height: 384.h,
-              alignment: Alignment.bottomCenter,
+              child: Rive(
+                artboard: widget.artboard,
+              ),
             ),
           ),
           10.height,
@@ -83,7 +90,8 @@ class _CharacterConfirmationScreenState extends State<CharacterConfirmationScree
   }
 
   Future<void> _setProfile() async {
-    final success = await _authProv.saveCharacter(widget.gender);
+    final prov = serviceLocator<ProfileSetupProvider>();
+    final success = await prov.saveCharacter(widget.artboard, widget.attributes);
     if (success && mounted) context.goNamed(NavigationScreen.id);
   }
 }

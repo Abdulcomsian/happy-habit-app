@@ -4,7 +4,9 @@ import 'package:happy_habit/core/constants/avatar_asset_paths.dart';
 import 'package:happy_habit/core/extensions/string_extensions.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/services/logger.dart';
+import 'package:happy_habit/core/services/providers.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
+import 'package:happy_habit/modules/auth/services/auth_provider.dart';
 import 'package:happy_habit/modules/profile_setup/shared/element_types_list.dart';
 import 'package:happy_habit/modules/profile_setup/shared/elements_list.dart';
 import 'package:rive/rive.dart';
@@ -15,44 +17,37 @@ import '../shared/character_section.dart';
 class EditAvatarScreen extends StatefulWidget {
   static const id = 'EditAvatarScreen';
 
-  final String gender;
-
-  const EditAvatarScreen({super.key, required this.gender});
+  const EditAvatarScreen({super.key});
 
   @override
   State<EditAvatarScreen> createState() => _EditAvatarScreenState();
 }
 
 class _EditAvatarScreenState extends State<EditAvatarScreen> {
-  Artboard? riveArtboard;
-  late bool _isMaleCharacter;
-  late String _characterPath;
-  CharacterAttributes attributes = CharacterAttributes();
+  final _authProv = serviceLocator<AuthProvider>();
 
+  late Artboard riveArtboard;
+  late CharacterAttributes attributes;
+
+  final _isLoading = ValueNotifier(true);
   final _selectedElementTypes = ValueNotifier(AvatarIcons.elements.first);
   final _elementType = ValueNotifier(AvatarIcons.elements.first.basenameWithoutExtension());
 
   @override
   void initState() {
     super.initState();
-    _isMaleCharacter = widget.gender == 'male';
-    _characterPath = 'assets/characters/${widget.gender}.riv';
+    attributes = _authProv.appUser!.characterAttributes!;
     _loadCharacter();
   }
 
-  _loadCharacter() {
-    // rootBundle.load(widget.avatar).then(
-    rootBundle.load(_characterPath).then(
+  void _loadCharacter() async {
+    await rootBundle.load(attributes.path).then(
       (data) async {
         try {
           final file = RiveFile.import(data);
           final artboard = file.mainArtboard;
 
-          var machineCode = _isMaleCharacter ? 'State Machine 2' : 'State Machine 1';
-
-          Logger.logInfo("Character: ${widget.gender}");
-
-          var controller = StateMachineController.fromArtboard(artboard, machineCode);
+          var controller = StateMachineController.fromArtboard(artboard, attributes.machineCode);
 
           if (controller != null) {
             artboard.addController(controller);
@@ -64,7 +59,9 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
               _addAttributes(element);
             }
           }
-          setState(() => riveArtboard = artboard);
+          // setState(() => riveArtboard = artboard);
+          riveArtboard = artboard;
+          _isLoading.value = false;
         } catch (e) {
           Logger.logError(e);
         }
@@ -91,24 +88,28 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
       backgroundColor: ThemeColor.background,
       body: Column(
         children: [
-          CharacterSection(
-            gender: widget.gender,
-            artboard: riveArtboard,
-            characterPath: _characterPath,
+          ValueListenableBuilder(
+            valueListenable: _isLoading,
+            builder: (context, loading, _) {
+              return loading
+                  ? SizedBox.shrink()
+                  : CharacterSection(
+                      artboard: riveArtboard,
+                      attributes: attributes,
+                    );
+            },
           ),
           13.height,
           Align(
             alignment: Alignment.centerRight,
             child: ElementTypesList(
               onChanged: _setAccessory,
-              isMale: _isMaleCharacter,
               selectedAccessoriesTypes: _selectedElementTypes,
             ),
           ),
           13.height,
           ElementsList(
             onChanged: _setValue,
-            isMale: _isMaleCharacter,
             elementType: _elementType,
             selectedElement: _selectedElement,
           ),

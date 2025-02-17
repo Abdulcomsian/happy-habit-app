@@ -24,8 +24,8 @@ class ApiResponseGeneric {
   factory ApiResponseGeneric.fromResponse(Response response) {
     return ApiResponseGeneric(
       code: response.statusCode,
-      message: response.data['message'],
       data: response.data['data'] ?? response.data,
+      message: response.data['message'] ?? response.data['msg'],
       success: response.statusCode == 200 || response.statusCode == 201,
     );
   }

@@ -16,6 +16,7 @@ class AuthNetworking {
       body: FormData.fromMap(body),
     );
 
+    response.showMessage();
     if (response.success && response.data != null) {
       return response.data!['user_id'];
     } else {

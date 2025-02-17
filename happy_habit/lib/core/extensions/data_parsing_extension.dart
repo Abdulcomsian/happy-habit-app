@@ -5,3 +5,12 @@ extension JsonListMapper<T> on Map<String, dynamic> {
     return (list as List<dynamic>?)?.map((x) => fromJson(x as Map<String, dynamic>)).toList();
   }
 }
+
+extension JsonMapExtension on Map<String, dynamic> {
+  T? fromJsonDynamic<T>(String key, T Function(Map<String, dynamic>) fromJson) {
+    if (this[key] != null) {
+      return fromJson(this[key]);
+    }
+    return null;
+  }
+}

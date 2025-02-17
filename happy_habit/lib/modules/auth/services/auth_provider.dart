@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:happy_habit/modules/auth/screens/welcome_screen.dart';
 import 'package:happy_habit/modules/auth/services/auth_networking.dart';
+import 'package:happy_habit/modules/profile_setup/services/character_attributes.dart';
 
 import '../../../core/hive/hive_constants.dart';
 import '../../../core/hive/hive_db_service.dart';
 import '../../../core/routes/routes.dart';
 import '../../../core/services/providers.dart';
 import '../../navigation/navigation_provider.dart';
-import '../screens/login_screen.dart';
 import 'app_user.dart';
 import 'auth_token.dart';
 
@@ -97,12 +98,6 @@ class AuthProvider extends ChangeNotifier {
     );
   }
 
-  Future<bool> saveCharacter(String gender) async {
-    _appUser?.gender = gender;
-    notifyListeners();
-    return true;
-  }
-
   void clearToken() {
     _authToken = null;
     _hiveDBService.resetBox(boxKey: HiveConstants.kAuthToken);
@@ -114,7 +109,7 @@ class AuthProvider extends ChangeNotifier {
     _authToken = null;
     serviceLocator<NavigationProvider>().reset();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) => Routes.rootNavigatorKey.currentContext!.goNamed(LoginScreen.id),
+      (_) => Routes.rootNavigatorKey.currentContext!.goNamed(WelcomeScreen.id),
     );
   }
 
@@ -124,5 +119,27 @@ class AuthProvider extends ChangeNotifier {
 
   Future<bool> verifyOtp(int uid, int otp) async {
     return await _networkingLayer.verifyOtp(uid, otp);
+  }
+
+  void updateUser({
+    String? name,
+    String? email,
+    // String? gender,
+    String? imageUrl,
+    String? username,
+    bool? areGoalsReady,
+    CharacterAttributes? characterAttributes,
+  }) {
+    if (_appUser != null) {
+      _appUser = _appUser!
+        ..name = name ?? _appUser!.name
+        ..email = email ?? _appUser!.email
+        // ..gender = gender ?? _appUser!.gender
+        ..username = username ?? _appUser!.username
+        ..imageUrl = imageUrl ?? _appUser!.imageUrl
+        ..areGoalsReady = areGoalsReady ?? _appUser!.areGoalsReady
+        ..characterAttributes = characterAttributes ?? _appUser!.characterAttributes;
+      notifyListeners();
+    }
   }
 }

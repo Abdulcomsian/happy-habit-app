@@ -3,20 +3,23 @@ import 'package:happy_habit/core/constants/asset_paths.dart';
 import 'package:happy_habit/core/extensions/string_extensions.dart';
 import 'package:happy_habit/core/services/logger.dart';
 
+// Enum for the source type (URL or Asset)
+enum MusicSource { asset, url }
+
 class Music {
   static final AudioPlayer _audioPlayer = AudioPlayer();
 
-  static Future<void> play(String path) async {
+  static Future<void> play(String url, {MusicSource source = MusicSource.url}) async {
     try {
       // Stop any currently playing music
       await _audioPlayer.stop();
 
       // Play the specified music file at normal volume
-      await _audioPlayer.play(AssetSource(path), volume: 1.0, mode: PlayerMode.mediaPlayer);
+      await _audioPlayer.play(AssetSource(url), volume: 1.0, mode: PlayerMode.mediaPlayer);
 
       // Ensure looping
       _audioPlayer.setReleaseMode(ReleaseMode.loop);
-      Logger.logSuccess("Playing ${path.basenameWithoutExtension()} music");
+      Logger.logSuccess("Playing ${url.basenameWithoutExtension()} music");
     } catch (e) {
       Logger.logError("Error playing music: $e");
     }

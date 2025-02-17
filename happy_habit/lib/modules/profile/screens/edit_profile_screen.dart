@@ -10,7 +10,7 @@ import 'package:happy_habit/modules/profile/shared/profile_header.dart';
 import '../../../core/services/validators.dart';
 import '../../../core/shared/widgets/custom_button.dart';
 import '../../../core/shared/widgets/custom_text_field.dart';
-import '../../profile_setup/screens/edit_character_screen.dart';
+import '../../profile_setup/screens/edit_avatar_screen.dart';
 
 class EditProfileScreen extends StatefulWidget {
   static const id = 'EditProfileScreen';

@@ -23,7 +23,7 @@ import '../../modules/profile/screens/setting_screen.dart';
 import '../../modules/profile/screens/streak_screen.dart';
 import '../../modules/profile_setup/screens/character_confirmation_screen.dart';
 import '../../modules/profile_setup/screens/character_selection_screen.dart';
-import '../../modules/profile_setup/screens/edit_character_screen.dart';
+import '../../modules/profile_setup/screens/edit_avatar_screen.dart';
 import '../../modules/profile_setup/screens/goals_setup_screen.dart';
 import '../../modules/profile_setup/screens/username_screen.dart';
 import '../../modules/store/screens/cart_screen.dart';
@@ -107,15 +107,14 @@ class Routes {
           GoRoute(
             path: EditAvatarScreen.id,
             name: EditAvatarScreen.id,
-            builder: (context, state) => EditAvatarScreen(
-              gender: state.asMap['gender'],
-            ),
+            builder: (context, state) => const EditAvatarScreen(),
             routes: [
               GoRoute(
                 path: CharacterConfirmationScreen.id,
                 name: CharacterConfirmationScreen.id,
                 builder: (context, state) => CharacterConfirmationScreen(
-                  gender: state.asMap['gender'],
+                  artboard: state.asMap['artboard'],
+                  attributes: state.asMap['attributes'],
                 ),
               ),
             ],

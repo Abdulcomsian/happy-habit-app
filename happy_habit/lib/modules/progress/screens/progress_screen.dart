@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart' as m;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:happy_habit/core/avatar/avatar_provider.dart';
 import 'package:happy_habit/core/constants/asset_paths.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/services/providers.dart';
@@ -10,6 +12,7 @@ import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/modules/auth/services/auth_provider.dart';
 import 'package:happy_habit/modules/navigation/navigation_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:rive/rive.dart';
 
 import '../../../core/shared/widgets/custom_outlined_button.dart';
 
@@ -25,7 +28,7 @@ class ProgressScreen extends StatelessWidget {
       body: Stack(
         fit: StackFit.loose,
         children: [
-          Image.asset(
+          m.Image.asset(
             AppAssets.bg,
             width: 1.sw,
             height: 1.sh,
@@ -39,11 +42,16 @@ class ProgressScreen extends StatelessWidget {
               children: [
                 Consumer<AuthProvider>(
                   builder: (context, prov, _) {
-                    return Image.asset(
+                    return SizedBox(
                       width: 198.w,
                       height: 0.73.sh,
-                      DummyIcons.male,
-                      fit: BoxFit.cover,
+                      child: Consumer<AvatarProvider>(
+                        builder: (context, prov, _) {
+                          return Rive(
+                            artboard: prov.userArtboard,
+                          );
+                        },
+                      ),
                     );
                   },
                 ),

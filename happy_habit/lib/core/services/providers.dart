@@ -6,6 +6,7 @@ import 'package:provider/single_child_widget.dart';
 
 import '../../modules/home/services/home_provider.dart';
 import '../../modules/profile_setup/services/profile_setup_provider.dart';
+import '../avatar/avatar_provider.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -13,6 +14,7 @@ void setupLocator() {
   // Register services and repositories here
   serviceLocator.registerLazySingleton(() => AuthProvider());
   serviceLocator.registerLazySingleton(() => HomeProvider());
+  serviceLocator.registerLazySingleton(() => AvatarProvider());
   serviceLocator.registerLazySingleton(() => ProfileSetupProvider());
   serviceLocator.registerLazySingleton(() => NavigationProvider());
 }
@@ -22,6 +24,7 @@ class Providers {
     // List of repository providers
     ChangeNotifierProvider(create: (_) => serviceLocator<AuthProvider>()),
     ChangeNotifierProvider(create: (_) => serviceLocator<HomeProvider>()),
+    ChangeNotifierProvider(create: (_) => serviceLocator<AvatarProvider>()),
     ChangeNotifierProvider(create: (_) => serviceLocator<ProfileSetupProvider>()),
     ChangeNotifierProvider(create: (_) => serviceLocator<NavigationProvider>()),
   ];

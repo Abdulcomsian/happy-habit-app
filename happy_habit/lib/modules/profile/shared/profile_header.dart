@@ -6,15 +6,18 @@ import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
+import 'package:happy_habit/modules/auth/services/app_user.dart';
 import 'package:happy_habit/modules/profile/screens/setting_screen.dart';
 
 import '../../../core/constants/asset_paths.dart';
 
 class ProfileHeader extends StatelessWidget {
+  final AppUser? user;
   final bool isAppUser;
 
   const ProfileHeader({
     super.key,
+    this.user,
     this.isAppUser = false,
   });
 
@@ -34,7 +37,7 @@ class ProfileHeader extends StatelessWidget {
               children: [
                 10.height,
                 Text(
-                  'username',
+                  user?.username ?? 'username',
                   style: context.titleMedium?.copyWith(
                     color: ThemeColor.hint,
                   ),

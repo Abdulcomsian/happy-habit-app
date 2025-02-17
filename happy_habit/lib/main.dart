@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:rive/rive.dart';
 
 import 'core/environment/environment_config.dart';
 import 'core/services/providers.dart';
@@ -16,6 +17,7 @@ Future<void> main() async {
   String fileName = await environment.getFileNameFromEnvironment();
 
   await Future.wait<dynamic>([
+    RiveFile.initialize(),
     MainServices.setUpHive(),
     dotenv.load(fileName: fileName),
     // MainServices.initializeFirebase(),

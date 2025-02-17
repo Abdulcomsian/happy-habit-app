@@ -12,7 +12,7 @@ import 'package:happy_habit/modules/auth/services/auth_provider.dart';
 import 'package:happy_habit/modules/profile/screens/streak_screen.dart';
 
 import '../../achievements/screens/achievements_screen.dart';
-import '../../profile_setup/screens/edit_character_screen.dart';
+import '../../profile_setup/screens/edit_avatar_screen.dart';
 import '../../social/screens/social_screen.dart';
 import '../../store/screens/store_screen.dart';
 import '../../subscription/subscription_screen.dart';
@@ -56,9 +56,7 @@ class CustomDrawer extends StatelessWidget {
               onTap: () => context.pushNamed(SocialScreen.id),
             ),
             DrawerItem(
-              onTap: () => context.pushNamed(EditAvatarScreen.id, extra: {
-                'gender': serviceLocator<AuthProvider>().appUser!.gender,
-              }),
+              onTap: () => context.pushNamed(EditAvatarScreen.id),
               label: 'Character',
               svg: AppIcons.editUser,
             ),

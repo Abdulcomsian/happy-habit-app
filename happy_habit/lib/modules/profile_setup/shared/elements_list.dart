@@ -3,18 +3,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/constants/avatar_asset_paths.dart';
 import '../../../core/services/logger.dart';
+import '../../../core/services/providers.dart';
 import '../../../core/theme/theme_colors.dart';
+import '../../auth/services/auth_provider.dart';
 import 'accessory_tile.dart';
 
 class ElementsList extends StatelessWidget {
-  final bool isMale;
   final Function(int, String) onChanged;
   final ValueNotifier<String> elementType;
   final ValueNotifier<Map<String, String>> selectedElement;
 
   const ElementsList({
     super.key,
-    required this.isMale,
     required this.onChanged,
     required this.elementType,
     required this.selectedElement,
@@ -74,7 +74,8 @@ class ElementsList extends StatelessWidget {
 
 // Get the correct accessories based on avatar type and selected accessory name
   List<String> _accessories(String accessoryType) {
-    if (isMale) {
+    final attributes = serviceLocator<AuthProvider>().appUser!.characterAttributes!;
+    if (attributes.isMale) {
       return maleAccessories(accessoryType); // Return male-specific accessories
     } else {
       return femaleAccessories(accessoryType); // Return female-specific accessories

@@ -2,6 +2,17 @@ class BrandIcons {
   static const icon = 'assets/brand/app-icon.png';
 }
 
+class AppCharacters {
+  static const male = 'assets/characters/male.riv';
+  static const female = 'assets/characters/female.riv';
+
+  static const maleCode = 'State Machine 2';
+  static const femaleCode = 'State Machine 1';
+
+  static String character(bool isMale) {
+    return isMale ? male : female;
+  }
+}
 
 class AppMusics {
   static const piano = 'musics/piano.mp3';

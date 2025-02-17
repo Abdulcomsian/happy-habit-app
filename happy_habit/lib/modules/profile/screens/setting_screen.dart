@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:happy_habit/core/constants/asset_paths.dart';
+import 'package:happy_habit/core/extensions/string_extensions.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/services/providers.dart';
 import 'package:happy_habit/core/shared/modals/custom_dialog.dart';
@@ -15,6 +16,7 @@ import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/auth/services/auth_provider.dart';
 import 'package:happy_habit/modules/profile/screens/notifications_screen.dart';
 import 'package:happy_habit/modules/profile/shared/profile_header.dart';
+import 'package:provider/provider.dart';
 
 import 'about_us_screen.dart';
 import 'edit_profile_screen.dart';
@@ -47,24 +49,28 @@ class SettingScreen extends StatelessWidget {
                   width: 154.w,
                   height: 118.h,
                 ),
-                Column(
-                  children: [
-                    20.height,
-                    ProfileAvatar(),
-                    20.height,
-                    Text(
-                      'Username',
-                      style: context.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    10.height,
-                    CustomButton(
-                      label: 'Edit Profile',
-                      icon: Icon(Icons.mode_edit, color: Colors.white),
-                      onPressed: () => context.pushNamed(EditProfileScreen.id),
-                    ),
-                  ],
+                Consumer<AuthProvider>(
+                    builder: (context, prov, _) {
+                    return Column(
+                      children: [
+                        20.height,
+                        ProfileAvatar(),
+                        20.height,
+                        Text(
+                          prov.appUser?.username?.capitalize() ?? 'Username',
+                          style: context.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        10.height,
+                        CustomButton(
+                          label: 'Edit Profile',
+                          icon: Icon(Icons.mode_edit, color: Colors.white),
+                          onPressed: () => context.pushNamed(EditProfileScreen.id),
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ],
             ),

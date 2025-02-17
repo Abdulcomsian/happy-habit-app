@@ -16,6 +16,7 @@ class RefreshTokenInterceptor extends Interceptor {
       await _handleAuthenticationError(err, handler);
     } else if (_isAuthorizationError(err)) {
       await _signOut();
+      super.onError(err, handler);
     } else {
       super.onError(err, handler);
     }

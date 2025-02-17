@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:happy_habit/core/constants/asset_paths.dart';
+import 'package:happy_habit/core/avatar/avatar_provider.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
+import 'package:happy_habit/core/services/providers.dart';
 import 'package:happy_habit/core/shared/widgets/custom_button.dart';
 import 'package:happy_habit/core/shared/widgets/root_screen.dart';
 import 'package:happy_habit/core/theme/typography.dart';
-import 'package:happy_habit/modules/profile_setup/screens/edit_character_screen.dart';
+import 'package:happy_habit/modules/profile_setup/screens/edit_avatar_screen.dart';
+import 'package:happy_habit/modules/profile_setup/services/character_attributes.dart';
+import 'package:rive/rive.dart';
+
+import '../../auth/services/auth_provider.dart';
 
 class CharacterSelectionScreen extends StatefulWidget {
   static const id = '/CharacterSelectionScreen';
@@ -19,6 +24,12 @@ class CharacterSelectionScreen extends StatefulWidget {
 
 class _CharacterSelectionScreenState extends State<CharacterSelectionScreen> {
   final _selectedAvatar = ValueNotifier('');
+  final _prov = serviceLocator<AvatarProvider>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -37,11 +48,7 @@ class _CharacterSelectionScreenState extends State<CharacterSelectionScreen> {
           builder: (context, selectedAvatar, _) {
             return CustomButton(
               label: 'Create Your Avatar',
-              onPressed: selectedAvatar.isEmpty
-                  ? null
-                  : () => context.pushNamed(EditAvatarScreen.id, extra: {
-                        'gender': _selectedAvatar.value,
-                      }),
+              onPressed: selectedAvatar.isEmpty ? null : _createAvatar,
             );
           },
         ),
@@ -64,45 +71,15 @@ class _CharacterSelectionScreenState extends State<CharacterSelectionScreen> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Stack(
-                      children: [
-                        InkWell(
-                          onTap: () => _selectedAvatar.value = 'male',
-                          child: Image.asset(
-                            DummyIcons.male,
-                            width: 126.w,
-                            height: 384.h,
-                            alignment: Alignment.bottomCenter,
-                          ),
-                        ),
-                        if (selectedAvatar == DummyIcons.male)
-                          Positioned(
-                            right: 0,
-                            child: Icon(
-                              Icons.check_circle_outline,
-                            ),
-                          ),
-                      ],
+                    _Artboard(
+                      artboard: _prov.maleArtboard,
+                      selected: selectedAvatar == 'male',
+                      onTap: () => _selectedAvatar.value = 'male',
                     ),
-                    Stack(
-                      children: [
-                        InkWell(
-                          onTap: () => _selectedAvatar.value = 'female',
-                          child: Image.asset(
-                            DummyIcons.female,
-                            width: 138.w,
-                            height: 338.h,
-                            alignment: Alignment.bottomCenter,
-                          ),
-                        ),
-                        if (selectedAvatar == DummyIcons.female)
-                          Positioned(
-                            right: 0,
-                            child: Icon(
-                              Icons.check_circle_outline,
-                            ),
-                          ),
-                      ],
+                    _Artboard(
+                      artboard: _prov.femaleArtboard,
+                      selected: selectedAvatar == 'female',
+                      onTap: () => _selectedAvatar.value = 'female',
                     ),
                   ],
                 );
@@ -130,6 +107,48 @@ class _CharacterSelectionScreenState extends State<CharacterSelectionScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  void _createAvatar() {
+    final prov = serviceLocator<AuthProvider>();
+    final attributes = CharacterAttributes(isMale: _selectedAvatar.value == 'male');
+    prov.updateUser(characterAttributes: attributes);
+    context.pushNamed(EditAvatarScreen.id);
+  }
+}
+
+class _Artboard extends StatelessWidget {
+  final bool selected;
+  final Artboard artboard;
+  final VoidCallback onTap;
+
+  const _Artboard({
+    required this.onTap,
+    required this.artboard,
+    required this.selected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        InkWell(
+          onTap: onTap,
+          child: SizedBox(
+            width: 0.4.sw,
+            height: 338.h,
+            child: Rive(
+              artboard: artboard,
+            ),
+          ),
+        ),
+        if (selected)
+          Icon(
+            Icons.check,
+          ),
+      ],
     );
   }
 }

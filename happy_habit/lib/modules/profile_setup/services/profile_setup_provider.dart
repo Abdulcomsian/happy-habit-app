@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:happy_habit/core/avatar/avatar_provider.dart';
 import 'package:happy_habit/core/services/providers.dart';
 import 'package:happy_habit/modules/auth/services/auth_provider.dart';
+import 'package:happy_habit/modules/profile_setup/services/character_attributes.dart';
+import 'package:rive/rive.dart';
 
 import 'goal.dart';
 import 'profile_setup_networking.dart';
@@ -24,7 +27,11 @@ class ProfileSetupProvider extends ChangeNotifier {
 
   Future<bool> setUsername(String username) async {
     final uid = serviceLocator<AuthProvider>().appUser!.id;
-    return await _networkingLayer.setUsername(uid, username);
+    final isSetup = await _networkingLayer.setUsername(uid, username);
+    if (isSetup) {
+      serviceLocator<AuthProvider>().updateUser(username: username);
+    }
+      return isSetup;
   }
 
   Future<void> getGoals() async {
@@ -33,5 +40,13 @@ class ProfileSetupProvider extends ChangeNotifier {
       _goals = goals;
       notifyListeners();
     }
+  }
+
+  Future<bool> saveCharacter(Artboard artboard, CharacterAttributes attributes) async {
+    final prov = serviceLocator<AuthProvider>();
+    final avatarProv = serviceLocator<AvatarProvider>();
+    avatarProv.initializeUserArtboard(artboard: artboard);
+    prov.updateUser(characterAttributes: attributes);
+    return true;
   }
 }

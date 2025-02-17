@@ -130,7 +130,7 @@ class AppToast {
       Fluttertoast.showToast(
         msg: msg,
         gravity: ToastGravity.TOP,
-        backgroundColor: _color(type),
+        // backgroundColor: _color(type), // this makes toast weird
         toastLength: Toast.LENGTH_LONG,
       );
     } on Exception catch (e) {

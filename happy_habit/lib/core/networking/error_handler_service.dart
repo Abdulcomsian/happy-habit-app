@@ -62,13 +62,14 @@ class CustomExceptionHandler {
       return _handleSocketException(e, label);
     }
 
+    String? message = e.response?.data['msg'] ?? e.response?.data['message'];
+
     if (e.type == DioExceptionType.badResponse &&
+        message != null &&
         e.response != null &&
         e.response!.data != null &&
-        e.response!.data is Map &&
-        e.response!.data['message'] != null) {
+        e.response!.data is Map) {
       try {
-        final String message = e.response!.data['message'];
 
         return ApiResponseGeneric(
           success: false,

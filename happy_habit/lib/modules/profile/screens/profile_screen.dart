@@ -5,12 +5,14 @@ import 'package:go_router/go_router.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/shared/widgets/custom_button.dart';
 import 'package:happy_habit/core/shared/widgets/root_screen.dart';
+import 'package:happy_habit/modules/auth/services/auth_provider.dart';
 import 'package:happy_habit/modules/profile/shared/activity_content.dart';
 import 'package:happy_habit/modules/profile/shared/friends_content.dart';
 import 'package:happy_habit/modules/profile/shared/goals_content.dart';
 import 'package:happy_habit/modules/profile/shared/invite_friend_card.dart';
 import 'package:happy_habit/modules/profile/shared/leaderboard_content.dart';
 import 'package:happy_habit/modules/profile/shared/profile_tab_bar.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/shared/widgets/fixed_header_delegate.dart';
 import '../../../core/theme/theme_colors.dart';
@@ -57,8 +59,13 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
             ),
             FixedDelegate(
               settings: FixedDelegateSettings(minHeight: 86.h),
-              child: ProfileHeader(
-                isAppUser: widget.isAppUser,
+              child: Consumer<AuthProvider>(
+                builder: (context, prov, _) {
+                  return ProfileHeader(
+                    user: prov.appUser,
+                    isAppUser: widget.isAppUser,
+                  );
+                },
               ),
             ),
             13.height.sliver(),
