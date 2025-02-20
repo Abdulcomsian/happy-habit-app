@@ -1,5 +1,5 @@
-import 'package:happy_habit/core/extensions/data_parsing_extension.dart';
-
+import '../../../core/avatar/avatar_provider.dart';
+import '../../../core/services/providers.dart';
 import '../../profile_setup/services/character_attributes.dart';
 
 class AppUser {
@@ -26,7 +26,7 @@ class AppUser {
   // }) : characterAttributes = characterAttributes ?? CharacterAttributes();
 
   factory AppUser.fromJson(Map<String, dynamic> json) {
-    return AppUser(
+    final appUser = AppUser(
       id: json['id'],
       name: json['name'],
       email: json['email'],
@@ -34,12 +34,12 @@ class AppUser {
       imageUrl: json['imageUrl'],
       username: json['username'],
       areGoalsReady: json['areGoalsReady'] ?? false,
-      characterAttributes: json.fromJsonDynamic(
-          'characterAttributes', (data) => CharacterAttributes.fromJson(data)),
-      // characterAttributes: json['characterAttributes'] != null
-      //     ? CharacterAttributes.fromJson(json['characterAttributes'])
-      //     : null,
+      characterAttributes: json['characterAttributes'] != null
+          ? CharacterAttributes.fromJson(json['characterAttributes'])
+          : null,
     );
+    serviceLocator<AvatarProvider>().initializeUserArtboard();
+    return appUser;
   }
 
 // bool get isMaleCharacter => gender == 'male';

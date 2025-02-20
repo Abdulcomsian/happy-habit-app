@@ -49,7 +49,21 @@ class ProfileSetupNetworking {
     );
 
     response.showMessage();
-    return (response.data as List<dynamic>?)?.map((x) => Goal.fromJson(x)).toList();
-    // return (response.data?['goals'] as List<dynamic>?)?.map((x) => Goal.fromJson(x)).toList();
+    final goals = (response.data?['goals'] as List<dynamic>?)?.map((x) => Goal.fromJson(x)).toList();
+    return goals;
+  }
+
+  Future<bool> setGoals(Map<String, dynamic> body) async {
+    const urlExt = '/api/set-goals';
+
+    final response = await _networkingLayer.makeRequest(
+      RequestType.POST,
+      urlExt,
+      hasToken: true,
+      body: {'goals': body},
+    );
+
+    response.showMessage();
+    return response.success;
   }
 }

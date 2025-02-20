@@ -5,6 +5,7 @@ import 'package:happy_habit/core/avatar/avatar_provider.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/services/providers.dart';
 import 'package:happy_habit/core/shared/widgets/custom_button.dart';
+import 'package:happy_habit/core/shared/widgets/fullscreen_.dart';
 import 'package:happy_habit/core/shared/widgets/root_screen.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/profile_setup/screens/edit_avatar_screen.dart';
@@ -111,6 +112,7 @@ class _CharacterSelectionScreenState extends State<CharacterSelectionScreen> {
   }
 
   void _createAvatar() {
+    AppLoader.showFullScreenLoader();
     final prov = serviceLocator<AuthProvider>();
     final attributes = CharacterAttributes(isMale: _selectedAvatar.value == 'male');
     prov.updateUser(characterAttributes: attributes);

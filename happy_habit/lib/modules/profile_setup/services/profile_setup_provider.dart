@@ -31,15 +31,22 @@ class ProfileSetupProvider extends ChangeNotifier {
     if (isSetup) {
       serviceLocator<AuthProvider>().updateUser(username: username);
     }
-      return isSetup;
+    return isSetup;
   }
 
   Future<void> getGoals() async {
-    final goals = await _networkingLayer.getGoals();
-    if (goals != null) {
-      _goals = goals;
-      notifyListeners();
+    _goals = await _networkingLayer.getGoals() ?? [];
+    if (_goals.isNotEmpty) notifyListeners();
+  }
+
+  Future<bool> setGoals() async {
+    Map<String, dynamic> payload = {};
+    _goals.forEach((x) => payload['${x.id}'] = x.time.inMinutes);
+    final isSetup = await _networkingLayer.setGoals(payload);
+    if (isSetup) {
+      serviceLocator<AuthProvider>().updateUser(areGoalsReady: true);
     }
+    return isSetup;
   }
 
   Future<bool> saveCharacter(Artboard artboard, CharacterAttributes attributes) async {

@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
-import 'package:happy_habit/core/extensions/string_extensions.dart';
-import 'package:happy_habit/modules/auth/screens/login_screen.dart';
+import 'package:happy_habit/core/shared/helper_functions/media/media_provider.dart';
 import 'package:happy_habit/modules/auth/screens/welcome_screen.dart';
 import 'package:happy_habit/modules/auth/services/auth_provider.dart';
 import 'package:happy_habit/modules/navigation/navigation_provider.dart';
 import 'package:happy_habit/modules/navigation/navigation_screen.dart';
 import 'package:happy_habit/modules/profile_setup/screens/username_screen.dart';
-import 'package:happy_habit/modules/profile_setup/services/profile_setup_provider.dart';
 
 import '../../modules/profile_setup/screens/character_selection_screen.dart';
 import '../../modules/profile_setup/screens/goals_setup_screen.dart';
@@ -20,6 +18,7 @@ class RouteHelper {
     final authProv = serviceLocator<AuthProvider>();
     final navProv = serviceLocator<NavigationProvider>();
     final avatarProv = serviceLocator<AvatarProvider>();
+    final mediaProv = serviceLocator<MediaProvider>();
     // precacheImage(AssetImage('assets/bg/bg.webp'), context);
 
     final localFutures = await Future.wait<dynamic>([
@@ -36,10 +35,19 @@ class RouteHelper {
       return null;
     }
 
+    final List<Future> futures = [
+      mediaProv.getMusics(),
+    ];
+
     if (isUserLoggedIn) {
-      final isSuccess = await authProv.getUserProfile();
+      futures.add(authProv.getUserProfile());
+    }
+
+    final apiFutures = await Future.wait<dynamic>(futures);
+
+    if (isUserLoggedIn) {
       FlutterNativeSplash.remove();
-      return isSuccess ? NavigationScreen.id : WelcomeScreen.id;
+      return apiFutures.last ? NavigationScreen.id : WelcomeScreen.id;
       // return NavigationScreen.id;
     }
 
@@ -53,22 +61,20 @@ class RouteHelper {
     if (authProv.appUser?.username == null) {
       // If Username is not set up, redirect to the UsernameScreen
       FlutterNativeSplash.remove();
-      return UsernameScreen.id; // todo: for release
-      // return null; // todo: for development
+      return UsernameScreen.id;
     }
 
-    // if (authProv.appUser?.areGoalsReady == false) {
-    //   // If Goals are not set up, redirect to the GoalsSetupScreen
-    //   FlutterNativeSplash.remove();
-    //   return GoalsSetupScreen.id;
-    // }
+    if (authProv.appUser?.areGoalsReady == false) {
+      // If Goals are not set up, redirect to the GoalsSetupScreen
+      FlutterNativeSplash.remove();
+      return GoalsSetupScreen.id;
+    }
 
     if (authProv.appUser?.characterAttributes == null) {
       // If character is not set up, redirect to the AvatarSelectionScreen
       FlutterNativeSplash.remove();
       return CharacterSelectionScreen.id;
     }
-
 
     // Remove the native splash screen once profile setup is complete
     FlutterNativeSplash.remove();

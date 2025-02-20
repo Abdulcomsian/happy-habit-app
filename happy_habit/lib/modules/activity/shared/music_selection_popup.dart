@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:happy_habit/core/shared/helper_functions/play_music.dart';
+import 'package:happy_habit/core/services/providers.dart';
+import 'package:happy_habit/core/shared/helper_functions/media/media_provider.dart';
+import 'package:happy_habit/core/shared/helper_functions/media/music_services.dart';
 import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 
@@ -14,6 +16,7 @@ enum MusicFlavors {
 
   String get path => 'musics/$name.mp3';
   String get icon => 'assets/icons/$name.svg';
+  String get url => serviceLocator<MediaProvider>().musics[name]!;
 }
 
 class MusicSelectionPopup extends StatelessWidget {
@@ -73,10 +76,10 @@ class MusicSelectionPopup extends StatelessWidget {
 
   void _musicManagement(BuildContext context, MusicFlavors flavor) {
     if (flavor == selectedMusic) {
-      Music.stop();
+      MusicServices.stop();
       onChanged.call(MusicFlavors.none);
     } else {
-      Music.play(flavor.path);
+      MusicServices.play(flavor.url);
       onChanged.call(flavor);
     }
     Navigator.pop(context);

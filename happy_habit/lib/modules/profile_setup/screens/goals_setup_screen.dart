@@ -10,7 +10,6 @@ import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/profile_setup/screens/character_selection_screen.dart';
 import 'package:happy_habit/modules/profile_setup/services/profile_setup_provider.dart';
 import 'package:happy_habit/modules/profile_setup/shared/goal_tile.dart';
-import 'package:happy_habit/modules/progress/services/activity.dart';
 import 'package:provider/provider.dart';
 
 class GoalsSetupScreen extends StatefulWidget {
@@ -60,7 +59,7 @@ class _GoalsSetupScreenState extends State<GoalsSetupScreen> {
             15.height,
             CustomButton(
               label: 'Done',
-              onPressed: () => context.pushNamed(CharacterSelectionScreen.id),
+              onPressed: _setupGoals,
             )
           ],
         ),
@@ -90,29 +89,37 @@ class _GoalsSetupScreenState extends State<GoalsSetupScreen> {
           Text(
               'Take charge of your daily routine by choosing how much time you want to dedicate to each key habit. Setting clear goals for sleep, screen use, workouts and focused  time for a meaningful activity helps you stay on track and build a healthier, more balanced lifestyle.'),
           5.height,
-          ...List.generate(
-            Activity.activities.length,
-            (i) => Padding(
-              padding: EdgeInsets.only(top: 10.h),
-              child: GoalTile(
-                activity: Activity.activities[i],
-              ),
-            ),
-          ),
-          // Consumer<ProfileSetupProvider>(
-          //   builder: (context, prov, _) {
-          //     return ListView.separated(
-          //       shrinkWrap: true,
-          //       itemCount: prov.goals.length,
-          //       separatorBuilder: (context, index) => 10.height,
-          //       itemBuilder: (context, i) => GoalTile(
-          //         goal: prov.goals[i],
-          //       ),
-          //     );
-          //   },
+          // ...List.generate(
+          // Activity.activities.length,
+          // (i) => Padding(
+          //   padding: EdgeInsets.only(top: 10.h),
+          //   child: GoalTile(
+          //     activity: Activity.activities[i],
+          //   ),
           // ),
+          // ),
+          Consumer<ProfileSetupProvider>(
+            builder: (context, prov, _) {
+              return ListView.separated(
+                shrinkWrap: true,
+                itemCount: prov.goals.length,
+                physics: NeverScrollableScrollPhysics(),
+                separatorBuilder: (context, index) => 10.height,
+                itemBuilder: (context, i) => GoalTile(
+                  goal: prov.goals[i],
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
+  }
+
+  Future<void> _setupGoals() async {
+    _isLoading.value = true;
+    final isSetup = await _prov.setGoals();
+    _isLoading.value = false;
+    if (isSetup && mounted) context.goNamed(CharacterSelectionScreen.id);
   }
 }

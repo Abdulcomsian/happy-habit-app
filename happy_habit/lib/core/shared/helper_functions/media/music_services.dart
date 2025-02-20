@@ -6,7 +6,7 @@ import 'package:happy_habit/core/services/logger.dart';
 // Enum for the source type (URL or Asset)
 enum MusicSource { asset, url }
 
-class Music {
+class MusicServices {
   static final AudioPlayer _audioPlayer = AudioPlayer();
 
   static Future<void> play(String url, {MusicSource source = MusicSource.url}) async {
@@ -14,8 +14,16 @@ class Music {
       // Stop any currently playing music
       await _audioPlayer.stop();
 
-      // Play the specified music file at normal volume
-      await _audioPlayer.play(AssetSource(url), volume: 1.0, mode: PlayerMode.mediaPlayer);
+      switch (source){
+        case MusicSource.url:
+        // Play the specified music file at normal volume
+          await _audioPlayer.play(UrlSource(url), volume: 1.0, mode: PlayerMode.mediaPlayer);
+          break;
+        case MusicSource.asset:
+        // Play the specified music file at normal volume
+          await _audioPlayer.play(AssetSource(url), volume: 1.0, mode: PlayerMode.mediaPlayer);
+          break;
+      }
 
       // Ensure looping
       _audioPlayer.setReleaseMode(ReleaseMode.loop);

@@ -1,6 +1,4 @@
-import '../../../core/avatar/avatar_provider.dart';
 import '../../../core/constants/asset_paths.dart';
-import '../../../core/services/providers.dart';
 
 class CharacterAttributes {
   int hairNumber;
@@ -20,23 +18,24 @@ class CharacterAttributes {
   // History stack to keep track of previous states
   // List<CharacterAttributes> history = [];
 
-  CharacterAttributes(
-      {this.hairNumber = 0,
-      this.shoesNumber = 0,
-      this.hatNumber = 0,
-      this.eyeNumber = 0,
-      this.eyebrowsNumber = 0,
-      this.mouthNumber = 0,
-      this.clothingNumber = 0,
-      this.bodyColorNumber = 0,
-      this.beardNumber = 0,
-      this.noseNumber = 0,
-      this.accNumber = 0,
-      this.animationNumber = 0,
-      this.isMale = true});
+  CharacterAttributes({
+    this.hairNumber = 0,
+    this.shoesNumber = 0,
+    this.hatNumber = 0,
+    this.eyeNumber = 0,
+    this.eyebrowsNumber = 0,
+    this.mouthNumber = 0,
+    this.clothingNumber = 0,
+    this.bodyColorNumber = 0,
+    this.beardNumber = 0,
+    this.noseNumber = 0,
+    this.accNumber = 0,
+    this.animationNumber = 0,
+    this.isMale = true,
+  });
 
   factory CharacterAttributes.fromJson(Map<String, dynamic> json) {
-    final attributes = CharacterAttributes(
+    return CharacterAttributes(
       hairNumber: json['hairNumber'] ?? 0,
       shoesNumber: json['shoesNumber'] ?? 0,
       hatNumber: json['hatNumber'] ?? 0,
@@ -50,8 +49,6 @@ class CharacterAttributes {
       accNumber: json['accNumber'] ?? 0,
       isMale: json['male'] ?? true,
     );
-    serviceLocator<AvatarProvider>().initializeUserArtboard();
-    return attributes;
   }
 
   Map<String, dynamic> toJson() {

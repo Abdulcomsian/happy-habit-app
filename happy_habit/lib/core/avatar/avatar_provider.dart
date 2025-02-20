@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happy_habit/core/services/providers.dart';
 import 'package:happy_habit/modules/auth/services/auth_provider.dart';
+import 'package:happy_habit/modules/profile_setup/services/character_attributes.dart';
 import 'package:rive/rive.dart';
 
 import '../constants/asset_paths.dart';
@@ -22,7 +23,8 @@ class AvatarProvider extends ChangeNotifier {
     if (artboard != null) {
       userArtboard = artboard;
     } else {
-      final attributes = serviceLocator<AuthProvider>().appUser!.characterAttributes!;
+      final attributes =
+          serviceLocator<AuthProvider>().appUser?.characterAttributes ?? CharacterAttributes();
       await rootBundle.load(attributes.path).then(
         (data) async {
           try {

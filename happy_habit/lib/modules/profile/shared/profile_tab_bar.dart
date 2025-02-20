@@ -28,7 +28,7 @@ class ProfileTabBar extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 14.w),
           child: Flex(
             direction: Axis.horizontal,
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: List.generate(
               _items.length,
               (i) => InkWell(

@@ -14,7 +14,7 @@ import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/activity/shared/custom_slider.dart';
 import 'package:happy_habit/modules/activity/shared/give_up_popup.dart';
 
-import '../../../core/shared/helper_functions/play_music.dart';
+import '../../../core/shared/helper_functions/media/music_services.dart';
 import '../shared/music_selection_popup.dart';
 import 'activity_result_screen.dart';
 
@@ -82,7 +82,7 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
   void dispose() {
     _timer.cancel();
     _selectedMusic.dispose();
-    Music.playSuccessMusic();
+    MusicServices.playSuccessMusic();
     _sessionDuration.dispose();
     _isActivityPaused.dispose();
     WidgetsBinding.instance.removeObserver(this);
@@ -139,10 +139,10 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
                             svg: music == MusicFlavors.none ? AppIcons.play : AppIcons.pause,
                             onTap: () {
                               if (music == MusicFlavors.none) {
-                                Music.play(_previousMusic?.path ?? AppMusics.music);
+                                MusicServices.play(_previousMusic?.url ?? MusicFlavors.music.url);
                                 _selectedMusic.value = _previousMusic ?? MusicFlavors.music;
                               } else {
-                                Music.stop();
+                                MusicServices.stop();
                                 _selectedMusic.value = MusicFlavors.none;
                               }
                             },
