@@ -4,6 +4,7 @@ import 'package:happy_habit/modules/auth/screens/welcome_screen.dart';
 import 'package:happy_habit/modules/auth/services/auth_networking.dart';
 import 'package:happy_habit/modules/profile_setup/services/character_attributes.dart';
 
+import '../../../core/avatar/avatar_provider.dart';
 import '../../../core/hive/hive_constants.dart';
 import '../../../core/hive/hive_db_service.dart';
 import '../../../core/routes/routes.dart';
@@ -45,7 +46,10 @@ class AuthProvider extends ChangeNotifier {
     final response = await _networkingLayer.login(email, password);
     _appUser = response?.appUser;
     _authToken = response?.authToken;
-    if (response != null) storeAuthToken();
+    if (response != null) {
+      storeAuthToken();
+      serviceLocator<AvatarProvider>().getCharacterAccessories();
+    }
     return response != null;
   }
 

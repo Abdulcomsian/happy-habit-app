@@ -5,12 +5,16 @@ import 'package:happy_habit/core/extensions/string_extensions.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/services/logger.dart';
 import 'package:happy_habit/core/services/providers.dart';
+import 'package:happy_habit/core/shared/widgets/circular_bounce_loader.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/modules/auth/services/auth_provider.dart';
+import 'package:happy_habit/modules/profile_setup/services/character_accessories.dart';
+import 'package:happy_habit/modules/profile_setup/services/profile_setup_provider.dart';
 import 'package:happy_habit/modules/profile_setup/shared/element_types_list.dart';
 import 'package:happy_habit/modules/profile_setup/shared/elements_list.dart';
 import 'package:rive/rive.dart';
 
+import '../../../core/shared/widgets/error_widget.dart';
 import '../services/character_attributes.dart';
 import '../shared/character_section.dart';
 
@@ -25,6 +29,7 @@ class EditAvatarScreen extends StatefulWidget {
 
 class _EditAvatarScreenState extends State<EditAvatarScreen> {
   final _authProv = serviceLocator<AuthProvider>();
+  final _prov = serviceLocator<ProfileSetupProvider>();
 
   late Artboard riveArtboard;
   late CharacterAttributes attributes;
@@ -41,32 +46,30 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
   }
 
   void _loadCharacter() async {
-    await rootBundle.load(attributes.path).then(
-      (data) async {
-        try {
-          final file = RiveFile.import(data);
-          final artboard = file.mainArtboard;
+    try {
+      final data = await rootBundle.load(attributes.path);
+      final file = RiveFile.import(data);
+      final artboard = file.mainArtboard;
 
-          var controller = StateMachineController.fromArtboard(artboard, attributes.machineCode);
+      var controller = StateMachineController.fromArtboard(artboard, attributes.machineCode);
 
-          if (controller != null) {
-            artboard.addController(controller);
+      if (controller != null) {
+        artboard.addController(controller);
 
-            for (var element in controller.inputs) {
-              Logger.logInfo("Element: $element, ${element.name}, ${element.runtimeType}");
+        for (var element in controller.inputs) {
+          Logger.logInfo("Element: $element, ${element.name}, ${element.runtimeType}");
 
-              // adding as per name, without this it wont change the characters element i.e. hairs
-              _addAttributes(element);
-            }
-          }
-          // setState(() => riveArtboard = artboard);
-          riveArtboard = artboard;
-          _isLoading.value = false;
-        } catch (e) {
-          Logger.logError(e);
+          // adding as per name, without this it wont change the characters element i.e. hairs
+          _addAttributes(element);
         }
-      },
-    );
+      }
+      // setState(() => riveArtboard = artboard);
+      riveArtboard = artboard;
+    } catch (e) {
+      Logger.logError(e);
+    } finally {
+      _isLoading.value = false;
+    }
   }
 
   void _setAccessory(String path) {
@@ -86,41 +89,45 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ThemeColor.background,
-      body: Column(
-        children: [
-          ValueListenableBuilder(
-            valueListenable: _isLoading,
-            builder: (context, loading, _) {
-              return loading
-                  ? SizedBox.shrink()
-                  : CharacterSection(
-                      artboard: riveArtboard,
-                      attributes: attributes,
-                    );
-            },
-          ),
-          13.height,
-          Align(
-            alignment: Alignment.centerRight,
-            child: ElementTypesList(
-              onChanged: _setAccessory,
-              selectedAccessoriesTypes: _selectedElementTypes,
-            ),
-          ),
-          13.height,
-          ElementsList(
-            onChanged: _setValue,
-            elementType: _elementType,
-            selectedElement: _selectedElement,
-          ),
-        ],
+      body: ValueListenableBuilder(
+        valueListenable: _isLoading,
+        builder: (context, loading, _) {
+          if (loading) {
+            return Center(
+              child: CircleBounceLoader(),
+            );
+          }
+
+          return Column(
+            children: [
+              CharacterSection(
+                artboard: riveArtboard,
+                attributes: attributes,
+              ),
+              13.height,
+              Align(
+                alignment: Alignment.centerRight,
+                child: ElementTypesList(
+                  onChanged: _setAccessory,
+                  selectedAccessoriesTypes: _selectedElementTypes,
+                ),
+              ),
+              13.height,
+              ElementsList(
+                onChanged: _setValue,
+                elementType: _elementType,
+                selectedElement: _selectedElement,
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 
-  final ValueNotifier<Map<String, String>> _selectedElement = ValueNotifier({});
+  final ValueNotifier<Map<String, Accessory>> _selectedElement = ValueNotifier({});
 
-  _setValue(int number, String element, {bool isNotify = true}) {
+  void _setValue(int number, String element, {bool isNotify = true}) {
     // Logger.logInfo('apply $number on $element');
     switch (element) {
       case 'hairs':

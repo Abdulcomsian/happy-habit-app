@@ -5,6 +5,7 @@ import 'package:happy_habit/modules/auth/services/auth_provider.dart';
 import 'package:happy_habit/modules/profile_setup/services/character_attributes.dart';
 import 'package:rive/rive.dart';
 
+import 'character_accessories.dart';
 import 'goal.dart';
 import 'profile_setup_networking.dart';
 

@@ -5,8 +5,10 @@ import 'package:happy_habit/modules/auth/services/auth_provider.dart';
 import 'package:happy_habit/modules/profile_setup/services/character_attributes.dart';
 import 'package:rive/rive.dart';
 
+import '../../modules/profile_setup/services/character_accessories.dart';
 import '../constants/asset_paths.dart';
 import '../services/logger.dart';
+import 'avatar_networking.dart';
 
 class AvatarProvider extends ChangeNotifier {
   static final AvatarProvider _instance = AvatarProvider._internal();
@@ -16,8 +18,29 @@ class AvatarProvider extends ChangeNotifier {
   AvatarProvider._internal();
 
   // Your methods and properties here
+  final _networkingLayer = AvatarNetworking();
+
   late Artboard userArtboard;
   late Artboard maleArtboard, femaleArtboard;
+
+  CharacterAccessories get accessories => _accessories;
+  late CharacterAccessories _accessories;
+
+  Future<void> getCharacterAccessories() async {
+    CharacterAccessories? accessories;
+
+    // Keep trying to fetch accessories until we get a non-null response
+    while (accessories == null) {
+      accessories = await _networkingLayer.getCharacterAccessories();
+      if (accessories == null) {
+        await Future.delayed(Duration(seconds: 2)); // Add a delay to prevent tight looping
+      }
+    }
+
+    // Once we have a valid response, update _accessories
+    _accessories = accessories;
+  }
+
 
   void initializeUserArtboard({Artboard? artboard}) async {
     if (artboard != null) {

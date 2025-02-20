@@ -11,3 +11,14 @@ extension Luminance on Color {
     return color;
   }
 }
+
+extension HexColorExtension on String {
+  Color toColor() {
+    String hex = replaceAll('#', '');
+    if (hex.length == 6) {
+      hex = 'ff$hex'; // Add the alpha value if not present
+    }
+    int hexValue = int.parse(hex, radix: 16);
+    return Color(hexValue);
+  }
+}

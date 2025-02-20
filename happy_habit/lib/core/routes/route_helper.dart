@@ -40,6 +40,7 @@ class RouteHelper {
     ];
 
     if (isUserLoggedIn) {
+      futures.add(avatarProv.getCharacterAccessories());
       futures.add(authProv.getUserProfile());
     }
 

@@ -4,13 +4,13 @@ import 'package:happy_habit/core/extensions/duration_extensions.dart';
 import 'package:happy_habit/core/extensions/string_extensions.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/theme/typography.dart';
+import 'package:happy_habit/modules/profile_setup/services/goal.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../core/theme/theme_colors.dart';
-import '../services/activity.dart';
 
 class ProgressTrackingGraph extends StatelessWidget {
-  final List<Activity> data;
+  final List<Goal> data;
 
   const ProgressTrackingGraph({
     super.key,
@@ -30,12 +30,12 @@ class ProgressTrackingGraph extends StatelessWidget {
         children: [
           SfCircularChart(
             series: <CircularSeries>[
-              DoughnutSeries<Activity, String>(
+              DoughnutSeries<Goal, String>(
                 dataSource: data,
-                xValueMapper: (Activity activity, _) => activity.title,
-                yValueMapper: (Activity activity, _) => activity.duration.inHours.toDouble(),
-                pointColorMapper: (Activity activity, _) => activity.color,
+                xValueMapper: (Goal activity, _) => activity.title,
                 dataLabelSettings: DataLabelSettings(isVisible: true),
+                pointColorMapper: (Goal activity, _) => activity.color,
+                yValueMapper: (Goal activity, _) => activity.time.inHours.toDouble(),
               ),
             ],
           ),
@@ -62,7 +62,7 @@ class ProgressTrackingGraph extends StatelessWidget {
                     ),
                   ),
                 ),
-                Text(data[i].duration.toFormattedString()),
+                Text(data[i].time.toFormattedString()),
                 Container(
                   height: 15.h,
                   width: 0.3.sw,

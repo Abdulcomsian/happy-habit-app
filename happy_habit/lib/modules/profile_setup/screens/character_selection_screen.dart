@@ -112,7 +112,6 @@ class _CharacterSelectionScreenState extends State<CharacterSelectionScreen> {
   }
 
   void _createAvatar() {
-    AppLoader.showFullScreenLoader();
     final prov = serviceLocator<AuthProvider>();
     final attributes = CharacterAttributes(isMale: _selectedAvatar.value == 'male');
     prov.updateUser(characterAttributes: attributes);

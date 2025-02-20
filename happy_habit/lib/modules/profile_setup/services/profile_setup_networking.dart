@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:happy_habit/core/networking/api_networking_layer.dart';
 
 import '../../../core/networking/networking_models.dart';
+import 'character_accessories.dart';
 import 'goal.dart';
 
 class ProfileSetupNetworking {
@@ -49,7 +50,8 @@ class ProfileSetupNetworking {
     );
 
     response.showMessage();
-    final goals = (response.data?['goals'] as List<dynamic>?)?.map((x) => Goal.fromJson(x)).toList();
+    final goals =
+        (response.data?['goals'] as List<dynamic>?)?.map((x) => Goal.fromJson(x)).toList();
     return goals;
   }
 

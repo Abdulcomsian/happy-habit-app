@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:happy_habit/modules/profile_setup/services/character_accessories.dart';
 
+import '../../../core/shared/widgets/custom_network_image.dart';
 import '../../../core/theme/theme_colors.dart';
 
 class AccessoryTile extends StatelessWidget {
   final Color? color;
   final bool isSelected;
-  final String accessory;
-  final ValueChanged<String> onChanged;
+  final Accessory accessory;
+  final ValueChanged<Accessory> onChanged;
 
   const AccessoryTile({
     super.key,
@@ -36,8 +38,8 @@ class AccessoryTile extends StatelessWidget {
         child: color == null
             ? Align(
                 alignment: Alignment.center,
-                child: SvgPicture.asset(
-                  accessory,
+                child: CustomNetworkImage(
+                  url: accessory.value,
                   width: 50.r,
                   height: 50.r,
                 ),

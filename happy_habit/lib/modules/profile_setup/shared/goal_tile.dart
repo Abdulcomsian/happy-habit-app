@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:happy_habit/core/extensions/duration_extensions.dart';
 import 'package:happy_habit/core/extensions/string_extensions.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 
 import '../../../core/shared/widgets/custom_network_image.dart';
-import '../../progress/services/activity.dart';
 import '../services/goal.dart';
 
 class GoalTile extends StatelessWidget {

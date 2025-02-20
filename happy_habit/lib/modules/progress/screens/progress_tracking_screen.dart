@@ -1,17 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:happy_habit/core/constants/asset_paths.dart';
 import 'package:happy_habit/core/extensions/duration_extensions.dart';
 import 'package:happy_habit/core/extensions/int_extensions.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
+import 'package:happy_habit/core/shared/widgets/custom_network_image.dart';
 import 'package:happy_habit/core/shared/widgets/root_screen.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
+import 'package:happy_habit/modules/profile_setup/services/goal.dart';
+import 'package:happy_habit/modules/profile_setup/services/profile_setup_provider.dart';
 import 'package:happy_habit/modules/progress/shared/progress_tracking_graph.dart';
-
-import '../services/activity.dart';
+import 'package:provider/provider.dart';
 
 class ProgressTrackingScreen extends StatefulWidget {
   static const id = 'ProgressTrackingScreen';
@@ -23,13 +23,6 @@ class ProgressTrackingScreen extends StatefulWidget {
 }
 
 class _ProgressTrackingScreenState extends State<ProgressTrackingScreen> {
-  final List<String> _activities = [
-    'sleep',
-    'workout',
-    'screen',
-    'focus',
-  ];
-
   @override
   Widget build(BuildContext context) {
     return RootScreen(
@@ -61,21 +54,24 @@ class _ProgressTrackingScreenState extends State<ProgressTrackingScreen> {
             ),
           ),
           20.height,
-          GridView.builder(
-            shrinkWrap: true,
-            padding: EdgeInsets.zero,
-            itemCount: _activities.length,
-            physics: NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 11.r,
-              crossAxisSpacing: 11.r,
-              childAspectRatio: 162.w / 100.h,
-            ),
-            itemBuilder: (context, i) => StatsTile(
-              title: _activities[i],
-              time: Duration.zero,
-            ),
+          Consumer<ProfileSetupProvider>(
+            builder: (context, prov, _) {
+              return GridView.builder(
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                itemCount: prov.goals.length,
+                physics: NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 11.r,
+                  crossAxisSpacing: 11.r,
+                  childAspectRatio: 162.w / 100.h,
+                ),
+                itemBuilder: (context, i) => StatsTile(
+                  goal: prov.goals[i],
+                ),
+              );
+            }
           ),
           20.height,
           Text(
@@ -106,8 +102,12 @@ class _ProgressTrackingScreenState extends State<ProgressTrackingScreen> {
             ],
           ),
           15.height,
-          ProgressTrackingGraph(
-            data: Activity.activities,
+          Consumer<ProfileSetupProvider>(
+              builder: (context, prov, _) {
+              return ProgressTrackingGraph(
+                data: prov.goals,
+              );
+            }
           ),
           40.height,
         ],
@@ -117,13 +117,11 @@ class _ProgressTrackingScreenState extends State<ProgressTrackingScreen> {
 }
 
 class StatsTile extends StatelessWidget {
-  final String title;
-  final Duration time;
+  final Goal goal;
 
   const StatsTile({
     super.key,
-    required this.time,
-    required this.title,
+    required this.goal,
   });
 
   @override
@@ -131,7 +129,7 @@ class StatsTile extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
       decoration: BoxDecoration(
-        color: _color,
+        color: goal.color,
         borderRadius: BorderRadius.circular(8.r),
       ),
       child: Column(
@@ -139,8 +137,7 @@ class StatsTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            // title == 'sleep' ? 'Sleep & Wakeup' : '$title Time',
-            '$title Time',
+            goal.title,
             style: context.bodyLarge?.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.w700,
@@ -151,14 +148,14 @@ class StatsTile extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              SvgPicture.asset(
-                AppIcons.focus,
+              CustomNetworkImage(
+                url: goal.image,
                 width: 50.r,
                 height: 50.r,
               ),
               15.width,
               Text(
-                time.toFormattedString(),
+                goal.time.toFormattedString(),
                 style: context.bodyLarge?.copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.w700,
@@ -169,19 +166,5 @@ class StatsTile extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Color get _color {
-    switch (title) {
-      case 'sleep':
-        return Color(0xffFF5858);
-      case 'workout':
-        return Color(0xffBC58FF);
-      case 'screen':
-        return Color(0xffFF8558);
-      case 'focus':
-      default:
-        return Color(0xff00CF0E);
-    }
   }
 }
