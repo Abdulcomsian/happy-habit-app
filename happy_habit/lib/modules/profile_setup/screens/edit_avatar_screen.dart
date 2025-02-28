@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:happy_habit/core/avatar/avatar_extensions.dart';
+import 'package:happy_habit/core/avatar/avatar_provider.dart';
 import 'package:happy_habit/core/constants/avatar_asset_paths.dart';
 import 'package:happy_habit/core/extensions/string_extensions.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
@@ -8,15 +9,15 @@ import 'package:happy_habit/core/services/providers.dart';
 import 'package:happy_habit/core/shared/widgets/circular_bounce_loader.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/modules/auth/services/auth_provider.dart';
-import 'package:happy_habit/modules/profile_setup/services/character_accessories.dart';
+import 'package:happy_habit/modules/profile_setup/services/app_avatar_elements.dart';
 import 'package:happy_habit/modules/profile_setup/services/profile_setup_provider.dart';
 import 'package:happy_habit/modules/profile_setup/shared/element_types_list.dart';
 import 'package:happy_habit/modules/profile_setup/shared/elements_list.dart';
 import 'package:rive/rive.dart';
 
-import '../../../core/shared/widgets/error_widget.dart';
 import '../services/character_attributes.dart';
-import '../shared/character_section.dart';
+import '../services/avatar_attributes.dart';
+import '../shared/avatar_section.dart';
 
 class EditAvatarScreen extends StatefulWidget {
   static const id = 'EditAvatarScreen';
@@ -30,9 +31,10 @@ class EditAvatarScreen extends StatefulWidget {
 class _EditAvatarScreenState extends State<EditAvatarScreen> {
   final _authProv = serviceLocator<AuthProvider>();
   final _prov = serviceLocator<ProfileSetupProvider>();
+  final _avatarProv = serviceLocator<AvatarProvider>();
 
   late Artboard riveArtboard;
-  late CharacterAttributes attributes;
+  late AvatarAttributes attributes;
 
   final _isLoading = ValueNotifier(true);
   final _selectedElementTypes = ValueNotifier(AvatarIcons.elements.first);
@@ -47,17 +49,14 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
 
   void _loadCharacter() async {
     try {
-      final data = await rootBundle.load(attributes.path);
-      final file = RiveFile.import(data);
-      final artboard = file.mainArtboard;
-
+      final artboard = await attributes.path.loadArtboard();
       var controller = StateMachineController.fromArtboard(artboard, attributes.machineCode);
 
       if (controller != null) {
         artboard.addController(controller);
 
         for (var element in controller.inputs) {
-          Logger.logInfo("Element: $element, ${element.name}, ${element.runtimeType}");
+          // Logger.logInfo("Element: $element, ${element.name}, ${element.runtimeType}");
 
           // adding as per name, without this it wont change the characters element i.e. hairs
           _addAttributes(element);
@@ -100,7 +99,7 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
 
           return Column(
             children: [
-              CharacterSection(
+              AvatarSection(
                 artboard: riveArtboard,
                 attributes: attributes,
               ),
@@ -125,7 +124,7 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
     );
   }
 
-  final ValueNotifier<Map<String, Accessory>> _selectedElement = ValueNotifier({});
+  final ValueNotifier<Map<String, AvatarElements>> _selectedElement = ValueNotifier({});
 
   void _setValue(int number, String element, {bool isNotify = true}) {
     // Logger.logInfo('apply $number on $element');
@@ -139,11 +138,15 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
       case 'eye':
         _setEye(number);
         break;
+      case 'eyebrow':
       case 'eyebrows':
+      case '"eye brows':
         _setEyebrows(number);
         break;
       case 'face':
         _setColor(number);
+      case 'shoe':
+        _setShoes(number);
         break;
       case 'mouth':
         _setMouth(number);
@@ -261,32 +264,54 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
   // }
 
   void _addAttributes(SMIInput<dynamic> element) {
-    if (element.name == "hair") {
-      hairNumber = element as SMINumber;
-    } else if (element.name == "shoes") {
-      shoesNumber = element as SMINumber;
-    } else if (element.name == "hat") {
-      hatNumber = element as SMINumber;
-    } else if (element.name == "eye" /* || element.name == "eyes"*/) {
-      eyeNumber = element as SMINumber;
-    } else if (element.name == "eye brows" || element.name == "eyebrows") {
-      eyebrowsNumber = element as SMINumber;
-    } else if (element.name == "mouth") {
-      mouthNumber = element as SMINumber;
-    } else if (element.name == "clothing" || element.name == "cloth" || element.name == "body") {
-      clothingNumber = element as SMINumber;
-    } else if (element.name == "body colore") {
-      colorNumber = element as SMINumber;
-    } else if (element.name == "beard and hat") {
-      beardNumber = element as SMINumber;
-    } else if (element.name == "nose") {
-      noseNumber = element as SMINumber;
-    } else if (element.name == "acc") {
-      accNumber = element as SMINumber;
+    if (element is SMINumber) {
+      // Check if attribute exists, and assign the value based on element name
+      switch (element.name) {
+        case "hair":
+          hairNumber = element;
+          break;
+        case "shoes":
+        case "shooes":
+        shoesNumber = element;
+          break;
+        case "hat":
+          hatNumber = element;
+          break;
+        case "eye":
+        case "eyes":
+        eyeNumber = element;
+          break;
+        case "eyebrows":
+        case "eye brows":
+        eyebrowsNumber = element;
+          break;
+        case "mouth":
+          mouthNumber = element;
+          break;
+        case "body":
+        case "cloth":
+        case "clothing":
+        case "clothing ":
+        clothingNumber = element;
+          break;
+        case "body colore":
+          colorNumber = element;
+          break;
+        case "beard and hat":
+          if (attributes.isMale) {
+            beardNumber = element;
+          }
+          break;
+        case "nose":
+          noseNumber = element;
+          break;
+        case "acc":
+          accNumber = element;
+          break;
+        default:
+          Logger.logInfo('Unknown element name: ${element.name}');
+          break;
+      }
     }
-
-    // if (element.name == "aniamtion") {
-    //   animationSMINumber = element as SMINumber;
-    // }
   }
 }

@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:happy_habit/core/networking/api_networking_layer.dart';
 
 import '../../../core/networking/networking_models.dart';
-import 'character_accessories.dart';
 import 'goal.dart';
 
 class ProfileSetupNetworking {
@@ -63,6 +62,19 @@ class ProfileSetupNetworking {
       urlExt,
       hasToken: true,
       body: {'goals': body},
+    );
+
+    response.showMessage();
+    return response.success;
+  }
+
+  Future<bool> setAvatar(Map<String, dynamic> body) async {
+    const urlExt = '/api/set-avatar';
+    final response = await _networkingLayer.makeRequest(
+      RequestType.POST,
+      urlExt,
+      hasToken: true,
+      body: FormData.fromMap(body),
     );
 
     response.showMessage();

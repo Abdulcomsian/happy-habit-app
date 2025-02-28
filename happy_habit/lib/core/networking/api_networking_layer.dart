@@ -69,9 +69,9 @@ class ApiNetworkingLayer {
 
   Options _generateOptions(String method, bool hasToken) {
     Map<String, String> headers = {};
+    final token = serviceLocator<AuthProvider>().authToken?.accessToken;
 
-    if (hasToken) {
-      String token = serviceLocator<AuthProvider>().authToken!.accessToken;
+    if (hasToken && token != null) {
       headers['Authorization'] = token;
     }
 

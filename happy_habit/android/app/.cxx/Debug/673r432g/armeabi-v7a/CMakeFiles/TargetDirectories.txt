@@ -1,0 +1,2 @@
+C:/Users/T480S/StudioProjects/happy-habit-app/happy_habit/android/app/.cxx/Debug/673r432g/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/T480S/StudioProjects/happy-habit-app/happy_habit/android/app/.cxx/Debug/673r432g/armeabi-v7a/CMakeFiles/rebuild_cache.dir

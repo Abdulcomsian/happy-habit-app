@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:happy_habit/modules/auth/screens/welcome_screen.dart';
 import 'package:happy_habit/modules/auth/services/auth_networking.dart';
-import 'package:happy_habit/modules/profile_setup/services/character_attributes.dart';
+import 'package:happy_habit/modules/profile_setup/services/avatar_attributes.dart';
 
 import '../../../core/avatar/avatar_provider.dart';
 import '../../../core/hive/hive_constants.dart';
@@ -48,12 +48,14 @@ class AuthProvider extends ChangeNotifier {
     _authToken = response?.authToken;
     if (response != null) {
       storeAuthToken();
-      serviceLocator<AvatarProvider>().getCharacterAccessories();
+      serviceLocator<AvatarProvider>().getCharacterElements();
     }
     return response != null;
   }
 
   Future<bool> refreshToken() async {
+    if (_authToken == null) return false;
+
     final token = await _networkingLayer.refreshToken(_authToken!.token);
     _authToken = token;
     if (token != null) {
@@ -113,7 +115,7 @@ class AuthProvider extends ChangeNotifier {
     _authToken = null;
     serviceLocator<NavigationProvider>().reset();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) => Routes.rootNavigatorKey.currentContext!.goNamed(WelcomeScreen.id),
+          (_) => Routes.rootNavigatorKey.currentContext!.goNamed(WelcomeScreen.id),
     );
   }
 
@@ -132,13 +134,13 @@ class AuthProvider extends ChangeNotifier {
     String? imageUrl,
     String? username,
     bool? areGoalsReady,
-    CharacterAttributes? characterAttributes,
+    AvatarAttributes? characterAttributes,
   }) {
     if (_appUser != null) {
       _appUser = _appUser!
         ..name = name ?? _appUser!.name
         ..email = email ?? _appUser!.email
-        // ..gender = gender ?? _appUser!.gender
+      // ..gender = gender ?? _appUser!.gender
         ..username = username ?? _appUser!.username
         ..imageUrl = imageUrl ?? _appUser!.imageUrl
         ..areGoalsReady = areGoalsReady ?? _appUser!.areGoalsReady

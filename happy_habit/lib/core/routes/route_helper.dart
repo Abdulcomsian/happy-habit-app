@@ -8,7 +8,7 @@ import 'package:happy_habit/modules/navigation/navigation_provider.dart';
 import 'package:happy_habit/modules/navigation/navigation_screen.dart';
 import 'package:happy_habit/modules/profile_setup/screens/username_screen.dart';
 
-import '../../modules/profile_setup/screens/character_selection_screen.dart';
+import '../../modules/profile_setup/screens/avatar_selection_screen.dart';
 import '../../modules/profile_setup/screens/goals_setup_screen.dart';
 import '../avatar/avatar_provider.dart';
 import '../services/providers.dart';
@@ -40,7 +40,7 @@ class RouteHelper {
     ];
 
     if (isUserLoggedIn) {
-      futures.add(avatarProv.getCharacterAccessories());
+      futures.add(avatarProv.getCharacterElements());
       futures.add(authProv.getUserProfile());
     }
 
@@ -74,7 +74,8 @@ class RouteHelper {
     if (authProv.appUser?.characterAttributes == null) {
       // If character is not set up, redirect to the AvatarSelectionScreen
       FlutterNativeSplash.remove();
-      return CharacterSelectionScreen.id;
+      // return null;
+      return AvatarSelectionScreen.id;
     }
 
     // Remove the native splash screen once profile setup is complete

@@ -7,7 +7,7 @@ import 'package:happy_habit/core/shared/widgets/custom_button.dart';
 import 'package:happy_habit/core/shared/widgets/custom_outlined_button.dart';
 import 'package:happy_habit/core/shared/widgets/root_screen.dart';
 import 'package:happy_habit/core/theme/typography.dart';
-import 'package:happy_habit/modules/profile_setup/screens/character_selection_screen.dart';
+import 'package:happy_habit/modules/profile_setup/screens/avatar_selection_screen.dart';
 import 'package:happy_habit/modules/profile_setup/services/profile_setup_provider.dart';
 import 'package:happy_habit/modules/profile_setup/shared/goal_tile.dart';
 import 'package:provider/provider.dart';
@@ -120,6 +120,6 @@ class _GoalsSetupScreenState extends State<GoalsSetupScreen> {
     _isLoading.value = true;
     final isSetup = await _prov.setGoals();
     _isLoading.value = false;
-    if (isSetup && mounted) context.goNamed(CharacterSelectionScreen.id);
+    if (isSetup && mounted) context.goNamed(AvatarSelectionScreen.id);
   }
 }

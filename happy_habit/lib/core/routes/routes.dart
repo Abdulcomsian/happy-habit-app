@@ -21,8 +21,8 @@ import '../../modules/profile/screens/notifications_screen.dart';
 import '../../modules/profile/screens/profile_screen.dart';
 import '../../modules/profile/screens/setting_screen.dart';
 import '../../modules/profile/screens/streak_screen.dart';
-import '../../modules/profile_setup/screens/character_confirmation_screen.dart';
-import '../../modules/profile_setup/screens/character_selection_screen.dart';
+import '../../modules/profile_setup/screens/avatar_confirmation_screen.dart';
+import '../../modules/profile_setup/screens/avatar_selection_screen.dart';
 import '../../modules/profile_setup/screens/edit_avatar_screen.dart';
 import '../../modules/profile_setup/screens/goals_setup_screen.dart';
 import '../../modules/profile_setup/screens/username_screen.dart';
@@ -100,9 +100,9 @@ class Routes {
         builder: (context, state) => const GoalsSetupScreen(),
       ),
       GoRoute(
-        path: CharacterSelectionScreen.id,
-        name: CharacterSelectionScreen.id,
-        builder: (context, state) => const CharacterSelectionScreen(),
+        path: AvatarSelectionScreen.id,
+        name: AvatarSelectionScreen.id,
+        builder: (context, state) => const AvatarSelectionScreen(),
         routes: [
           GoRoute(
             path: EditAvatarScreen.id,
@@ -110,9 +110,9 @@ class Routes {
             builder: (context, state) => const EditAvatarScreen(),
             routes: [
               GoRoute(
-                path: CharacterConfirmationScreen.id,
-                name: CharacterConfirmationScreen.id,
-                builder: (context, state) => CharacterConfirmationScreen(
+                path: AvatarConfirmationScreen.id,
+                name: AvatarConfirmationScreen.id,
+                builder: (context, state) => AvatarConfirmationScreen(
                   artboard: state.asMap['artboard'],
                   attributes: state.asMap['attributes'],
                 ),

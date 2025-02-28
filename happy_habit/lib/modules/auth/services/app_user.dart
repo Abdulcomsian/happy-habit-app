@@ -1,6 +1,6 @@
 import '../../../core/avatar/avatar_provider.dart';
 import '../../../core/services/providers.dart';
-import '../../profile_setup/services/character_attributes.dart';
+import '../../profile_setup/services/avatar_attributes.dart';
 
 class AppUser {
   final int id;
@@ -9,7 +9,7 @@ class AppUser {
   String? username, imageUrl;
 
   // String? gender, username, imageUrl;
-  CharacterAttributes? characterAttributes;
+  AvatarAttributes? characterAttributes;
 
   AppUser({
     required this.id,
@@ -34,8 +34,8 @@ class AppUser {
       imageUrl: json['imageUrl'],
       username: json['username'],
       areGoalsReady: json['areGoalsReady'] ?? false,
-      characterAttributes: json['characterAttributes'] != null
-          ? CharacterAttributes.fromJson(json['characterAttributes'])
+      characterAttributes: json['avatar'] != null
+          ? AvatarAttributes.fromJson(json['avatar'])
           : null,
     );
     serviceLocator<AvatarProvider>().initializeUserArtboard();
