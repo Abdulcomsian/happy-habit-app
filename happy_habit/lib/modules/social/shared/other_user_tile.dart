@@ -7,19 +7,22 @@ import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/profile/screens/profile_screen.dart';
+import 'package:happy_habit/modules/social/shared/models/other_user.dart';
 
 import '../../chat/chat_screen.dart';
 
-class FriendTile extends StatelessWidget {
+class OtherUserTile extends StatelessWidget {
   final bool isFriend;
   final int? xpPoints;
+  final OtherUser friend;
   final VoidCallback? onViewProfile;
 
-  const FriendTile({
+  const OtherUserTile({
     super.key,
     this.xpPoints,
     this.onViewProfile,
     this.isFriend = true,
+    required this.friend,
   });
 
   @override
@@ -49,7 +52,7 @@ class FriendTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Name',
+                      friend.name,
                       style: context.bodyLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         overflow: TextOverflow.ellipsis,

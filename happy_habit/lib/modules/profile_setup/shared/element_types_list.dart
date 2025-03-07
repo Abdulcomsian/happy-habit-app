@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
 
 import '../../../core/constants/avatar_asset_paths.dart';
 import '../../../core/services/providers.dart';
@@ -8,11 +9,13 @@ import '../../../core/theme/theme_colors.dart';
 import '../../auth/services/auth_provider.dart';
 
 class ElementTypesList extends StatelessWidget {
+  final bool isMale;
   final ValueChanged<String> onChanged;
   final ValueNotifier<String> selectedAccessoriesTypes;
 
   const ElementTypesList({
     super.key,
+    required this.isMale,
     required this.onChanged,
     required this.selectedAccessoriesTypes,
   });
@@ -20,7 +23,7 @@ class ElementTypesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.horizontal(
@@ -31,14 +34,15 @@ class ElementTypesList extends StatelessWidget {
         valueListenable: selectedAccessoriesTypes,
         builder: (context, types, _) {
           return Wrap(
-            spacing: 10.w,
             alignment: WrapAlignment.end,
             children: List.generate(
               _elements.length,
               (i) {
                 final isSelected = _elements[i] == types;
-                return InkWell(
+                return TapWidget(
+                  // color: Colors.pink,
                   onTap: () => onChanged.call(AvatarIcons.elements[i]),
+                  padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 10.h),
                   child: SvgIcon(
                     AvatarIcons.elements[i],
                     width: 20.r,
@@ -55,12 +59,11 @@ class ElementTypesList extends StatelessWidget {
   }
 
   List<String> get _elements {
-    final attributes = serviceLocator<AuthProvider>().appUser!.characterAttributes!;
-    if (attributes.isMale) {
+    if (isMale) {
       return AvatarIcons.elements;
     } else {
-      AvatarIcons.elements.removeLast();
-      return AvatarIcons.elements;
+      // Create a copy of the list and remove the last element
+      return List.from(AvatarIcons.elements)..removeLast();
     }
   }
 }

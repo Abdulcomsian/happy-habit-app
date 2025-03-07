@@ -134,7 +134,7 @@ class AuthProvider extends ChangeNotifier {
     String? imageUrl,
     String? username,
     bool? areGoalsReady,
-    AvatarAttributes? characterAttributes,
+    AvatarAttributes? avatarAttributes,
   }) {
     if (_appUser != null) {
       _appUser = _appUser!
@@ -144,7 +144,7 @@ class AuthProvider extends ChangeNotifier {
         ..username = username ?? _appUser!.username
         ..imageUrl = imageUrl ?? _appUser!.imageUrl
         ..areGoalsReady = areGoalsReady ?? _appUser!.areGoalsReady
-        ..characterAttributes = characterAttributes ?? _appUser!.characterAttributes;
+        ..avatarAttributes = avatarAttributes ?? _appUser!.avatarAttributes;
       notifyListeners();
     }
   }

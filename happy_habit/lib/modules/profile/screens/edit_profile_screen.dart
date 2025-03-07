@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
+import 'package:happy_habit/core/services/providers.dart';
 import 'package:happy_habit/core/shared/widgets/root_screen.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
+import 'package:happy_habit/modules/auth/screens/update_password_screen.dart';
+import 'package:happy_habit/modules/auth/services/auth_provider.dart';
 import 'package:happy_habit/modules/profile/shared/profile_header.dart';
 
 import '../../../core/services/validators.dart';
@@ -22,12 +25,21 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  final _username = InputDescriptor();
-  final _email = InputDescriptor();
-  final _password = InputDescriptor();
+  final _authProv = serviceLocator<AuthProvider>();
+  late final InputDescriptor _username;
+  late final InputDescriptor _email;
+  late final InputDescriptor _password;
 
   final _formKey = GlobalKey<FormState>();
   AutovalidateMode _validateMode = AutovalidateMode.disabled;
+
+  @override
+  void initState() {
+    super.initState();
+    _username = InputDescriptor(initialValue: _authProv.appUser?.username);
+    _email = InputDescriptor(initialValue: _authProv.appUser?.email);
+    _password = InputDescriptor(initialValue: '********');
+  }
 
   @override
   void dispose() {
@@ -110,7 +122,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               hint: 'Password',
               showIcons: true,
               descriptor: _password,
-              validator: Validators.passwordValidation,
+              onTap: () => context.pushNamed(UpdatePasswordScreen.id, extra: {
+                'shouldPop': true,
+                'uid': _authProv.appUser?.id,
+              }),
             ),
             15.height,
             CustomTextField(

@@ -53,11 +53,12 @@ class AvatarProvider extends ChangeNotifier {
   }
 
   void initializeUserArtboard({Artboard? artboard}) async {
-    final appUser = serviceLocator<AuthProvider>().appUser;
+    final authProv = serviceLocator<AuthProvider>();
+    final appUser = authProv.appUser;
     if (artboard != null) {
       userArtboard = artboard;
     } else {
-      final attributes = appUser?.characterAttributes ?? AvatarAttributes();
+      final attributes = appUser?.avatarAttributes ?? AvatarAttributes();
 
       try {
         userArtboard = await attributes.path.loadArtboard();

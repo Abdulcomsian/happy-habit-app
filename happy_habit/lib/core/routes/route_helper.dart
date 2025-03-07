@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:happy_habit/core/shared/helper_functions/media/media_provider.dart';
+import 'package:happy_habit/modules/activity/services/activity_provider.dart';
 import 'package:happy_habit/modules/auth/screens/welcome_screen.dart';
 import 'package:happy_habit/modules/auth/services/auth_provider.dart';
 import 'package:happy_habit/modules/navigation/navigation_provider.dart';
 import 'package:happy_habit/modules/navigation/navigation_screen.dart';
 import 'package:happy_habit/modules/profile_setup/screens/username_screen.dart';
+import 'package:happy_habit/modules/social/services/social_provider.dart';
 
 import '../../modules/profile_setup/screens/avatar_selection_screen.dart';
 import '../../modules/profile_setup/screens/goals_setup_screen.dart';
+import '../../modules/profile_setup/services/profile_setup_provider.dart';
 import '../avatar/avatar_provider.dart';
 import '../services/providers.dart';
 
@@ -69,14 +72,15 @@ class RouteHelper {
       // If Goals are not set up, redirect to the GoalsSetupScreen
       FlutterNativeSplash.remove();
       return GoalsSetupScreen.id;
+    } else {
+      serviceLocator<ProfileSetupProvider>().getGoals();
     }
 
-    if (authProv.appUser?.characterAttributes == null) {
-      // If character is not set up, redirect to the AvatarSelectionScreen
-      FlutterNativeSplash.remove();
-      // return null;
-      return AvatarSelectionScreen.id;
-    }
+    // if (authProv.appUser?.characterAttributes == null) {
+    //   // If character is not set up, redirect to the AvatarSelectionScreen
+    //   FlutterNativeSplash.remove();
+    //   return AvatarSelectionScreen.id;
+    // }
 
     // Remove the native splash screen once profile setup is complete
     FlutterNativeSplash.remove();

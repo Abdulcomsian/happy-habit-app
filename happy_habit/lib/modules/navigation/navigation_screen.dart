@@ -7,14 +7,31 @@ import 'package:provider/provider.dart';
 
 import '../../core/services/providers.dart';
 import '../activity/screens/activity_setup_screen.dart';
+import '../activity/services/activity_provider.dart';
 import '../progress/screens/progress_tracking_screen.dart';
+import '../social/services/social_provider.dart';
 import 'shared/custom_bottom_navigation_bar.dart';
 import 'shared/custom_drawer.dart';
 
-class NavigationScreen extends StatelessWidget {
+class NavigationScreen extends StatefulWidget {
   static const id = '/NavigationScreen';
 
   const NavigationScreen({super.key});
+
+  @override
+  State<NavigationScreen> createState() => _NavigationScreenState();
+}
+
+class _NavigationScreenState extends State<NavigationScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    // getting user data
+    serviceLocator<SocialProvider>().getData();
+    serviceLocator<ActivityProvider>().getActivities();
+  }
 
   @override
   Widget build(BuildContext context) {

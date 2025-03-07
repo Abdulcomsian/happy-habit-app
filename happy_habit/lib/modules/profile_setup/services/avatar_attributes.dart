@@ -18,7 +18,7 @@ class AvatarAttributes {
   // History stack to keep track of previous states
   // List<CharacterAttributes> history = [];
 
-  // CharacterAttributes({
+  // AvatarAttributes({
   //   this.hairNumber = 0,
   //   this.shoesNumber = 0,
   //   this.hatNumber = 0,
@@ -66,6 +66,25 @@ class AvatarAttributes {
       accNumber: json['accNumber'] ?? 0,
       shoesNumber: json['shoesNumber'] ?? 0,
       clothingNumber: json['clothingNumber'] ?? 0,
+    );
+  }
+
+  // Factory constructor to create a new AvatarAttributes instance by copying another
+  factory AvatarAttributes.copyFrom(AvatarAttributes other) {
+    return AvatarAttributes(
+      hairNumber: other.hairNumber,
+      shoesNumber: other.shoesNumber,
+      hatNumber: other.hatNumber,
+      eyeNumber: other.eyeNumber,
+      eyebrowsNumber: other.eyebrowsNumber,
+      mouthNumber: other.mouthNumber,
+      clothingNumber: other.clothingNumber,
+      bodyColorNumber: other.bodyColorNumber,
+      beardNumber: other.beardNumber,
+      noseNumber: other.noseNumber,
+      accNumber: other.accNumber,
+      animationNumber: other.animationNumber,
+      isMale: other.isMale,
     );
   }
 

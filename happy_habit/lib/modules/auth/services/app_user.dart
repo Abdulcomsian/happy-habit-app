@@ -9,7 +9,7 @@ class AppUser {
   String? username, imageUrl;
 
   // String? gender, username, imageUrl;
-  AvatarAttributes? characterAttributes;
+  AvatarAttributes? avatarAttributes;
 
   AppUser({
     required this.id,
@@ -19,11 +19,11 @@ class AppUser {
     required this.imageUrl,
     required this.username,
     required this.areGoalsReady,
-    required this.characterAttributes,
-  });
+    // required this.avatarAttributes,
+  // });
 
-  //   CharacterAttributes? characterAttributes,
-  // }) : characterAttributes = characterAttributes ?? CharacterAttributes();
+    AvatarAttributes? avatarAttributes,
+  }) : avatarAttributes = avatarAttributes ?? AvatarAttributes();
 
   factory AppUser.fromJson(Map<String, dynamic> json) {
     final appUser = AppUser(
@@ -34,7 +34,7 @@ class AppUser {
       imageUrl: json['imageUrl'],
       username: json['username'],
       areGoalsReady: json['areGoalsReady'] ?? false,
-      characterAttributes: json['avatar'] != null
+      avatarAttributes: json['avatar'] != null
           ? AvatarAttributes.fromJson(json['avatar'])
           : null,
     );

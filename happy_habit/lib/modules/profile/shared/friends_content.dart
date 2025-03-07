@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
+import 'package:happy_habit/core/shared/widgets/circular_bounce_loader.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
-import 'package:happy_habit/modules/social/shared/friend_tile.dart';
+import 'package:happy_habit/modules/social/services/social_provider.dart';
+import 'package:happy_habit/modules/social/shared/other_user_tile.dart';
+import 'package:provider/provider.dart';
 
 class FriendsContent extends StatelessWidget {
   const FriendsContent({super.key});
@@ -34,15 +37,35 @@ class FriendsContent extends StatelessWidget {
             ],
           ),
           15.height,
-          ListView.separated(
-            itemCount: 4,
-            shrinkWrap: true,
-            padding: EdgeInsets.only(bottom: 30.h),
-            physics: NeverScrollableScrollPhysics(),
-            separatorBuilder: (context, index) => 10.height,
-            itemBuilder: (context, i) => FriendTile(
-              xpPoints: 55,
-            ),
+          Consumer<SocialProvider>(
+            builder: (context, prov, _) {
+              if (prov.isLoading) {
+                return CircleBounceLoader();
+              }
+
+              if (prov.friends.isEmpty) {
+                return Center(
+                  child: Text(
+                    'no friend to show',
+                    style: context.bodyMedium?.copyWith(
+                      color: Colors.grey,
+                    ),
+                  ),
+                );
+              }
+
+              return ListView.separated(
+                shrinkWrap: true,
+                itemCount: prov.friends.length,
+                padding: EdgeInsets.only(bottom: 30.h),
+                physics: NeverScrollableScrollPhysics(),
+                separatorBuilder: (context, index) => 10.height,
+                itemBuilder: (context, i) => OtherUserTile(
+                  friend: prov.friends[i],
+                  xpPoints: prov.friends[i].xp,
+                ),
+              );
+            }
           ),
         ],
       ),

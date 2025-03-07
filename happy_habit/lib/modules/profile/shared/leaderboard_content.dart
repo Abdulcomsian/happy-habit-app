@@ -11,59 +11,57 @@ class LeaderboardContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.w),
-      child: Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: 29.h),
-                child: TopScorerTile(
-                  position: 2,
-                  name: 'Bryan Wolf',
-                ),
-              ),
-              TopScorerTile(
-                position: 1,
+    return ListView(
+      padding: EdgeInsets.all(20.r),
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: 29.h),
+              child: TopScorerTile(
+                position: 2,
                 name: 'Bryan Wolf',
               ),
-              Padding(
-                padding: EdgeInsets.only(top: 29.h),
-                child: TopScorerTile(
-                  position: 3,
-                  name: 'Bryan Wolf',
-                ),
-              ),
-            ],
-          ),
-          20.height,
-          ListView.separated(
-            itemCount: 9,
-            shrinkWrap: true,
-            padding: EdgeInsets.only(bottom: 30.h),
-            physics: NeverScrollableScrollPhysics(),
-            separatorBuilder: (context, index) => 10.height,
-            itemBuilder: (context, i) => ScoreTile(
-              position: i + 1,
-              isCurrentUser: i == 6,
-              name: [
-                'Meghan James',
-                'Bryan Wolf',
-                'Alex Turner',
-                'Marsha Fisher',
-                'Juanita Cornier',
-                'You',
-                'Tamara Schmidt',
-                'Ricardo Velum',
-                'Gary Sanford',
-              ][i],
             ),
+            TopScorerTile(
+              position: 1,
+              name: 'Bryan Wolf',
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 29.h),
+              child: TopScorerTile(
+                position: 3,
+                name: 'Bryan Wolf',
+              ),
+            ),
+          ],
+        ),
+        20.height,
+        ListView.separated(
+          itemCount: 9,
+          shrinkWrap: true,
+          padding: EdgeInsets.only(bottom: 30.h),
+          physics: NeverScrollableScrollPhysics(),
+          separatorBuilder: (context, index) => 10.height,
+          itemBuilder: (context, i) => ScoreTile(
+            position: i + 1,
+            isCurrentUser: i == 6,
+            name: [
+              'Meghan James',
+              'Bryan Wolf',
+              'Alex Turner',
+              'Marsha Fisher',
+              'Juanita Cornier',
+              'You',
+              'Tamara Schmidt',
+              'Ricardo Velum',
+              'Gary Sanford',
+            ][i],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -147,7 +145,7 @@ class TopScorerTile extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
-          height: (isFirst ? 102   : 95).r,
+          height: (isFirst ? 102 : 95).r,
           child: Stack(
             children: [
               Container(

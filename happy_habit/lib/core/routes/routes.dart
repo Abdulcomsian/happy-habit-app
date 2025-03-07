@@ -80,6 +80,7 @@ class Routes {
             name: UpdatePasswordScreen.id,
             builder: (context, state) => UpdatePasswordScreen(
               uid: state.asMap['uid'],
+              shouldPop: state.asMap['shouldPop'] ?? false,
             ),
           ),
         ],

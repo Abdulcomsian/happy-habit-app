@@ -58,7 +58,7 @@ class ProfileSetupProvider extends ChangeNotifier {
     final isSetup = await _networkingLayer.setAvatar(attributes.toJson());
     if (isSetup) {
       avatarProv.initializeUserArtboard(artboard: artboard);
-      prov.updateUser(characterAttributes: attributes);
+      prov.updateUser(avatarAttributes: attributes);
     }
     return isSetup;
   }

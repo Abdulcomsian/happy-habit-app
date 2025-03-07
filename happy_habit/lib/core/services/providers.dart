@@ -4,8 +4,11 @@ import 'package:happy_habit/modules/navigation/navigation_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
+import '../../modules/activity/services/activity_provider.dart';
 import '../../modules/home/services/home_provider.dart';
+import '../../modules/profile/services/profile_provider.dart';
 import '../../modules/profile_setup/services/profile_setup_provider.dart';
+import '../../modules/social/services/social_provider.dart';
 import '../avatar/avatar_provider.dart';
 import '../shared/helper_functions/media/media_provider.dart';
 
@@ -19,6 +22,9 @@ void setupLocator() {
   serviceLocator.registerLazySingleton(() => ProfileSetupProvider());
   serviceLocator.registerLazySingleton(() => NavigationProvider());
   serviceLocator.registerLazySingleton(() => MediaProvider());
+  serviceLocator.registerLazySingleton(() => ProfileProvider());
+  serviceLocator.registerLazySingleton(() => SocialProvider());
+  serviceLocator.registerLazySingleton(() => ActivityProvider());
 }
 
 class Providers {
@@ -30,5 +36,8 @@ class Providers {
     ChangeNotifierProvider(create: (_) => serviceLocator<ProfileSetupProvider>()),
     ChangeNotifierProvider(create: (_) => serviceLocator<NavigationProvider>()),
     ChangeNotifierProvider(create: (_) => serviceLocator<MediaProvider>()),
+    ChangeNotifierProvider(create: (_) => serviceLocator<ProfileProvider>()),
+    ChangeNotifierProvider(create: (_) => serviceLocator<SocialProvider>()),
+    ChangeNotifierProvider(create: (_) => serviceLocator<ActivityProvider>()),
   ];
 }

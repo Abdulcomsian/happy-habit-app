@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:happy_habit/core/constants/asset_paths.dart';
+import 'package:happy_habit/core/extensions/datetime_extension.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
+import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
+import 'package:happy_habit/modules/activity/services/activity_provider.dart';
+import 'package:happy_habit/modules/activity/shared/models/activity.dart';
+import 'package:provider/provider.dart';
+
+import '../../../core/shared/widgets/circular_bounce_loader.dart';
 
 class ActivityContent extends StatelessWidget {
   const ActivityContent({super.key});
@@ -22,14 +29,33 @@ class ActivityContent extends StatelessWidget {
             ),
           ),
           15.height,
-          ListView.separated(
-            itemCount: 4,
-            shrinkWrap: true,
-            padding: EdgeInsets.only(bottom: 30.h),
-            physics: NeverScrollableScrollPhysics(),
-            separatorBuilder: (context, index) => 10.height,
-            itemBuilder: (context, i) => ActivityContentTile(),
-          ),
+          Consumer<ActivityProvider>(builder: (context, prov, _) {
+            if (prov.isLoading) {
+              return CircleBounceLoader();
+            }
+
+            if (prov.activities.isEmpty) {
+              return Center(
+                child: Text(
+                  'no activity to show',
+                  style: context.bodyMedium?.copyWith(
+                    color: Colors.grey,
+                  ),
+                ),
+              );
+            }
+
+            return ListView.separated(
+              shrinkWrap: true,
+              itemCount: prov.activities.length,
+              padding: EdgeInsets.only(bottom: 30.h),
+              physics: NeverScrollableScrollPhysics(),
+              separatorBuilder: (context, index) => 10.height,
+              itemBuilder: (context, i) => ActivityContentTile(
+                activity: prov.activities[i],
+              ),
+            );
+          }),
         ],
       ),
     );
@@ -37,7 +63,9 @@ class ActivityContent extends StatelessWidget {
 }
 
 class ActivityContentTile extends StatelessWidget {
-  const ActivityContentTile({super.key});
+  final Activity activity;
+
+  const ActivityContentTile({super.key, required this.activity});
 
   @override
   Widget build(BuildContext context) {
@@ -55,13 +83,13 @@ class ActivityContentTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '9 XP earned by sleep goals',
+                  activity.description,
                   style: context.bodyLarge?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 Text(
-                  'Today, 09:00 AM',
+                  activity.timestamp.toFormattedTimeStringForToday(),
                   style: context.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),

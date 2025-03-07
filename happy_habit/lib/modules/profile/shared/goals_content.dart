@@ -4,6 +4,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:happy_habit/core/extensions/string_extensions.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
 import 'package:happy_habit/core/theme/typography.dart';
+import 'package:happy_habit/modules/profile_setup/services/profile_setup_provider.dart';
+import 'package:happy_habit/modules/profile_setup/shared/goal_tile.dart';
+import 'package:provider/provider.dart';
 
 class GoalsContent extends StatelessWidget {
   const GoalsContent({super.key});
@@ -33,15 +36,19 @@ class GoalsContent extends StatelessWidget {
             ],
           ),
           15.height,
-          ListView.separated(
-            itemCount: 4,
-            shrinkWrap: true,
-            padding: EdgeInsets.only(bottom: 30.h),
-            physics: NeverScrollableScrollPhysics(),
-            separatorBuilder: (context, index) => 10.height,
-            itemBuilder: (context, i) => GoalContentTile(
-              activity: ['sleep', 'screen', 'workout', 'focus'][i],
-            ),
+          Consumer<ProfileSetupProvider>(
+            builder: (context, prov, _) {
+              return ListView.separated(
+                shrinkWrap: true,
+                itemCount: prov.goals.length,
+                padding: EdgeInsets.only(bottom: 30.h),
+                physics: NeverScrollableScrollPhysics(),
+                separatorBuilder: (context, index) => 10.height,
+                itemBuilder: (context, i) => GoalTile(
+                  goal: prov.goals[i],
+                ),
+              );
+            }
           ),
         ],
       ),
@@ -49,44 +56,44 @@ class GoalsContent extends StatelessWidget {
   }
 }
 
-class GoalContentTile extends StatelessWidget {
-  final String activity;
-
-  const GoalContentTile({super.key, required this.activity});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8.r),
-      ),
-      child: Flex(
-        direction: Axis.horizontal,
-        children: [
-          SvgPicture.asset(
-            'assets/icons/$activity.svg',
-            width: 50.r,
-            height: 50.r,
-          ),
-          13.width,
-          Expanded(
-            child: Text(
-              '${activity.capitalize()} Time',
-              style: context.bodyLarge?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          Text(
-            '01h:45m',
-            style: context.bodyLarge?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+// class GoalContentTile extends StatelessWidget {
+//   final String activity;
+//
+//   const GoalContentTile({super.key, required this.activity});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+//       decoration: BoxDecoration(
+//         color: Colors.white,
+//         borderRadius: BorderRadius.circular(8.r),
+//       ),
+//       child: Flex(
+//         direction: Axis.horizontal,
+//         children: [
+//           SvgPicture.asset(
+//             'assets/icons/$activity.svg',
+//             width: 50.r,
+//             height: 50.r,
+//           ),
+//           13.width,
+//           Expanded(
+//             child: Text(
+//               '${activity.capitalize()} Time',
+//               style: context.bodyLarge?.copyWith(
+//                 fontWeight: FontWeight.w600,
+//               ),
+//             ),
+//           ),
+//           Text(
+//             '01h:45m',
+//             style: context.bodyLarge?.copyWith(
+//               fontWeight: FontWeight.w600,
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

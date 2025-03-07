@@ -49,6 +49,7 @@ class ProgressScreen extends StatelessWidget {
                         builder: (context, prov, _) {
                           return Rive(
                             artboard: prov.userArtboard,
+                            fit: BoxFit.cover,
                           );
                         },
                       ),

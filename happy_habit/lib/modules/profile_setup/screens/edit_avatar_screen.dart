@@ -15,7 +15,6 @@ import 'package:happy_habit/modules/profile_setup/shared/element_types_list.dart
 import 'package:happy_habit/modules/profile_setup/shared/elements_list.dart';
 import 'package:rive/rive.dart';
 
-import '../services/character_attributes.dart';
 import '../services/avatar_attributes.dart';
 import '../shared/avatar_section.dart';
 
@@ -43,7 +42,7 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
   @override
   void initState() {
     super.initState();
-    attributes = _authProv.appUser!.characterAttributes!;
+    attributes = AvatarAttributes.copyFrom(_authProv.appUser!.avatarAttributes!);
     _loadCharacter();
   }
 
@@ -60,6 +59,7 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
 
           // adding as per name, without this it wont change the characters element i.e. hairs
           _addAttributes(element);
+          _setPreValues();
         }
       }
       // setState(() => riveArtboard = artboard);
@@ -108,6 +108,7 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
                 alignment: Alignment.centerRight,
                 child: ElementTypesList(
                   onChanged: _setAccessory,
+                  isMale: attributes.isMale,
                   selectedAccessoriesTypes: _selectedElementTypes,
                 ),
               ),
@@ -272,18 +273,18 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
           break;
         case "shoes":
         case "shooes":
-        shoesNumber = element;
+          shoesNumber = element;
           break;
         case "hat":
           hatNumber = element;
           break;
         case "eye":
         case "eyes":
-        eyeNumber = element;
+          eyeNumber = element;
           break;
         case "eyebrows":
         case "eye brows":
-        eyebrowsNumber = element;
+          eyebrowsNumber = element;
           break;
         case "mouth":
           mouthNumber = element;
@@ -292,7 +293,7 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
         case "cloth":
         case "clothing":
         case "clothing ":
-        clothingNumber = element;
+          clothingNumber = element;
           break;
         case "body colore":
           colorNumber = element;
@@ -313,5 +314,19 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
           break;
       }
     }
+  }
+
+  void _setPreValues() {
+    hairNumber?.change(attributes.hairNumber.toDouble());
+    shoesNumber?.change(attributes.shoesNumber.toDouble());
+    eyeNumber?.change(attributes.eyeNumber.toDouble());
+    eyebrowsNumber?.change(attributes.eyebrowsNumber.toDouble());
+    hatNumber?.change(attributes.hatNumber.toDouble());
+    mouthNumber?.change(attributes.mouthNumber.toDouble());
+    clothingNumber?.change(attributes.clothingNumber.toDouble());
+    colorNumber?.change(attributes.bodyColorNumber.toDouble());
+    beardNumber?.change(attributes.beardNumber.toDouble());
+    noseNumber?.change(attributes.noseNumber.toDouble());
+    accNumber?.change(attributes.accNumber.toDouble());
   }
 }

@@ -75,7 +75,7 @@ class ElementsList extends StatelessWidget {
 
 // Get the correct accessories based on avatar type and selected accessory name
   List<AvatarElements> _elements(String elementType) {
-    final attributes = serviceLocator<AuthProvider>().appUser!.characterAttributes!;
+    final attributes = serviceLocator<AuthProvider>().appUser!.avatarAttributes!;
     if (attributes.isMale) {
       return maleElements(elementType); // Return male-specific accessories
     } else {

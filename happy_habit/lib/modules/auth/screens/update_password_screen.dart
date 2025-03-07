@@ -17,7 +17,9 @@ class UpdatePasswordScreen extends StatefulWidget {
   static const id = 'UpdatePasswordScreen';
 
   final int uid;
-  const UpdatePasswordScreen({super.key, required this.uid});
+  final bool shouldPop;
+
+  const UpdatePasswordScreen({super.key, required this.uid, required this.shouldPop});
 
   @override
   State<UpdatePasswordScreen> createState() => _UpdatePasswordScreenState();
@@ -100,13 +102,22 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
         context: context,
         barrierDismissible: true,
         builder: (_) => CustomDialog(
+          onAction: _onSuccess,
           svg: AppIcons.success,
-          actionLabel: 'Login',
           title: 'Password updated successfully',
-          onAction: () => context.popUntil(LoginScreen.id),
+          actionLabel: widget.shouldPop ? 'Continue' : 'Login',
           message: 'Your password has been successfully updated. You can now log in.',
         ),
       );
+    }
+  }
+
+  void _onSuccess() {
+    if (widget.shouldPop) {
+      Navigator.pop(context);
+      Navigator.pop(context);
+    } else {
+      context.popUntil(LoginScreen.id);
     }
   }
 }

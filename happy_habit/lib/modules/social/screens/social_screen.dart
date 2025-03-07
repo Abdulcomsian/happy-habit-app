@@ -7,8 +7,11 @@ import 'package:happy_habit/core/shared/widgets/root_screen.dart';
 import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/profile/shared/leaderboard_content.dart';
+import 'package:provider/provider.dart';
 
-import '../shared/friend_tile.dart';
+import '../../../core/shared/widgets/circular_bounce_loader.dart';
+import '../services/social_provider.dart';
+import '../shared/other_user_tile.dart';
 
 class SocialScreen extends StatefulWidget {
   static const id = 'SocialScreen';
@@ -28,7 +31,7 @@ class _SocialScreenState extends State<SocialScreen> with SingleTickerProviderSt
   void initState() {
     super.initState();
 
-    _tabController = TabController(length: 2, vsync: this, initialIndex: widget.desireIndex ?? 0);
+    _tabController = TabController(length: 3, vsync: this, initialIndex: widget.desireIndex ?? 0);
   }
 
   @override
@@ -77,26 +80,57 @@ class _SocialScreenState extends State<SocialScreen> with SingleTickerProviderSt
               ),
             ),
             Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                physics: NeverScrollableScrollPhysics(),
-                children: [
-                  ListView.separated(
-                    itemCount: 3,
-                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-                    separatorBuilder: (context, index) => 10.height,
-                    itemBuilder: (context, index) => FriendTile(),
-                  ),
-                  ListView.separated(
-                    itemCount: 3,
-                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-                    separatorBuilder: (context, index) => 10.height,
-                    itemBuilder: (context, index) => FriendTile(
-                      isFriend: false,
-                    ),
-                  ),
-                  LeaderboardContent(),
-                ],
+              child: Consumer<SocialProvider>(
+                builder: (context, prov, _) {
+                  return TabBarView(
+                    controller: _tabController,
+                    physics: NeverScrollableScrollPhysics(),
+                    children: [
+                      if (prov.isLoading)
+                        CircleBounceLoader()
+                      else if (prov.friends.isEmpty)
+                        Center(
+                          child: Text(
+                            'no friends to show',
+                            style: context.bodyMedium?.copyWith(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        )
+                      else
+                        ListView.separated(
+                          itemCount: prov.friends.length,
+                          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+                          separatorBuilder: (context, index) => 10.height,
+                          itemBuilder: (context, i) => OtherUserTile(
+                            friend: prov.friends[i],
+                          ),
+                        ),
+                      if (prov.isLoading)
+                        CircleBounceLoader()
+                      else if (prov.pendingRequest.isEmpty)
+                        Center(
+                          child: Text(
+                            'no pending request to show',
+                            style: context.bodyMedium?.copyWith(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        )
+                      else
+                        ListView.separated(
+                          itemCount: prov.pendingRequest.length,
+                          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+                          separatorBuilder: (context, index) => 10.height,
+                          itemBuilder: (context, i) => OtherUserTile(
+                            isFriend: false,
+                            friend: prov.pendingRequest[i],
+                          ),
+                        ),
+                      LeaderboardContent(),
+                    ],
+                  );
+                },
               ),
             ),
           ],
