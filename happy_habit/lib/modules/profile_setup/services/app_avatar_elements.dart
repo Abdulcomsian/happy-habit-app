@@ -74,16 +74,19 @@ class AppAvatarElements {
 class AvatarElements {
   final int id;
   final String value;
+  final int elementId;
 
   const AvatarElements({
     required this.id,
     required this.value,
+    required this.elementId,
   });
 
   factory AvatarElements.fromJson(Map<String, dynamic> json, {String? key}) {
     final id = int.tryParse(json['element_id'] ?? '');
     return AvatarElements(
-      id: id ?? 0,
+      id: json['id'],
+      elementId: id ?? 0,
       value: json[key ?? 'image'],
     );
   }

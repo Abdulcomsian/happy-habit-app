@@ -55,7 +55,7 @@ class ElementsList extends StatelessWidget {
                       color: color,
                       element: element,
                       isSelected: isSelected,
-                      onChanged: (value) => _maintainAccessory(element.id, element),
+                      onChanged: (value) => _maintainAccessory(element),
                     );
                   },
                 );
@@ -67,10 +67,10 @@ class ElementsList extends StatelessWidget {
     );
   }
 
-  void _maintainAccessory(int id, AvatarElements accessory) {
-    selectedElement.value = Map.from(selectedElement.value)..[elementType.value] = accessory;
+  void _maintainAccessory(AvatarElements element) {
+    selectedElement.value = Map.from(selectedElement.value)..[elementType.value] = element;
 
-    onChanged.call(id, elementType.value);
+    onChanged.call(element.id, elementType.value);
   }
 
 // Get the correct accessories based on avatar type and selected accessory name

@@ -19,11 +19,11 @@ class AppUser {
     required this.imageUrl,
     required this.username,
     required this.areGoalsReady,
-    // required this.avatarAttributes,
-  // });
+    required this.avatarAttributes,
+  });
 
-    AvatarAttributes? avatarAttributes,
-  }) : avatarAttributes = avatarAttributes ?? AvatarAttributes();
+  // AvatarAttributes? avatarAttributes,
+  // }) : avatarAttributes = avatarAttributes ?? AvatarAttributes();
 
   factory AppUser.fromJson(Map<String, dynamic> json) {
     final appUser = AppUser(
@@ -34,9 +34,7 @@ class AppUser {
       imageUrl: json['imageUrl'],
       username: json['username'],
       areGoalsReady: json['areGoalsReady'] ?? false,
-      avatarAttributes: json['avatar'] != null
-          ? AvatarAttributes.fromJson(json['avatar'])
-          : null,
+      avatarAttributes: json['avatar'] != null ? AvatarAttributes.fromJson(json['avatar']) : null,
     );
     serviceLocator<AvatarProvider>().initializeUserArtboard();
     return appUser;

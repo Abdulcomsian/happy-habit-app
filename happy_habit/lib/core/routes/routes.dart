@@ -175,6 +175,8 @@ class Routes {
                 path: ActivityResultScreen.id,
                 name: ActivityResultScreen.id,
                 builder: (context, state) => ActivityResultScreen(
+                  xp: state.asMap['xp'],
+                  coins: state.asMap['coins'],
                   duration: state.asMap['duration'],
                 ),
               ),

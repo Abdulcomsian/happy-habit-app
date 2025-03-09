@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:happy_habit/core/constants/asset_paths.dart';
 import 'package:happy_habit/core/extensions/widget_extensions.dart';
+import 'package:happy_habit/core/services/logger.dart';
 import 'package:happy_habit/core/shared/widgets/custom_icon_button.dart';
 import 'package:happy_habit/core/shared/widgets/root_screen.dart';
 import 'package:happy_habit/core/shared/widgets/tap_widget.dart';
@@ -15,6 +16,7 @@ import 'package:happy_habit/modules/activity/shared/custom_slider.dart';
 import 'package:happy_habit/modules/activity/shared/give_up_popup.dart';
 
 import '../../../core/shared/helper_functions/media/music_services.dart';
+import '../shared/avatar_animation_widget.dart';
 import '../shared/music_selection_popup.dart';
 import 'activity_result_screen.dart';
 
@@ -42,6 +44,8 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
 
   MusicFlavors? _previousMusic;
 
+  int xp = 0, coins = 0;
+
   @override
   void initState() {
     super.initState();
@@ -54,10 +58,21 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
     if (!_isActivityPaused.value) {
       if (_sessionDuration.value.inSeconds < widget.duration.inSeconds) {
         _sessionDuration.value += Duration(seconds: 1);
+
+        // Check if it's a new minute (every 60 seconds)
+        if (_sessionDuration.value.inSeconds % 60 == 0) {
+          _incrementCoinsAndXP();
+        }
       } else {
         _closeTimer();
       }
     }
+  }
+
+  // Increment 1 coin and 2 XP every minute
+  void _incrementCoinsAndXP() {
+      coins += 1; // Increment 1 coin
+      xp += 2; // Increment 2 XP
   }
 
   void _startTimer() {
@@ -171,11 +186,17 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
             10.height,
             AspectRatio(
               aspectRatio: 1.sw / 399.h,
-              child: Image.asset(
-                // DummyIcons.activity,
-                'assets/dummy/${widget.activity}.webp',
-                fit: BoxFit.cover,
-              ),
+              child: AvatarAnimationWidget(
+                    // type: widget.activity,
+                    // minute: widget.duration.inMinutes,
+                    activity: widget.activity,
+                    minute: widget.duration.inMinutes,
+                  ) ??
+                  Image.asset(
+                    // DummyIcons.activity,
+                    'assets/dummy/${widget.activity}.webp',
+                    fit: BoxFit.cover,
+                  ),
             ),
             44.height,
             Divider(color: ThemeColor.hint, indent: 80.w, endIndent: 80.w),
@@ -225,7 +246,10 @@ class _ActivitySessionScreenState extends State<ActivitySessionScreen> with Widg
 
   void _closeTimer() {
     _timer.cancel();
+    Logger.logSuccess('earned xp: $xp, coins: $coins');
     context.pushReplacementNamed(ActivityResultScreen.id, extra: {
+      'xp': xp,
+      'coins': coins,
       'duration': widget.duration,
     });
   }

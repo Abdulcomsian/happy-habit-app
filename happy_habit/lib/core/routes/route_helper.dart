@@ -76,11 +76,11 @@ class RouteHelper {
       serviceLocator<ProfileSetupProvider>().getGoals();
     }
 
-    // if (authProv.appUser?.characterAttributes == null) {
-    //   // If character is not set up, redirect to the AvatarSelectionScreen
-    //   FlutterNativeSplash.remove();
-    //   return AvatarSelectionScreen.id;
-    // }
+    if (authProv.appUser?.avatarAttributes == null) {
+      // If character is not set up, redirect to the AvatarSelectionScreen
+      FlutterNativeSplash.remove();
+      return AvatarSelectionScreen.id;
+    }
 
     // Remove the native splash screen once profile setup is complete
     FlutterNativeSplash.remove();

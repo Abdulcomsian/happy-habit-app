@@ -11,9 +11,15 @@ import 'package:happy_habit/core/theme/typography.dart';
 class ActivityResultScreen extends StatelessWidget {
   static const id = 'ActivityResultScreen';
 
+  final int xp, coins;
   final Duration duration;
 
-  const ActivityResultScreen({super.key, required this.duration});
+  const ActivityResultScreen({
+    super.key,
+    required this.xp,
+    required this.coins,
+    required this.duration,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +76,7 @@ class ActivityResultScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                '55',
+                xp.toString(),
                 style: context.headlineLarge,
               ),
               5.width,
@@ -85,7 +91,7 @@ class ActivityResultScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                '55',
+                coins.toString(),
                 style: context.headlineLarge,
               ),
               5.width,

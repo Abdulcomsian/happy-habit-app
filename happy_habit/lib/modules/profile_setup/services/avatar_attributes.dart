@@ -61,6 +61,7 @@ class AvatarAttributes {
       beardNumber: json['beards_id'] ?? 0,
       bodyColorNumber: json['color_id'] ?? 0,
       eyebrowsNumber: json['eyebrows_id'] ?? 0,
+
       /// needs to update
       hatNumber: json['hatNumber'] ?? 0,
       accNumber: json['accNumber'] ?? 0,
@@ -108,6 +109,32 @@ class AvatarAttributes {
   String get machineCode => isMale ? AppCharacters.maleCode : AppCharacters.femaleCode;
 
   String get path => isMale ? 'assets/characters/male.riv' : 'assets/characters/female.riv';
+
+  String activityPath(String activity) {
+    activity = activity.toLowerCase();
+    final gender = isMale ? 'male' : 'female';
+    switch (activity) {
+      case 'workout':
+        return 'assets/transitions/$gender-workout.riv';
+      case 'meditation':
+        return 'assets/transitions/$gender-meditation.riv';
+      default:
+        return 'assets/transitions/$gender-reading.riv';
+    }
+  }
+
+  String activityMachineCode(String activity) {
+    activity = activity.toLowerCase();
+    switch (activity) {
+      case 'read':
+      case 'study':
+        return isMale ? 'boy lofi' : 'female lofi and reading';
+      case 'meditation':
+        return isMale ? 'male meditation' : 'meditation';
+      default:
+        return isMale ? 'boy exercise' : 'female rest of the animation';
+    }
+  }
 
 // Named constructor to initialize all values to 0
 // CharacterAttributes.allZero(bool? male) :
