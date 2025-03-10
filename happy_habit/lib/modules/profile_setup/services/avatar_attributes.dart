@@ -53,7 +53,6 @@ class AvatarAttributes {
 
   factory AvatarAttributes.fromJson(Map<String, dynamic> json) {
     return AvatarAttributes(
-      isMale: json['is_male'] ?? true,
       eyeNumber: json['eyes_id'] ?? 0,
       hairNumber: json['hair_id'] ?? 0,
       noseNumber: json['noses_id'] ?? 0,
@@ -61,6 +60,7 @@ class AvatarAttributes {
       beardNumber: json['beards_id'] ?? 0,
       bodyColorNumber: json['color_id'] ?? 0,
       eyebrowsNumber: json['eyebrows_id'] ?? 0,
+      isMale: bool.tryParse(json['is_male']) ?? true,
 
       /// needs to update
       hatNumber: json['hatNumber'] ?? 0,
