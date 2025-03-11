@@ -18,38 +18,38 @@ class AvatarAttributes {
   // History stack to keep track of previous states
   // List<CharacterAttributes> history = [];
 
-  // AvatarAttributes({
-  //   this.hairNumber = 0,
-  //   this.shoesNumber = 0,
-  //   this.hatNumber = 0,
-  //   this.eyeNumber = 0,
-  //   this.eyebrowsNumber = 0,
-  //   this.mouthNumber = 0,
-  //   this.clothingNumber = 0,
-  //   this.bodyColorNumber = 0,
-  //   this.beardNumber = 0,
-  //   this.noseNumber = 0,
-  //   this.accNumber = 0,
-  //   this.animationNumber = 0,
-  //   this.isMale = true,
-  // });
-
-  /// for testing
   AvatarAttributes({
-    this.hairNumber = 6 ?? 0,
+    this.hairNumber = 0,
     this.shoesNumber = 0,
     this.hatNumber = 0,
     this.eyeNumber = 0,
-    this.eyebrowsNumber = 43 ?? 0,
-    this.mouthNumber = 3 ?? 0,
-    this.clothingNumber = 5 ?? 0,
-    this.bodyColorNumber = 17 ?? 0,
-    this.beardNumber = 1 ?? 0,
+    this.eyebrowsNumber = 0,
+    this.mouthNumber = 0,
+    this.clothingNumber = 0,
+    this.bodyColorNumber = 0,
+    this.beardNumber = 0,
     this.noseNumber = 0,
     this.accNumber = 0,
     this.animationNumber = 0,
     this.isMale = true,
   });
+
+  /// for testing
+  // AvatarAttributes({
+  //   this.hairNumber = 6 ?? 0,
+  //   this.shoesNumber = 0,
+  //   this.hatNumber = 0,
+  //   this.eyeNumber = 0,
+  //   this.eyebrowsNumber = 43 ?? 0,
+  //   this.mouthNumber = 3 ?? 0,
+  //   this.clothingNumber = 5 ?? 0,
+  //   this.bodyColorNumber = 17 ?? 0,
+  //   this.beardNumber = 1 ?? 0,
+  //   this.noseNumber = 0,
+  //   this.accNumber = 0,
+  //   this.animationNumber = 0,
+  //   this.isMale = true,
+  // });
 
   factory AvatarAttributes.fromJson(Map<String, dynamic> json) {
     return AvatarAttributes(
@@ -58,6 +58,7 @@ class AvatarAttributes {
       noseNumber: json['noses_id'] ?? 0,
       mouthNumber: json['lips_id'] ?? 0,
       beardNumber: json['beards_id'] ?? 0,
+      clothingNumber: json['shirt_id'] ?? 0,
       bodyColorNumber: json['color_id'] ?? 0,
       eyebrowsNumber: json['eyebrows_id'] ?? 0,
       isMale: bool.tryParse(json['is_male']) ?? true,
@@ -66,7 +67,6 @@ class AvatarAttributes {
       hatNumber: json['hatNumber'] ?? 0,
       accNumber: json['accNumber'] ?? 0,
       shoesNumber: json['shoesNumber'] ?? 0,
-      clothingNumber: json['clothingNumber'] ?? 0,
     );
   }
 
@@ -99,7 +99,8 @@ class AvatarAttributes {
       "lips_id": mouthNumber,
       "accessories_id": accNumber,
       "faceshap_id": bodyColorNumber,
-      "cloth_id": clothingNumber,
+      // "cloth_id": clothingNumber,
+      "shirt_id": clothingNumber,
       "shoe_id": shoesNumber,
       "hat_id": hatNumber,
       "beards_id": beardNumber

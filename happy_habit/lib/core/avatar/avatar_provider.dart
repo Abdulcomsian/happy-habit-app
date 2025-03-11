@@ -52,13 +52,13 @@ class AvatarProvider extends ChangeNotifier {
     _femaleElements = elements.femaleElements;
   }
 
-  void initializeUserArtboard({Artboard? artboard}) async {
+  void initializeUserArtboard({Artboard? artboard, AvatarAttributes? avatarAttributes}) async {
     final authProv = serviceLocator<AuthProvider>();
     final appUser = authProv.appUser;
     if (artboard != null) {
       userArtboard = artboard;
     } else {
-      final attributes = appUser?.avatarAttributes ?? AvatarAttributes();
+      final attributes = avatarAttributes ?? appUser?.avatarAttributes ?? AvatarAttributes();
 
       try {
         userArtboard = await attributes.path.loadArtboard();
@@ -88,6 +88,12 @@ class AvatarProvider extends ChangeNotifier {
 
     maleArtboard = futures.first;
     femaleArtboard = futures.last;
+
+    var mController = StateMachineController.fromArtboard(maleArtboard, AppCharacters.femaleCode);
+    var fController = StateMachineController.fromArtboard(femaleArtboard, AppCharacters.femaleCode);
+
+    maleArtboard.addController(mController!);
+    femaleArtboard.addController(fController!);
   }
 
   /// ########################## User Artboard Service ########################## ///

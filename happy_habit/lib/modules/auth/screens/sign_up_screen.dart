@@ -96,6 +96,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               hint: 'Email',
               descriptor: _email,
               validator: Validators.emailValidation,
+              keyboardType: TextInputType.emailAddress,
             ),
             15.height,
             CustomTextField.obscure(

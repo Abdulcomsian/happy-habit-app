@@ -48,11 +48,11 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
 
   void _loadCharacter() async {
     try {
-      final artboard = await attributes.path.loadArtboard();
-      var controller = StateMachineController.fromArtboard(artboard, attributes.machineCode);
+      riveArtboard = await attributes.path.loadArtboard();
+      var controller = StateMachineController.fromArtboard(riveArtboard, attributes.machineCode);
 
       if (controller != null) {
-        artboard.addController(controller);
+        riveArtboard.addController(controller);
 
         for (var element in controller.inputs) {
           // Logger.logInfo("Element: $element, ${element.name}, ${element.runtimeType}");
@@ -63,7 +63,7 @@ class _EditAvatarScreenState extends State<EditAvatarScreen> {
         }
       }
       // setState(() => riveArtboard = artboard);
-      riveArtboard = artboard;
+      // riveArtboard = artboard;
     } catch (e) {
       Logger.logError(e);
     } finally {

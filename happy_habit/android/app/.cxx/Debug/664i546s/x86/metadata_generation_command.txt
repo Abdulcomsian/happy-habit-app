@@ -5,9 +5,9 @@
 -DANDROID_PLATFORM=android-23
 -DANDROID_ABI=x86
 -DCMAKE_ANDROID_ARCH_ABI=x86
--DANDROID_NDK=C:\Users\T480S\AppData\Local\Android\Sdk\ndk\25.1.8937393
--DCMAKE_ANDROID_NDK=C:\Users\T480S\AppData\Local\Android\Sdk\ndk\25.1.8937393
--DCMAKE_TOOLCHAIN_FILE=C:\Users\T480S\AppData\Local\Android\Sdk\ndk\25.1.8937393\build\cmake\android.toolchain.cmake
+-DANDROID_NDK=C:\Users\T480S\AppData\Local\Android\sdk\ndk\25.1.8937393
+-DCMAKE_ANDROID_NDK=C:\Users\T480S\AppData\Local\Android\sdk\ndk\25.1.8937393
+-DCMAKE_TOOLCHAIN_FILE=C:\Users\T480S\AppData\Local\Android\sdk\ndk\25.1.8937393\build\cmake\android.toolchain.cmake
 -DCMAKE_MAKE_PROGRAM=C:\Users\T480S\AppData\Local\Android\sdk\cmake\3.22.1\bin\ninja.exe
 -DCMAKE_LIBRARY_OUTPUT_DIRECTORY=C:\Users\T480S\StudioProjects\happy-habit-app\happy_habit\build\app\intermediates\cxx\Debug\664i546s\obj\x86
 -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=C:\Users\T480S\StudioProjects\happy-habit-app\happy_habit\build\app\intermediates\cxx\Debug\664i546s\obj\x86

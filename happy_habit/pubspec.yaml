@@ -61,16 +61,6 @@ flutter:
 
     # for avatars
     - assets/avatar/
-    - assets/avatar/male/
-    - assets/avatar/glasses/
-    - assets/avatar/male/tops/
-    - assets/avatar/male/hairs/
-    - assets/avatar/male/beards/
-    - assets/avatar/male/accessories/
-    - assets/avatar/female/
-    - assets/avatar/female/tops/
-    - assets/avatar/female/hairs/
-    - assets/avatar/female/accessories/
 
     # for avatars transitions
     - assets/transitions/

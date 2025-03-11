@@ -9,7 +9,6 @@ import 'package:happy_habit/core/theme/theme_colors.dart';
 import 'package:happy_habit/core/theme/typography.dart';
 import 'package:happy_habit/modules/auth/services/auth_provider.dart';
 import 'package:happy_habit/modules/auth/shared/social_auth_buttons.dart';
-import 'package:happy_habit/modules/navigation/navigation_provider.dart';
 import 'package:happy_habit/modules/navigation/navigation_screen.dart';
 
 import '../../../core/services/validators.dart';
@@ -74,6 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
               showHintAsTitle: true,
               hint: 'Email or Username',
               validator: Validators.emailValidation,
+              keyboardType: TextInputType.emailAddress,
               // validator: (value) => Validators.emptyValidationCheck(
               //   value,
               //   message: 'Enter username',
@@ -84,6 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
               hint: 'Password',
               showHintAsTitle: true,
               descriptor: _password,
+              onFieldSubmitted: (p0) => _login(),
               validator: (value) => Validators.passwordValidation(value, applyLimit: false),
             ),
             7.height,

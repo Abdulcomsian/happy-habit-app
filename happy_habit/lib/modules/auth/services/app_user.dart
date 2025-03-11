@@ -36,7 +36,7 @@ class AppUser {
       areGoalsReady: json['areGoalsReady'] ?? false,
       avatarAttributes: json['avatar'] != null ? AvatarAttributes.fromJson(json['avatar']) : null,
     );
-    serviceLocator<AvatarProvider>().initializeUserArtboard();
+    serviceLocator<AvatarProvider>().initializeUserArtboard(avatarAttributes: appUser.avatarAttributes);
     return appUser;
   }
 

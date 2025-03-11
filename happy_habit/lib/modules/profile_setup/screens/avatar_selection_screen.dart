@@ -71,43 +71,15 @@ class _AvatarSelectionScreenState extends State<AvatarSelectionScreen> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Stack(
-                      alignment: Alignment.bottomCenter,
-                      children: [
-                        InkWell(
-                          onTap: () => _selectedAvatar.value = 'male',
-                          child: SizedBox(
-                            width: 0.4.sw,
-                            height: 338.h,
-                            child: Rive(
-                              artboard: _prov.maleArtboard,
-                            ),
-                          ),
-                        ),
-                        if (selectedAvatar == 'male')
-                          Icon(
-                            Icons.check,
-                          ),
-                      ],
+                    _Artboard(
+                      artboard: _prov.maleArtboard,
+                      selected: selectedAvatar == 'male',
+                      onTap: () => _selectedAvatar.value = 'male',
                     ),
-                    Stack(
-                      alignment: Alignment.bottomCenter,
-                      children: [
-                        InkWell(
-                          onTap: () => _selectedAvatar.value = 'female',
-                          child: SizedBox(
-                            width: 0.4.sw,
-                            height: 338.h,
-                            child: Rive(
-                              artboard: _prov.femaleArtboard,
-                            ),
-                          ),
-                        ),
-                        if (selectedAvatar == 'female')
-                          Icon(
-                            Icons.check,
-                          ),
-                      ],
+                    _Artboard(
+                      artboard: _prov.femaleArtboard,
+                      selected: selectedAvatar == 'female',
+                      onTap: () => _selectedAvatar.value = 'female',
                     ),
                   ],
                 );
@@ -146,37 +118,38 @@ class _AvatarSelectionScreenState extends State<AvatarSelectionScreen> {
   }
 }
 
-// class _Artboard extends StatelessWidget {
-//   final bool selected;
-//   final Artboard artboard;
-//   final VoidCallback onTap;
-//
-//   const _Artboard({
-//     required this.onTap,
-//     required this.artboard,
-//     required this.selected,
-//   });
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Stack(
-//       alignment: Alignment.bottomCenter,
-//       children: [
-//         InkWell(
-//           onTap: onTap,
-//           child: SizedBox(
-//             width: 0.4.sw,
-//             height: 338.h,
-//             child: Rive(
-//               artboard: artboard,
-//             ),
-//           ),
-//         ),
-//         if (selected)
-//           Icon(
-//             Icons.check,
-//           ),
-//       ],
-//     );
-//   }
-// }
+class _Artboard extends StatelessWidget {
+  final bool selected;
+  final Artboard artboard;
+  final VoidCallback onTap;
+
+  const _Artboard({
+    required this.onTap,
+    required this.artboard,
+    required this.selected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        InkWell(
+          onTap: onTap,
+          child: SizedBox(
+            width: 0.4.sw,
+            height: 338.h,
+            child: Rive(
+              artboard: artboard,
+              fit: BoxFit.fitHeight,
+            ),
+          ),
+        ),
+        if (selected)
+          Icon(
+            Icons.check,
+          ),
+      ],
+    );
+  }
+}
